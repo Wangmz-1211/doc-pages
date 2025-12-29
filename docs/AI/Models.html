@@ -47,21 +47,6 @@
     body.lang-en span[data-lang="en"] { display: inline; }
     body.lang-zh span[data-lang="zh"] { display: inline; }
     body.lang-ja span[data-lang="ja"] { display: inline; }
-
-    /* Table specifics */
-    body.lang-en tr[data-lang="en"] { display: table-row; }
-    body.lang-zh tr[data-lang="zh"] { display: table-row; }
-    body.lang-ja tr[data-lang="ja"] { display: table-row; }
-    
-    /* For cells that need to switch content but keep row structure, we might need a different approach if the row structure is identical. 
-       Actually, replacing the text content inside cells is better for tables if rows are 1:1. 
-       Let's use span logic inside cells for simplicity. 
-    */
-    td span[data-lang], th span[data-lang] { display: none; }
-    body.lang-en td span[data-lang="en"], body.lang-en th span[data-lang="en"] { display: inline; }
-    body.lang-zh td span[data-lang="zh"], body.lang-zh th span[data-lang="zh"] { display: inline; }
-    body.lang-ja td span[data-lang="ja"], body.lang-ja th span[data-lang="ja"] { display: inline; }
-
   </style>
   <script>
     function setLanguage(lang) {
@@ -84,7 +69,7 @@
   </div>
 
   <nav class="mb-8">
-    <a href="/docs/AI/Overview.html" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+    <a href="/docs/AI/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
       <span data-lang="en">Back to Overview</span>
       <span data-lang="zh">返回概览</span>
@@ -108,102 +93,166 @@
     </p>
   </header>
 
-  <main class="space-y-12">
+  <main class="space-y-16">
     
+    <!-- GPT-5.2 Section -->
     <section>
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-8 w-8 rounded bg-green-500/10 flex items-center justify-center text-green-600 dark:text-green-400">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600 dark:text-green-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
         </div>
-        <h2 class="text-2xl font-semibold">OpenAI GPT-5.2-Codex</h2>
+        <div>
+          <h2 class="text-2xl font-semibold">OpenAI GPT-5.2-Codex</h2>
+          <p class="text-sm text-zinc-500" data-lang="en">Released Dec 11, 2025</p>
+          <p class="text-sm text-zinc-500" data-lang="zh">发布于 2025年12月11日</p>
+          <p class="text-sm text-zinc-500" data-lang="ja">2025年12月11日リリース</p>
+        </div>
       </div>
-      <div class="prose text-zinc-600 dark:text-zinc-400">
+      
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
         <p data-lang="en">
-          Released on December 11, the 5.2 series isn't just about raw intelligence—it's about reliability. The new "Codex" variant has shown a 40% reduction in logic errors, making it the new gold standard for autonomous coding agents.
+          The 5.2 series marks a paradigm shift from "generative creativity" to "deterministic reliability." The flagship model, <strong>GPT-5.2-Codex</strong>, was specifically trained to minimize hallucinations in logic-heavy tasks.
         </p>
         <p data-lang="zh">
-          12月11日发布的 5.2 系列不仅仅关乎原始智能，更关乎可靠性。新的 "Codex" 变体显示逻辑错误减少了 40%，使其成为自主编码代理的新黄金标准。
+          5.2 系列标志着从“生成式创造力”到“确定性可靠性”的范式转变。旗舰模型 <strong>GPT-5.2-Codex</strong> 经过专门训练，旨在最大限度地减少逻辑密集型任务中的幻觉。
         </p>
         <p data-lang="ja">
-          12月11日にリリースされた5.2シリーズは、単なる知能だけでなく、信頼性も重視しています。新しい「Codex」バリアントは、論理エラーが40％減少し、自律型コーディングエージェントの新しいゴールドスタンダードとなっています。
+          5.2シリーズは、「生成的創造性」から「決定論的信頼性」へのパラダイムシフトを示しています。フラッグシップモデルである<strong>GPT-5.2-Codex</strong>は、論理重視のタスクにおける幻覚を最小限に抑えるように特別にトレーニングされました。
         </p>
 
-        <ul class="list-disc pl-5 space-y-2 mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+          <div class="bg-zinc-50 dark:bg-zinc-900/50 p-5 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="en">Architectural Shifts</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="zh">架构变革</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="ja">アーキテクチャの変更</h3>
+            <p class="text-sm">
+              <span data-lang="en">Utilizes a new "Verification Head" mechanism that cross-checks code output against an internal unit test generator before streaming the response.</span>
+              <span data-lang="zh">利用新的“验证头”机制，在流式传输响应之前，针对内部单元测试生成器交叉检查代码输出。</span>
+              <span data-lang="ja">応答をストリーミングする前に、内部単体テストジェネレーターに対してコード出力をクロスチェックする新しい「検証ヘッド」メカニズムを利用します。</span>
+            </p>
+          </div>
+          <div class="bg-zinc-50 dark:bg-zinc-900/50 p-5 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="en">Performance Metrics</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="zh">性能指标</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="ja">パフォーマンス指標</h3>
+            <p class="text-sm">
+              <span data-lang="en">Achieves 94.5% on HumanEval+, a massive leap from GPT-5's 88%. Logic error rates in Python and Rust specifically have dropped by ~40%.</span>
+              <span data-lang="zh">在 HumanEval+ 上达到 94.5%，相比 GPT-5 的 88% 有了巨大飞跃。Python 和 Rust 中的逻辑错误率具体下降了约 40%。</span>
+              <span data-lang="ja">HumanEval+で94.5％を達成し、GPT-5の88％から大幅に飛躍しました。特にPythonとRustの論理エラー率は約40％低下しました。</span>
+            </p>
+          </div>
+        </div>
+
+        <ul class="list-disc pl-5 space-y-2">
           <li>
-            <strong data-lang="en">Context Window:</strong>
-            <strong data-lang="zh">上下文窗口：</strong>
-            <strong data-lang="ja">コンテキストウィンドウ：</strong>
-            <span data-lang="en">256k tokens with effective "infinite" recall for session-based tasks.</span>
-            <span data-lang="zh">256k token，对于基于会话的任务具有有效的“无限”召回率。</span>
-            <span data-lang="ja">256kトークン、セッションベースのタスクにおいて実質的に「無限」のリコールを実現。</span>
-          </li>
-          <li>
-            <strong data-lang="en">Reasoning:</strong>
-            <strong data-lang="zh">推理：</strong>
-            <strong data-lang="ja">推論：</strong>
-            <span data-lang="en">Enhanced multi-step reasoning capabilities, specifically for debugging and architectural planning.</span>
-            <span data-lang="zh">增强的多步推理能力，特别是在调试和架构规划方面。</span>
-            <span data-lang="ja">特にデバッグやアーキテクチャ計画における、強化されたマルチステップ推論能力。</span>
-          </li>
-          <li>
-            <strong data-lang="en">Availability:</strong>
-            <strong data-lang="zh">可用性：</strong>
-            <strong data-lang="ja">可用性：</strong>
-            <span data-lang="en">Rolled out to all Enterprise users immediately.</span>
-            <span data-lang="zh">立即向所有企业用户推出。</span>
-            <span data-lang="ja">すべてのエンタープライズユーザーに即時展開。</span>
+            <strong data-lang="en">Infinite Context (Effective):</strong>
+            <strong data-lang="zh">有效无限上下文：</strong>
+            <strong data-lang="ja">実質無限コンテキスト：</strong>
+            <span data-lang="en">The 256k window is augmented by a dynamic retrieval system that allows the model to "remember" key details from past sessions without re-ingesting the full context, effectively creating an infinite memory for long-running projects.</span>
+            <span data-lang="zh">256k 窗口通过动态检索系统得到增强，允许模型“记住”过去会话中的关键细节，而无需重新摄取完整的上下文，从而为长期运行的项目有效地创建了无限内存。</span>
+            <span data-lang="ja">256kウィンドウは、完全なコンテキストを再取り込みすることなく過去のセッションの重要な詳細をモデルが「記憶」できる動的検索システムによって強化され、長期実行プロジェクトに対して実質的に無限のメモリを作成します。</span>
           </li>
         </ul>
       </div>
     </section>
 
+    <!-- Gemini 3 Flash Section -->
     <section>
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-8 w-8 rounded bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </div>
-        <h2 class="text-2xl font-semibold">Google Gemini 3 Flash</h2>
+        <div>
+          <h2 class="text-2xl font-semibold">Google Gemini 3 Flash</h2>
+          <p class="text-sm text-zinc-500" data-lang="en">Released Dec 03, 2025</p>
+          <p class="text-sm text-zinc-500" data-lang="zh">发布于 2025年12月03日</p>
+          <p class="text-sm text-zinc-500" data-lang="ja">2025年12月03日リリース</p>
+        </div>
       </div>
-      <div class="prose text-zinc-600 dark:text-zinc-400">
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
         <p data-lang="en">
-          Google's strategy is ubiquity. By making Gemini 3 Flash the default engine for Search, they have effectively deployed the world's most used AI overnight. It's fast, multimodal-native, and significantly cheaper to run than its predecessors.
+          Google has redefined the "Flash" designation. Previously meaning "lightweight," Gemini 3 Flash is now a powerhouse capable of reasoning, but optimized for extreme low-latency environments.
         </p>
         <p data-lang="zh">
-          Google 的策略是无处不在。通过将 Gemini 3 Flash 设为搜索的默认引擎，他们一夜之间有效地部署了世界上使用最广泛的 AI。它速度快，原生支持多模态，且运行成本显著低于其前代产品。
+          Google 重新定义了 "Flash" 的名称。之前意味着“轻量级”，Gemini 3 Flash 现在是一个具备推理能力的强大引擎，但针对极低延迟环境进行了优化。
         </p>
         <p data-lang="ja">
-          Googleの戦略は偏在性です。Gemini 3 Flashを検索のデフォルトエンジンにすることで、世界で最も使用されているAIを一晩にして効果的に展開しました。高速で、ネイティブにマルチモーダルに対応しており、以前のモデルよりも運用コストが大幅に低くなっています。
+          Googleは「Flash」という名称を再定義しました。以前は「軽量」を意味していましたが、Gemini 3 Flashは現在、推論能力を持つ強力なエンジンでありながら、極端な低遅延環境向けに最適化されています。
         </p>
 
-        <ul class="list-disc pl-5 space-y-2 mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+          <div class="bg-zinc-50 dark:bg-zinc-900/50 p-5 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="en">Native Multimodality</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="zh">原生多模态</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="ja">ネイティブマルチモーダル</h3>
+            <p class="text-sm">
+              <span data-lang="en">It doesn't just "see" images; it streams video understanding in real-time (30fps) allowing for live AR assistants that can guide users through physical tasks instantly.</span>
+              <span data-lang="zh">它不仅仅是“看”图像；它实时（30fps）流式传输视频理解，允许实时 AR 助手即时引导用户完成物理任务。</span>
+              <span data-lang="ja">単に画像を「見る」だけではありません。ビデオ理解をリアルタイム（30fps）でストリーミングし、物理的なタスクを通じてユーザーを即座にガイドできるライブARアシスタントを可能にします。</span>
+            </p>
+          </div>
+          <div class="bg-zinc-50 dark:bg-zinc-900/50 p-5 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="en">Search Integration</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="zh">搜索集成</h3>
+            <h3 class="text-lg font-medium mb-2 text-zinc-900 dark:text-zinc-100" data-lang="ja">検索統合</h3>
+            <p class="text-sm">
+              <span data-lang="en">Now the default backend for Google Search, it processes 8.5 billion queries daily, synthesizing live web data with internal knowledge graphs in under 500ms.</span>
+              <span data-lang="zh">作为 Google 搜索的默认后端，它每天处理 85 亿次查询，在 500ms 内将实时网络数据与内部知识图谱合成。</span>
+              <span data-lang="ja">Google検索のデフォルトバックエンドとして、毎日85億のクエリを処理し、ライブWebデータと内部ナレッジグラフを500ms未満で合成します。</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DeepSeek R1 Section (New) -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold">DeepSeek R1 & Open Source</h2>
+          <p class="text-sm text-zinc-500" data-lang="en">Released Dec 22, 2025</p>
+          <p class="text-sm text-zinc-500" data-lang="zh">发布于 2025年12月22日</p>
+          <p class="text-sm text-zinc-500" data-lang="ja">2025年12月22日リリース</p>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The surprise entrant of the month was <strong>DeepSeek R1</strong>. While not matching GPT-5.2 in absolute breadth, it outperforms all proprietary models in "performance-per-watt," making it the darling of the edge computing world.
+        </p>
+        <p data-lang="zh">
+          本月的意外入场者是 <strong>DeepSeek R1</strong>。虽然在绝对广度上无法与 GPT-5.2 匹敌，但它在“每瓦性能”方面优于所有专有模型，使其成为边缘计算领域的宠儿。
+        </p>
+        <p data-lang="ja">
+          今月の驚きの参入者は<strong>DeepSeek R1</strong>でした。絶対的な広さではGPT-5.2には及びませんが、「ワットあたりのパフォーマンス」ではすべてのプロプライエタリモデルを凌駕しており、エッジコンピューティング界の寵児となっています。
+        </p>
+
+        <ul class="list-disc pl-5 space-y-2">
           <li>
-            <strong data-lang="en">Speed:</strong>
-            <strong data-lang="zh">速度：</strong>
-            <strong data-lang="ja">速度：</strong>
-            <span data-lang="en">Sub-500ms latency for complex multimodal queries.</span>
-            <span data-lang="zh">复杂多模态查询的延迟低于 500ms。</span>
-            <span data-lang="ja">複雑なマルチモーダルクエリでも500ms未満のレイテンシ。</span>
+            <strong data-lang="en">Efficiency:</strong>
+            <span data-lang="en">Can run on a dual-GPU consumer setup (2x RTX 5090) with decent token speeds, enabling private, local reasoning clusters.</span>
+            <strong data-lang="zh">效率：</strong>
+            <span data-lang="zh">可以在双 GPU 消费级设置（2x RTX 5090）上运行，具有不错的 token 速度，从而实现私有、本地推理集群。</span>
+            <strong data-lang="ja">効率：</strong>
+            <span data-lang="ja">デュアルGPUコンシューマーセットアップ（2x RTX 5090）で適切なトークン速度で実行でき、プライベートなローカル推論クラスターを可能にします。</span>
           </li>
           <li>
-            <strong data-lang="en">Integration:</strong>
-            <strong data-lang="zh">集成：</strong>
-            <strong data-lang="ja">統合：</strong>
-            <span data-lang="en">Deeply woven into Workspace and Android, allowing for cross-app context awareness.</span>
-            <span data-lang="zh">深度集成到 Workspace 和 Android 中，允许跨应用程序的上下文感知。</span>
-            <span data-lang="ja">WorkspaceとAndroidに深く統合され、アプリ間のコンテキスト認識が可能に。</span>
-          </li>
-          <li>
-            <strong data-lang="en">Deep Research:</strong>
-            <strong data-lang="zh">深度研究：</strong>
-            <strong data-lang="ja">深層リサーチ：</strong>
-            <span data-lang="en">A new agentic mode that can browse, synthesize, and report on complex topics autonomously.</span>
-            <span data-lang="zh">一种新的代理模式，可以自主浏览、合成和报告复杂主题。</span>
-            <span data-lang="ja">複雑なトピックを自律的にブラウジング、合成、報告できる新しいエージェントモード。</span>
+            <strong data-lang="en">License:</strong>
+            <span data-lang="en">Released under Apache 2.0, sparking an immediate wave of fine-tunes for specialized verticals like legal and medical coding.</span>
+            <strong data-lang="zh">许可：</strong>
+            <span data-lang="zh">在 Apache 2.0 下发布，立即引发了针对法律和医疗编码等专业垂直领域的微调浪潮。</span>
+            <strong data-lang="ja">ライセンス：</strong>
+            <span data-lang="ja">Apache 2.0の下でリリースされ、法律や医療コーディングなどの専門分野向けのファインチューニングの波が即座に起こりました。</span>
           </li>
         </ul>
       </div>
     </section>
 
+    <!-- Comparison Table -->
     <section class="bg-zinc-50 dark:bg-zinc-900/50 rounded-xl p-6 border border-zinc-200 dark:border-zinc-800">
       <h3 class="text-lg font-medium mb-4" data-lang="en">Technical Comparison</h3>
       <h3 class="text-lg font-medium mb-4" data-lang="zh">技术对比</h3>
@@ -218,7 +267,7 @@
                 <span data-lang="zh">特性</span>
                 <span data-lang="ja">機能</span>
               </th>
-              <th class="pb-3 font-medium">GPT-5.2</th>
+              <th class="pb-3 font-medium">GPT-5.2-Codex</th>
               <th class="pb-3 font-medium">Gemini 3 Flash</th>
               <th class="pb-3 font-medium">DeepSeek R1</th>
             </tr>
@@ -226,56 +275,70 @@
           <tbody class="text-zinc-700 dark:text-zinc-300">
             <tr class="border-b border-zinc-200/50 dark:border-zinc-800/50">
               <td class="py-3 font-medium">
-                <span data-lang="en">Primary Strength</span>
-                <span data-lang="zh">主要优势</span>
-                <span data-lang="ja">主な強み</span>
+                <span data-lang="en">Best For</span>
+                <span data-lang="zh">适用场景</span>
+                <span data-lang="ja">最適用途</span>
               </td>
               <td class="py-3">
-                <span data-lang="en">Complex Reasoning & Coding</span>
-                <span data-lang="zh">复杂推理 & 编码</span>
-                <span data-lang="ja">複雑な推論 & コーディング</span>
+                <span data-lang="en">Mission-critical Logic</span>
+                <span data-lang="zh">关键任务逻辑</span>
+                <span data-lang="ja">ミッションクリティカルな論理</span>
               </td>
               <td class="py-3">
-                <span data-lang="en">Multimodal Speed & Search</span>
-                <span data-lang="zh">多模态速度 & 搜索</span>
-                <span data-lang="ja">マルチモーダル速度 & 検索</span>
+                <span data-lang="en">Real-time Multimodal</span>
+                <span data-lang="zh">实时多模态</span>
+                <span data-lang="ja">リアルタイムマルチモーダル</span>
               </td>
               <td class="py-3">
-                <span data-lang="en">Open Source Efficiency</span>
-                <span data-lang="zh">开源效率</span>
-                <span data-lang="ja">オープンソース効率</span>
+                <span data-lang="en">Local / Private</span>
+                <span data-lang="zh">本地 / 私有</span>
+                <span data-lang="ja">ローカル / プライベート</span>
               </td>
             </tr>
             <tr class="border-b border-zinc-200/50 dark:border-zinc-800/50">
               <td class="py-3">
-                <span data-lang="en">Context Window</span>
-                <span data-lang="zh">上下文窗口</span>
-                <span data-lang="ja">コンテキストウィンドウ</span>
+                <span data-lang="en">Context</span>
+                <span data-lang="zh">上下文</span>
+                <span data-lang="ja">コンテキスト</span>
               </td>
-              <td class="py-3">256k</td>
-              <td class="py-3">1M+</td>
+              <td class="py-3">256k + Infinite</td>
+              <td class="py-3">1M - 2M</td>
               <td class="py-3">128k</td>
+            </tr>
+            <tr class="border-b border-zinc-200/50 dark:border-zinc-800/50">
+              <td class="py-3">
+                <span data-lang="en">Multimodal</span>
+                <span data-lang="zh">多模态</span>
+                <span data-lang="ja">マルチモーダル</span>
+              </td>
+              <td class="py-3">
+                <span data-lang="en">Image In / Out</span>
+                <span data-lang="zh">图像 输入/输出</span>
+                <span data-lang="ja">画像 入力/出力</span>
+              </td>
+              <td class="py-3">
+                <span data-lang="en">Native Audio/Video</span>
+                <span data-lang="zh">原生 音频/视频</span>
+                <span data-lang="ja">ネイティブ 音声/動画</span>
+              </td>
+              <td class="py-3">
+                <span data-lang="en">Text Only (v1)</span>
+                <span data-lang="zh">仅文本 (v1)</span>
+                <span data-lang="ja">テキストのみ (v1)</span>
+              </td>
             </tr>
             <tr>
               <td class="py-3">
-                <span data-lang="en">Deployment</span>
-                <span data-lang="zh">部署方式</span>
-                <span data-lang="ja">デプロイ</span>
+                <span data-lang="en">Cost</span>
+                <span data-lang="zh">成本</span>
+                <span data-lang="ja">コスト</span>
               </td>
+              <td class="py-3">$$$</td>
+              <td class="py-3">$</td>
               <td class="py-3">
-                <span data-lang="en">API / ChatGPT</span>
-                <span data-lang="zh">API / ChatGPT</span>
-                <span data-lang="ja">API / ChatGPT</span>
-              </td>
-              <td class="py-3">
-                <span data-lang="en">Search / Workspace</span>
-                <span data-lang="zh">搜索 / Workspace</span>
-                <span data-lang="ja">検索 / Workspace</span>
-              </td>
-              <td class="py-3">
-                <span data-lang="en">Self-hosted / Cloud</span>
-                <span data-lang="zh">自托管 / 云端</span>
-                <span data-lang="ja">セルフホスト / クラウド</span>
+                <span data-lang="en">Free (Self-host)</span>
+                <span data-lang="zh">免费 (自托管)</span>
+                <span data-lang="ja">無料 (セルフホスト)</span>
               </td>
             </tr>
           </tbody>

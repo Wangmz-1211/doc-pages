@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path: urlPath } = await params;
-  const filePath = path.join(process.cwd(), 'docs', ...urlPath);
+  let filePath = path.join(process.cwd(), 'docs', ...urlPath);
 
   // Security check: ensure we don't traverse out of docs
   const docsDir = path.join(process.cwd(), 'docs');
@@ -16,7 +16,18 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ path
     return new NextResponse('Not Found', { status: 404 });
   }
   
-  const stat = fs.statSync(filePath);
+  let stat = fs.statSync(filePath);
+  if (stat.isDirectory()) {
+      // Check for index.html
+      const indexPath = path.join(filePath, 'index.html');
+      if (fs.existsSync(indexPath)) {
+          filePath = indexPath;
+          stat = fs.statSync(filePath);
+      } else {
+          return new NextResponse('Directory listing not allowed', { status: 403 });
+      }
+  }
+
   if (!stat.isFile()) {
       return new NextResponse('Not a file', { status: 400 });
   }
@@ -27,7 +38,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ path
   
   if (ext === '.html') {
     let htmlString = content.toString();
-    // Inject transparency and font styles
+    // Inject transparency, font styles and link handling
     const styles = `
       <style>
         body { background-color: #ffffff; color: #171717; }
@@ -35,8 +46,29 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ path
           body { background-color: #0a0a0a; color: #ededed; }
         }
       </style>
+      <script>
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a');
+          if (link && link.href && link.target !== '_blank') {
+            try {
+              const url = new URL(link.href);
+              if (url.origin === window.location.origin) {
+                if (url.pathname.startsWith('/docs/')) {
+                  e.preventDefault();
+                  window.parent.location.href = url.pathname + url.search + url.hash;
+                } else if (url.pathname.startsWith('/api/view/')) {
+                  e.preventDefault();
+                  window.parent.location.href = url.pathname.replace('/api/view/', '/docs/') + url.search + url.hash;
+                }
+              }
+            } catch (err) {
+              console.error('Link navigation error:', err);
+            }
+          }
+        });
+      </script>
     `;
-    htmlString = htmlString.replace('</head>', `${styles}</head>`);
+    htmlString = htmlString.replace(/<\/head>/i, `${styles}</head>`);
     content = Buffer.from(htmlString);
   }
 
