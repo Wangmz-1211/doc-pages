@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applied Intelligence: December 2025</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/Overview.html" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Overview</span>
+      <span data-lang="zh">返回概览</span>
+      <span data-lang="ja">概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">From Chatbots to Agents & Healers</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">从聊天机器人到代理与治愈者</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">チャットボットからエージェント、そして癒し手へ</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      December saw the "Application Layer" finally mature. AI is no longer just generating text—it's diagnosing diseases, running enterprise workflows, and operating on the edge.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      12月见证了“应用层”的最终成熟。AI 不再仅仅是生成文本——它正在诊断疾病、运行企业工作流并在边缘设备上运行。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      12月は「アプリケーション層」がついに成熟を迎えました。AIはもはやテキストを生成するだけでなく、病気を診断し、企業のワークフローを実行し、エッジデバイス上で動作しています。
+    </p>
+  </header>
+
+  <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <!-- Card 1: Healthcare -->
+    <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/30">
+      <div class="h-10 w-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+      </div>
+      <h3 class="text-xl font-semibold mb-2" data-lang="en">Predictive Healthcare</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="zh">预测性医疗保健</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="ja">予測医療</h3>
+
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="en">
+        New algorithms for analyzing X-rays and MRIs are now detecting anomalies months before conventional methods. December studies highlight a sharp drop in false negatives for early-stage oncology screenings.
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="zh">
+        分析 X 光和 MRI 的新算法现在可以在传统方法发现异常之前的数月就检测出来。12月的研究强调，早期肿瘤筛查的假阴性率大幅下降。
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="ja">
+        X線やMRIを分析する新しいアルゴリズムは、従来の方法よりも数ヶ月早く異常を検出できるようになりました。12月の研究では、早期がん検診における偽陰性が大幅に減少したことが強調されています。
+      </p>
+
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="en">Radiology</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="zh">放射学</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="ja">放射線科</span>
+    </div>
+
+    <!-- Card 2: Enterprise Agents -->
+    <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/30">
+      <div class="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+      </div>
+      <h3 class="text-xl font-semibold mb-2" data-lang="en">Enterprise Agents</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="zh">企业代理</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="ja">企業向けエージェント</h3>
+
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="en">
+        Anthropic's "Enterprise Agent Skills" standard allows businesses to deploy autonomous agents that can schedule meetings, draft detailed reports, and manage supply chains with minimal human oversight.
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="zh">
+        Anthropic 的“企业代理技能”标准允许企业部署自主代理，这些代理可以在极少的人工监督下安排会议、起草详细报告和管理供应链。
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="ja">
+        Anthropicの「Enterprise Agent Skills」標準により、企業は会議のスケジュール調整、詳細なレポートの作成、サプライチェーンの管理などを、最小限の人間による監視で実行できる自律型エージェントを展開できるようになります。
+      </p>
+
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="en">Automation</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="zh">自动化</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="ja">自動化</span>
+    </div>
+
+    <!-- Card 3: Edge AI -->
+    <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/30">
+      <div class="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+      </div>
+      <h3 class="text-xl font-semibold mb-2" data-lang="en">AI on the Edge</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="zh">边缘 AI</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="ja">エッジAI</h3>
+
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="en">
+        Google's LiteRT library democratizes AI for small devices. Running complex inference on microcontrollers and browsers without server dependency is now a reality, enabling privacy-first AI applications.
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="zh">
+        Google 的 LiteRT 库使小型设备的 AI 民主化。在微控制器和浏览器上运行复杂的推理而无需依赖服务器现已成为现实，从而实现了隐私优先的 AI 应用程序。
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="ja">
+        GoogleのLiteRTライブラリは、小型デバイス向けのAIを民主化します。サーバーに依存せずにマイクロコントローラーやブラウザ上で複雑な推論を実行することが現実となり、プライバシー優先のAIアプリケーションが可能になります。
+      </p>
+
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="en">IoT / Mobile</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="zh">物联网 / 移动端</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="ja">IoT / モバイル</span>
+    </div>
+
+     <!-- Card 4: Reasoning -->
+    <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/30">
+      <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+      </div>
+      <h3 class="text-xl font-semibold mb-2" data-lang="en">Deep Reasoning</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="zh">深度推理</h3>
+      <h3 class="text-xl font-semibold mb-2" data-lang="ja">深い推論</h3>
+
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="en">
+        Systems are shifting from "fast thinking" to "slow thinking." Reasoning-focused models are achieving gold-level performance in math olympiads, allocating more compute to "think" before answering.
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="zh">
+        系统正在从“快思考”转向“慢思考”。以推理为重点的模型在数学奥林匹克竞赛中达到了金牌水平，在回答之前分配更多的计算资源进行“思考”。
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4" data-lang="ja">
+        システムは「速い思考」から「遅い思考」へと移行しています。推論に重点を置いたモデルは、回答する前に「考える」ためにより多くの計算リソースを割り当てることで、数学オリンピックで金メダルレベルのパフォーマンスを達成しています。
+      </p>
+
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="en">Research</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="zh">研究</span>
+      <span class="inline-flex items-center text-xs font-medium text-zinc-500 bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded" data-lang="ja">研究</span>
+    </div>
+
+  </main>
+</body>
+</html>

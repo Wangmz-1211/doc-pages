@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Overview: December 2025</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    /* Inline elements handling */
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+      // Update toggle button text or active state if needed
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">Year in Review</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">年度回顾</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">年間レビュー</span>
+
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="en">December 29, 2025</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="zh">2025年12月29日</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="ja">2025年12月29日</span>
+    </div>
+    
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="en">The Acceleration of Intelligence</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="zh">智能加速</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="ja">知能の加速</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      December 2025 marks a pivotal moment in artificial intelligence. In just four weeks, we've witnessed the release of next-generation foundational models, the commoditization of agentic workflows, and the integration of deep reasoning into everyday search.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      2025年12月标志着人工智能的关键时刻。在短短四周内，我们见证了下一代基础模型的发布、代理工作流的商品化，以及深度推理与日常搜索的融合。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      2025年12月は人工知能にとって極めて重要な瞬間となりました。わずか4週間で、次世代の基盤モデルのリリース、エージェントワークフローのコモディティ化、そして日常的な検索への深い推論の統合を目の当たりにしました。
+    </p>
+  </header>
+
+  <main class="space-y-16">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2" data-lang="en">At a Glance</h2>
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2" data-lang="zh">概览</h2>
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2" data-lang="ja">概要</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="/docs/AI/Models.html" class="group block p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors bg-zinc-50 dark:bg-zinc-900/50">
+          <div class="mb-4">
+            <svg class="w-8 h-8 text-zinc-900 dark:text-zinc-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="en">The Model Wars</h3>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="zh">模型之战</h3>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="ja">モデル戦争</h3>
+
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="en">OpenAI's GPT-5.2 and Google's Gemini 3 Flash redefine the benchmarks for reasoning and speed.</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="zh">OpenAI 的 GPT-5.2 和 Google 的 Gemini 3 Flash 重新定义了推理和速度的基准。</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="ja">OpenAIのGPT-5.2とGoogleのGemini 3 Flashが、推論と速度のベンチマークを再定義しました。</p>
+        </a>
+        
+        <a href="/docs/AI/Applications.html" class="group block p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors bg-zinc-50 dark:bg-zinc-900/50">
+          <div class="mb-4">
+            <svg class="w-8 h-8 text-zinc-900 dark:text-zinc-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+          </div>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="en">Applied Intelligence</h3>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="zh">应用智能</h3>
+          <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="ja">応用知能</h3>
+
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="en">From predictive healthcare to autonomous enterprise agents, AI moves from chat to action.</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="zh">从预测性医疗保健到自主企业代理，AI 从聊天转向行动。</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400" data-lang="ja">予測医療から自律型企業エージェントまで、AIはチャットから行動へと移行しています。</p>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Key Developments Timeline</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">关键发展时间线</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">主な開発のタイムライン</h2>
+
+      <div class="border-l border-zinc-200 dark:border-zinc-800 pl-8 space-y-10 relative">
+        
+        <div class="relative">
+          <div class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950"></div>
+          
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="en">Week 1 • Dec 1-7</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="zh">第一周 • 12月1-7日</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="ja">第1週 • 12月1日〜7日</div>
+
+          <h3 class="text-lg font-medium mb-2" data-lang="en">Gemini 3 Flash Launch</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="zh">Gemini 3 Flash 发布</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="ja">Gemini 3 Flash の発表</h3>
+
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">Google updates Search with Gemini 3 Flash as the default engine, bringing multimodal understanding to billions of queries instantly.</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">Google 更新搜索，将 Gemini 3 Flash 作为默认引擎，为数十亿次查询带来即时的多模态理解。</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">GoogleはGemini 3 Flashをデフォルトエンジンとして検索を更新し、数十億のクエリに瞬時にマルチモーダルな理解をもたらしました。</p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950"></div>
+          
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="en">Week 2 • Dec 8-14</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="zh">第二周 • 12月8-14日</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="ja">第2週 • 12月8日〜14日</div>
+
+          <h3 class="text-lg font-medium mb-2" data-lang="en">GPT-5.2-Codex & ChatGPT 5.2</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="zh">GPT-5.2-Codex & ChatGPT 5.2</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="ja">GPT-5.2-Codex と ChatGPT 5.2</h3>
+
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">OpenAI releases the highly anticipated 5.2 series. Developers report a 40% reduction in logic errors for complex codebases. Context window expands to 256k tokens with near-perfect recall.</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">OpenAI 发布备受期待的 5.2 系列。开发者报告称，对于复杂代码库，逻辑错误减少了 40%。上下文窗口扩展到 256k token，并具有近乎完美的召回率。</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">OpenAIが待望の5.2シリーズをリリース。開発者は、複雑なコードベースでの論理エラーが40％減少したと報告しています。コンテキストウィンドウは256kトークンに拡大し、ほぼ完璧なリコールを実現しました。</p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950"></div>
+          
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="en">Week 3 • Dec 15-21</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="zh">第三周 • 12月15-21日</div>
+          <div class="text-xs font-mono text-zinc-500 mb-1" data-lang="ja">第3週 • 12月15日〜21日</div>
+
+          <h3 class="text-lg font-medium mb-2" data-lang="en">Healthcare Breakthroughs</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="zh">医疗保健突破</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="ja">ヘルスケアの進歩</h3>
+
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">New studies confirm AI diagnostic tools for radiology now consistently outperform human baselines in early cancer detection, reducing false negatives by 15%.</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">新研究证实，放射科 AI 诊断工具在早期癌症检测中现已持续超越人类基准，将假阴性率降低了 15%。</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">新しい研究により、放射線科のAI診断ツールが早期がん発見において人間の基準を一貫して上回り、偽陰性を15％削減したことが確認されました。</p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-blue-500 bg-blue-500"></div>
+          
+          <div class="text-xs font-mono text-blue-600 dark:text-blue-400 mb-1" data-lang="en">Week 4 • Dec 22-29</div>
+          <div class="text-xs font-mono text-blue-600 dark:text-blue-400 mb-1" data-lang="zh">第四周 • 12月22-29日</div>
+          <div class="text-xs font-mono text-blue-600 dark:text-blue-400 mb-1" data-lang="ja">第4週 • 12月22日〜29日</div>
+
+          <h3 class="text-lg font-medium mb-2" data-lang="en">Open Source & Edge AI</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="zh">开源与边缘 AI</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="ja">オープンソースとエッジAI</h3>
+
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">DeepSeek R1 and Google's LiteRT shake up the landscape, proving that powerful reasoning doesn't always require massive cloud clusters.</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">DeepSeek R1 和 Google 的 LiteRT 震动了业界，证明强大的推理并不总是需要大规模的云集群。</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">DeepSeek R1とGoogleのLiteRTが業界を揺るがし、強力な推論には必ずしも大規模なクラウドクラスターが必要ではないことを証明しました。</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
