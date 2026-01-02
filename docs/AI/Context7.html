@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context7: The MCP Server for Up-to-Date Code</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Overview</span>
+      <span data-lang="zh">返回概览</span>
+      <span data-lang="ja">概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">New Tool</span>
+      <span class="px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">新工具</span>
+      <span class="px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">新ツール</span>
+      
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="en">MCP Standard</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="zh">MCP 标准</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="ja">MCP 標準</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Context7: Eliminating Hallucinations</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">Context7：消除幻觉</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">Context7：ハルシネーションの排除</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      Context7 is an open-source Model Context Protocol (MCP) server developed by Upstash. It acts as a bridge between your AI coding assistant and the latest official documentation, ensuring generated code is accurate and version-compliant.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      Context7 是由 Upstash 开发的开源模型上下文协议 (MCP) 服务器。它充当您的 AI 编码助手与最新官方文档之间的桥梁，确保生成的代码准确且符合版本要求。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      Context7は、Upstashによって開発されたオープンソースのモデルコンテキストプロトコル（MCP）サーバーです。AIコーディングアシスタントと最新の公式ドキュメントの間の架け橋として機能し、生成されたコードが正確でバージョンに準拠していることを保証します。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">The Problem: Outdated Training Data</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">问题：过时的训练数据</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">問題：時代遅れのトレーニングデータ</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          Large Language Models (LLMs) are frozen in time. If a library releases a breaking change (e.g., v2.0 to v3.0) after the model's training cutoff, the AI will confidently suggest deprecated code. This leads to "hallucinated" APIs and frustrating debugging loops.
+        </p>
+        <p data-lang="zh">
+          大型语言模型 (LLM) 被冻结在时间中。如果库在模型训练截止后发布了重大更改（例如从 v2.0 到 v3.0），AI 将自信地建议已弃用的代码。这会导致“幻觉” API 和令人沮丧的调试循环。
+        </p>
+        <p data-lang="ja">
+          大規模言語モデル（LLM）は時間の中に凍結されています。モデルのトレーニング締め切り後にライブラリが破壊的な変更（例：v2.0からv3.0へ）をリリースした場合、AIは自信を持って非推奨のコードを提案します。これは「ハルシネーション」APIとイライラするデバッグループにつながります。
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">How Context7 Works</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">Context7 如何工作</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">Context7 の仕組み</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">01</div>
+          <h3 class="font-semibold mb-2" data-lang="en">Intercept</h3>
+          <h3 class="font-semibold mb-2" data-lang="zh">拦截</h3>
+          <h3 class="font-semibold mb-2" data-lang="ja">傍受</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">You prompt: "Use context7 to write a Redis function." Context7 detects the keyword and identifies the target library.</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">您提示：“使用 context7 编写一个 Redis 函数。” Context7 检测关键字并识别目标库。</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">プロンプト：「context7を使ってRedis関数を書いて。」Context7はキーワードを検出し、ターゲットライブラリを特定します。</p>
+        </div>
+        
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">02</div>
+          <h3 class="font-semibold mb-2" data-lang="en">Retrieve</h3>
+          <h3 class="font-semibold mb-2" data-lang="zh">检索</h3>
+          <h3 class="font-semibold mb-2" data-lang="ja">検索</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">It queries its curated index of official documentation, using a specialized `c7score` algorithm to find the most relevant, up-to-date snippets.</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">它查询其官方文档的精选索引，使用专门的 `c7score` 算法查找最相关、最新的片段。</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">専門的な `c7score` アルゴリズムを使用して、公式ドキュメントのキュレートされたインデックスを照会し、最も関連性が高く最新のスニペットを見つけます。</p>
+        </div>
+
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">03</div>
+          <h3 class="font-semibold mb-2" data-lang="en">Inject</h3>
+          <h3 class="font-semibold mb-2" data-lang="zh">注入</h3>
+          <h3 class="font-semibold mb-2" data-lang="ja">注入</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">The documentation is injected into the LLM's context window before it generates code, forcing it to use the correct syntax.</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">在生成代码之前，文档被注入到 LLM 的上下文窗口中，强制其使用正确的语法。</p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">ドキュメントは、コードを生成する前にLLMのコンテキストウィンドウに注入され、正しい構文を使用するように強制します。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Key Features</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">主要特点</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">主な機能</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <ul class="list-disc pl-5 space-y-4">
+            <li>
+                <strong data-lang="en">Version-Specific Context:</strong>
+                <span data-lang="en">Unlike generic RAG, Context7 understands versioning. It won't give you v2 docs if you're working in v3.</span>
+                <strong data-lang="zh">特定于版本的上下文：</strong>
+                <span data-lang="zh">与通用的 RAG 不同，Context7 理解版本控制。如果你在 v3 中工作，它不会给你 v2 的文档。</span>
+                <strong data-lang="ja">バージョン固有のコンテキスト：</strong>
+                <span data-lang="ja">一般的なRAGとは異なり、Context7はバージョン管理を理解しています。v3で作業している場合、v2のドキュメントは提供されません。</span>
+            </li>
+             <li>
+                <strong data-lang="en">Proprietary Ranking (c7score):</strong>
+                <span data-lang="en">A specialized algorithm designed to prioritize code examples and API definitions over verbose prose.</span>
+                <strong data-lang="zh">专有排名 (c7score)：</strong>
+                <span data-lang="zh">一种专门设计的算法，旨在优先考虑代码示例和 API 定义，而不是冗长的散文。</span>
+                <strong data-lang="ja">独自のランキング（c7score）：</strong>
+                <span data-lang="ja">冗長な散文よりもコード例やAPI定義を優先するように設計された専門的なアルゴリズム。</span>
+            </li>
+             <li>
+                <strong data-lang="en">MCP Standard Support:</strong>
+                <span data-lang="en">Seamlessly integrates with any editor that supports the Model Context Protocol, including Cursor, VS Code (Copilot), and Claude Desktop.</span>
+                <strong data-lang="zh">MCP 标准支持：</strong>
+                <span data-lang="zh">与任何支持模型上下文协议的编辑器无缝集成，包括 Cursor、VS Code (Copilot) 和 Claude Desktop。</span>
+                <strong data-lang="ja">MCP標準サポート：</strong>
+                <span data-lang="ja">Cursor、VS Code（Copilot）、Claude Desktopなど、モデルコンテキストプロトコルをサポートするすべてのエディタとシームレスに統合します。</span>
+            </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

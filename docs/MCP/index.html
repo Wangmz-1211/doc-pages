@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Context Protocol (MCP)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+        [data-lang].active-inline { display: inline; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('active', 'active-inline');
+                if (el.getAttribute('data-lang') === lang) {
+                    el.classList.add(el.tagName === 'SPAN' ? 'active-inline' : 'active');
+                }
+            });
+            localStorage.setItem('doc-lang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('doc-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen p-8 transition-colors duration-200">
+    
+    <!-- Language Switcher -->
+    <div class="absolute top-4 right-4 flex gap-2">
+        <button onclick="setLanguage('en')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">日本語</button>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="text-sm text-zinc-500 mb-8 flex gap-2 items-center">
+            <a href="/" target="_top" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Home</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">MCP</span>
+        </nav>
+
+        <!-- Title -->
+        <h1 class="text-4xl font-bold mb-6 tracking-tight">
+            <span data-lang="en">Model Context Protocol (MCP)</span>
+            <span data-lang="zh">模型上下文协议 (MCP)</span>
+            <span data-lang="ja">モデルコンテキストプロトコル (MCP)</span>
+        </h1>
+
+        <!-- Introduction -->
+        <div class="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <p data-lang="en">
+                The Model Context Protocol (MCP) is an open standard that enables developers to build secure, two-way connections between their data sources and AI-powered tools. Think of it as a "USB-C port" for AI applications—providing a universal way to connect models to different systems.
+            </p>
+            <p data-lang="zh">
+                模型上下文协议 (MCP) 是一个开放标准，允许开发人员在数据源和 AI 工具之间建立安全、双向的连接。可以将其视为 AI 应用程序的“USB-C 端口”——提供了一种将模型连接到不同系统的通用方法。
+            </p>
+            <p data-lang="ja">
+                モデルコンテキストプロトコル（MCP）は、開発者がデータソースとAI搭載ツールの間に安全な双方向接続を構築できるようにするオープン標準です。AIアプリケーションのための「USB-Cポート」のようなものと考えてください。モデルをさまざまなシステムに接続するための普遍的な方法を提供します。
+            </p>
+        </div>
+
+        <hr class="my-8 border-zinc-200 dark:border-zinc-800">
+
+        <!-- Core Problem Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
+                <span data-lang="en">The Problem it Solves</span>
+                <span data-lang="zh">解决的问题</span>
+                <span data-lang="ja">解決する課題</span>
+            </h2>
+            <div class="bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                <p data-lang="en" class="mb-4">
+                    Previously, connecting AI models to data repositories (like Google Drive, Slack, or GitHub) required building specific integrations for every single tool. This created an "m × n" problem where every new AI assistant needed its own set of connectors.
+                </p>
+                <p data-lang="zh" class="mb-4">
+                    以前，将 AI 模型连接到数据存储库（如 Google Drive、Slack 或 GitHub）需要为每个工具构建特定的集成。这产生了一个“m × n”的问题，即每个新的 AI 助手都需要自己的一套连接器。
+                </p>
+                <p data-lang="ja" class="mb-4">
+                    以前は、AIモデルをデータリポジトリ（Google Drive、Slack、GitHubなど）に接続するには、ツールごとに個別の統合を構築する必要がありました。これにより、新しいAIアシスタントごとに独自のコネクタセットが必要になるという「m × n」の問題が発生していました。
+                </p>
+                
+                <p data-lang="en">
+                    <strong>With MCP:</strong> Developers build a server once, and it works with any MCP-compliant client (like Claude Desktop or Cursor).
+                </p>
+                <p data-lang="zh">
+                    <strong>使用 MCP:</strong> 开发人员只需构建一次服务器，它就可以与任何兼容 MCP 的客户端（如 Claude Desktop 或 Cursor）一起工作。
+                </p>
+                <p data-lang="ja">
+                    <strong>MCPを使用すると:</strong> 開発者はサーバーを一度構築すれば、どのMCP準拠クライアント（Claude DesktopやCursorなど）でも動作します。
+                </p>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">
+                <span data-lang="en">Architecture</span>
+                <span data-lang="zh">架构</span>
+                <span data-lang="ja">アーキテクチャ</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Host -->
+                <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-zinc-400 transition-colors">
+                    <h3 class="font-medium text-lg mb-2 text-zinc-900 dark:text-zinc-100">
+                        <span data-lang="en">MCP Host</span>
+                        <span data-lang="zh">MCP 主机</span>
+                        <span data-lang="ja">MCP ホスト</span>
+                    </h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                        <span data-lang="en">The application where the AI exists (e.g., Claude Desktop, IDEs). It initiates connections.</span>
+                        <span data-lang="zh">AI 存在的应用程序（例如 Claude Desktop，IDE）。它发起连接。</span>
+                        <span data-lang="ja">AIが存在するアプリケーション（例：Claude Desktop、IDE）。接続を開始します。</span>
+                    </p>
+                </div>
+
+                <!-- Client -->
+                <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-zinc-400 transition-colors">
+                    <h3 class="font-medium text-lg mb-2 text-zinc-900 dark:text-zinc-100">
+                        <span data-lang="en">MCP Client</span>
+                        <span data-lang="zh">MCP 客户端</span>
+                        <span data-lang="ja">MCP クライアント</span>
+                    </h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                        <span data-lang="en">Maintains 1:1 connections with servers within the host application.</span>
+                        <span data-lang="zh">在主机应用程序内维护与服务器的 1:1 连接。</span>
+                        <span data-lang="ja">ホストアプリケーション内でサーバーとの1対1の接続を維持します。</span>
+                    </p>
+                </div>
+
+                <!-- Server -->
+                <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-zinc-400 transition-colors">
+                    <h3 class="font-medium text-lg mb-2 text-zinc-900 dark:text-zinc-100">
+                        <span data-lang="en">MCP Server</span>
+                        <span data-lang="zh">MCP 服务器</span>
+                        <span data-lang="ja">MCP サーバー</span>
+                    </h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                        <span data-lang="en">Exposes specific data or tools (e.g., "Google Drive Server").</span>
+                        <span data-lang="zh">公开特定的数据或工具（例如，“Google Drive 服务器”）。</span>
+                        <span data-lang="ja">特定のデータやツールを公開します（例：「Google Drive サーバー」）。</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Links -->
+        <div class="mt-12 flex gap-4">
+            <a href="/docs/MCP/Features.html" target="_top" class="flex-1 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-center group">
+                <span class="block text-sm text-zinc-500 mb-1">Next / 下一步 / 次へ</span>
+                <span class="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    <span data-lang="en">Core Features</span>
+                    <span data-lang="zh">核心功能</span>
+                    <span data-lang="ja">主な機能</span>
+                    &rarr;
+                </span>
+            </a>
+            <a href="/docs/MCP/Roadmap.html" target="_top" class="flex-1 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-center group">
+                <span class="block text-sm text-zinc-500 mb-1">Read / 阅读 / 読む</span>
+                <span class="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    <span data-lang="en">Roadmap & Ecosystem</span>
+                    <span data-lang="zh">路线图与生态系统</span>
+                    <span data-lang="ja">ロードマップとエコシステム</span>
+                    &rarr;
+                </span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Features</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+        [data-lang].active-inline { display: inline; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('active', 'active-inline');
+                if (el.getAttribute('data-lang') === lang) {
+                    el.classList.add(el.tagName === 'SPAN' ? 'active-inline' : 'active');
+                }
+            });
+            localStorage.setItem('doc-lang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('doc-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen p-8 transition-colors duration-200">
+    
+    <!-- Language Switcher -->
+    <div class="absolute top-4 right-4 flex gap-2">
+        <button onclick="setLanguage('en')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">日本語</button>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="text-sm text-zinc-500 mb-8 flex gap-2 items-center">
+            <a href="/" target="_top" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/docs/MCP/index.html" target="_top" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">MCP</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Features</span>
+        </nav>
+
+        <!-- Title -->
+        <h1 class="text-4xl font-bold mb-6 tracking-tight">
+            <span data-lang="en">Core Features</span>
+            <span data-lang="zh">核心功能</span>
+            <span data-lang="ja">主な機能</span>
+        </h1>
+
+        <p class="text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
+            <span data-lang="en">The Model Context Protocol consists of four primary primitives that enable powerful interactions between clients and servers.</span>
+            <span data-lang="zh">模型上下文协议由四个主要原语组成，实现了客户端和服务器之间的强大交互。</span>
+            <span data-lang="ja">モデルコンテキストプロトコルは、クライアントとサーバー間の強力な相互作用を可能にする4つの主要なプリミティブで構成されています。</span>
+        </p>
+
+        <div class="space-y-8">
+            <!-- 1. Resources -->
+            <section class="border-l-2 border-blue-500 pl-6">
+                <h2 class="text-2xl font-semibold mb-2">
+                    <span data-lang="en">1. Resources</span>
+                    <span data-lang="zh">1. 资源 (Resources)</span>
+                    <span data-lang="ja">1. リソース (Resources)</span>
+                </h2>
+                <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        Resources are passive data that servers expose to clients. They function like file reading. A resource could be a text file, a database row, or an image.
+                    </p>
+                    <p data-lang="zh">
+                        资源是服务器向客户端公开的被动数据。它们的功能类似于文件读取。资源可以是文本文件、数据库行或图像。
+                    </p>
+                    <p data-lang="ja">
+                        リソースは、サーバーがクライアントに公開する受動的なデータです。ファイル読み込みのように機能します。リソースは、テキストファイル、データベースの行、または画像などが該当します。
+                    </p>
+                    <ul class="list-disc pl-4 mt-2 space-y-1">
+                        <li><span data-lang="en">Example: `file:///logs/error.txt`</span><span data-lang="zh">示例: `file:///logs/error.txt`</span><span data-lang="ja">例: `file:///logs/error.txt`</span></li>
+                        <li><span data-lang="en">Use Case: Providing context to the LLM.</span><span data-lang="zh">用例: 为 LLM 提供上下文。</span><span data-lang="ja">ユースケース: LLMにコンテキストを提供する。</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 2. Tools -->
+            <section class="border-l-2 border-purple-500 pl-6">
+                <h2 class="text-2xl font-semibold mb-2">
+                    <span data-lang="en">2. Tools</span>
+                    <span data-lang="zh">2. 工具 (Tools)</span>
+                    <span data-lang="ja">2. ツール (Tools)</span>
+                </h2>
+                <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        Tools are executable functions that the model can call. They allow the AI to take action or fetch dynamic data.
+                    </p>
+                    <p data-lang="zh">
+                        工具是模型可以调用的可执行函数。它们允许 AI 采取行动或获取动态数据。
+                    </p>
+                    <p data-lang="ja">
+                        ツールは、モデルが呼び出すことができる実行可能な関数です。AIがアクションを起こしたり、動的なデータを取得したりすることを可能にします。
+                    </p>
+                    <ul class="list-disc pl-4 mt-2 space-y-1">
+                        <li><span data-lang="en">Example: `get_weather(city="New York")`</span><span data-lang="zh">示例: `get_weather(city="New York")`</span><span data-lang="ja">例: `get_weather(city="New York")`</span></li>
+                        <li><span data-lang="en">Use Case: API calls, database queries, system operations.</span><span data-lang="zh">用例: API 调用，数据库查询，系统操作。</span><span data-lang="ja">ユースケース: API呼び出し、データベースクエリ、システム操作。</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 3. Prompts -->
+            <section class="border-l-2 border-amber-500 pl-6">
+                <h2 class="text-2xl font-semibold mb-2">
+                    <span data-lang="en">3. Prompts</span>
+                    <span data-lang="zh">3. 提示词 (Prompts)</span>
+                    <span data-lang="ja">3. プロンプト (Prompts)</span>
+                </h2>
+                <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        Prompts are pre-defined templates that servers provide to help users or models start interactions effectively.
+                    </p>
+                    <p data-lang="zh">
+                        提示词是服务器提供的预定义模板，旨在帮助用户或模型有效地开始交互。
+                    </p>
+                    <p data-lang="ja">
+                        プロンプトは、ユーザーやモデルが効果的に対話を開始できるようにサーバーが提供する事前定義されたテンプレートです。
+                    </p>
+                    <ul class="list-disc pl-4 mt-2 space-y-1">
+                        <li><span data-lang="en">Example: "Analyze this Git commit"</span><span data-lang="zh">示例: “分析这个 Git 提交”</span><span data-lang="ja">例: 「このGitコミットを分析する」</span></li>
+                        <li><span data-lang="en">Use Case: Standardizing complex tasks.</span><span data-lang="zh">用例: 标准化复杂任务。</span><span data-lang="ja">ユースケース: 複雑なタスクの標準化。</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 4. Sampling -->
+            <section class="border-l-2 border-pink-500 pl-6">
+                <h2 class="text-2xl font-semibold mb-2">
+                    <span data-lang="en">4. Sampling (Agentic)</span>
+                    <span data-lang="zh">4. 采样 (Agentic)</span>
+                    <span data-lang="ja">4. サンプリング (Agentic)</span>
+                </h2>
+                <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        Sampling allows the server to request a completion from the host's LLM. This enables "agentic" loops where the server can think and act autonomously.
+                    </p>
+                    <p data-lang="zh">
+                        采样允许服务器向主机的 LLM 请求补全。这实现了“代理”循环，服务器可以自主思考和行动。
+                    </p>
+                    <p data-lang="ja">
+                        サンプリングにより、サーバーはホストのLLMに補完を要求できます。これにより、サーバーが自律的に思考し行動できる「エージェント」ループが可能になります。
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="mt-12 flex gap-4">
+             <a href="/docs/MCP/index.html" target="_top" class="flex-1 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-center group">
+                <span class="block text-sm text-zinc-500 mb-1">Back / 返回 / 戻る</span>
+                <span class="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    &larr;
+                    <span data-lang="en">Overview</span>
+                    <span data-lang="zh">概览</span>
+                    <span data-lang="ja">概要</span>
+                </span>
+            </a>
+            <a href="/docs/MCP/Roadmap.html" target="_top" class="flex-1 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-center group">
+                <span class="block text-sm text-zinc-500 mb-1">Next / 下一步 / 次へ</span>
+                <span class="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    <span data-lang="en">Roadmap</span>
+                    <span data-lang="zh">路线图</span>
+                    <span data-lang="ja">ロードマップ</span>
+                    &rarr;
+                </span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

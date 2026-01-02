@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-lang="en">Timeline: Meta Acquires Manus AI</title>
+  <title data-lang="zh">时间线：Meta 收购 Manus AI</title>
+  <title data-lang="ja">タイムライン：MetaがManus AIを買収</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Overview</span>
+      <span data-lang="zh">返回概览</span>
+      <span data-lang="ja">概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">M&A News • Dec 30, 2025</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">并购新闻 • 2025年12月30日</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">M&Aニュース • 2025年12月30日</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Meta Acquires General Agent Startup Manus AI</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">Meta 收购通用智能体初创公司 Manus AI</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">Metaが汎用AIエージェントのスタートアップManus AIを買収</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      In a major end-of-year move, Meta Platforms has acquired Manus AI for over $2 billion, signaling a massive shift towards autonomous AI agents in the consumer ecosystem.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      在年末的一项重大举措中，Meta Platforms 以超过 20 亿美元的价格收购了 Manus AI，这标志着消费生态系统正大规模向自主 AI 智能体转型。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      年末の大きな動きとして、Meta PlatformsはManus AIを20億ドル以上で買収しました。これは、コンシューマーエコシステムにおける自律型AIエージェントへの大規模なシフトを示唆しています。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Strategic Significance</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">战略意义</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">戦略的重要性</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          Manus AI specializes in "general agents" that can autonomously execute complex tasks—from deep research to automated coding—rather than just providing text responses. This acquisition provides Meta with:
+        </p>
+        <p data-lang="zh">
+          Manus AI 专注于“通用智能体”，能够自主执行复杂任务（从深度研究到自动化编程），而不仅仅是提供文本响应。此次收购为 Meta 提供了：
+        </p>
+        <p data-lang="ja">
+          Manus AIは、単なるテキスト応答ではなく、深い調査から自動コーディングまで、複雑なタスクを自律的に実行できる「汎用エージェント」を専門としています。この買収により、Metaは以下のものを手に入れます：
+        </p>
+        <ul class="list-disc pl-5 space-y-2 mt-4">
+          <li data-lang="en">Immediate integration of agentic capabilities into Meta AI.</li>
+          <li data-lang="zh">将智能体能力立即集成到 Meta AI 中。</li>
+          <li data-lang="ja">Meta AIへのエージェント機能の即時統合。</li>
+          
+          <li data-lang="en">A proven subscription business model ($100M ARR in 8 months).</li>
+          <li data-lang="zh">经过验证的订阅商业模式（8个月内实现1亿美元年度经常性收入）。</li>
+          <li data-lang="ja">実証済みのサブスクリプションビジネスモデル（8ヶ月でARR 1億ドル）。</li>
+          
+          <li data-lang="en">Top-tier talent, including founder Xiao Hong, who joins as VP.</li>
+          <li data-lang="zh">顶尖人才，包括以副总裁身份加入的创始人小红（Xiao Hong）。</li>
+          <li data-lang="ja">創業者Xiao Hong氏を含むトップティアの人材（副社長として就任）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Manus AI Timeline</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">Manus AI 时间线</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">Manus AIのタイムライン</h2>
+
+      <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-300 before:to-transparent dark:before:via-zinc-700">
+        
+        <!-- March 2025 -->
+        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-zinc-100 dark:bg-zinc-800 dark:border-zinc-900 text-zinc-500 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path></svg>
+          </div>
+          <div class="w-[calc(100%-4rem)] md:w-[45%] p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+            <div class="flex items-center justify-between space-x-2 mb-1">
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="en">Launch</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="zh">正式发布</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="ja">ローンチ</div>
+              <time class="text-xs font-medium text-blue-600 uppercase">March 2025</time>
+            </div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="en">Manus AI launches its general-purpose agent service, gaining rapid viral traction.</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="zh">Manus AI 发布其通用智能体服务，迅速在网络走红。</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="ja">Manus AIが汎用エージェントサービスを開始し、急速に普及。</div>
+          </div>
+        </div>
+
+        <!-- November 2025 -->
+        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-zinc-100 dark:bg-zinc-800 dark:border-zinc-900 text-zinc-500 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path></svg>
+          </div>
+          <div class="w-[calc(100%-4rem)] md:w-[45%] p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+            <div class="flex items-center justify-between space-x-2 mb-1">
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="en">Milestone</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="zh">里程碑</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="ja">マイルストーン</div>
+              <time class="text-xs font-medium text-blue-600 uppercase">Nov 2025</time>
+            </div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="en">Reaches $100M Annual Recurring Revenue (ARR) with millions of active users.</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="zh">实现 1 亿美元年度经常性收入（ARR），拥有数百万活跃用户。</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="ja">数百万人のアクティブユーザーを抱え、年間経常収益（ARR）1億ドルに到達。</div>
+          </div>
+        </div>
+
+        <!-- December 30, 2025 -->
+        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-blue-500 text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+          </div>
+          <div class="w-[calc(100%-4rem)] md:w-[45%] p-4 rounded-xl border-2 border-blue-500 bg-white dark:bg-zinc-900 shadow-lg">
+            <div class="flex items-center justify-between space-x-2 mb-1">
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="en">Acquisition</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="zh">被 Meta 收购</div>
+              <div class="font-bold text-zinc-900 dark:text-zinc-100" data-lang="ja">買収</div>
+              <time class="text-xs font-medium text-blue-600 uppercase">Dec 30, 2025</time>
+            </div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="en">Meta announces acquisition for $2B+. Founder joins Meta as VP.</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="zh">Meta 宣布以超过 20 亿美元的价格进行收购。创始人加入 Meta 担任副总裁。</div>
+            <div class="text-zinc-600 dark:text-zinc-400" data-lang="ja">Metaが20億ドル以上での買収を発表。創業者が副社長としてMetaに入社。</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-12">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References & Evidence</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料与证据</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献とエビデンス</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://manus.im" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Manus.im Official</div>
+          <div class="text-xs text-zinc-500">Service usage and token statistics.</div>
+        </a>
+        <div class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-lang="en">Industry Reports</div>
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-lang="zh">行业报告</div>
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-lang="ja">業界レポート</div>
+          <div class="text-xs text-zinc-500" data-lang="en">Reported $2B valuation and ARR milestones via TipRanks & TechNode.</div>
+          <div class="text-xs text-zinc-500" data-lang="zh">通过 TipRanks 和 TechNode 报道的 20 亿美元估值和 ARR 里程碑。</div>
+          <div class="text-xs text-zinc-500" data-lang="ja">TipRanksおよびTechNodeを通じて報告された20億ドルの評価額とARRのマイルストーン。</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-zinc-500 text-sm">
+    <p>&copy; 2025 AI Documentation Archive</p>
+  </footer>
+
+</body>
+</html>

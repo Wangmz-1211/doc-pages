@@ -91,3 +91,7 @@ Include the following in `<head>`:
 - **Aesthetic:** Minimalist, high contrast text, subtle borders (`border-zinc-200 dark:border-zinc-800`), and clean spacing.
 - **Components:** Use card-like containers with subtle shadows or borders for distinct sections.
 - **Dark Mode:** Deep black or very dark grey backgrounds (`bg-black` or `bg-zinc-950`) with high contrast text.
+
+### 5. Content Generation
+- **Reference** The evidence supporting the content should be cited near the content. Maybe a document link, maby hyperlink to website.
+- **Timeline** For a theme of technique, a timeline of the development should be included in the index page.

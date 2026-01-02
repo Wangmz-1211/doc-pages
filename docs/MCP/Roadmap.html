@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+        [data-lang].active-inline { display: inline; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('active', 'active-inline');
+                if (el.getAttribute('data-lang') === lang) {
+                    el.classList.add(el.tagName === 'SPAN' ? 'active-inline' : 'active');
+                }
+            });
+            localStorage.setItem('doc-lang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('doc-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen p-8 transition-colors duration-200">
+    
+    <!-- Language Switcher -->
+    <div class="absolute top-4 right-4 flex gap-2">
+        <button onclick="setLanguage('en')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">日本語</button>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="text-sm text-zinc-500 mb-8 flex gap-2 items-center">
+            <a href="/" target="_top" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/docs/MCP/index.html" target="_top" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">MCP</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Roadmap</span>
+        </nav>
+
+        <!-- Title -->
+        <h1 class="text-4xl font-bold mb-6 tracking-tight">
+            <span data-lang="en">Roadmap & Ecosystem</span>
+            <span data-lang="zh">路线图与生态系统</span>
+            <span data-lang="ja">ロードマップとエコシステム</span>
+        </h1>
+
+        <div class="space-y-12">
+            <!-- Current Status -->
+            <section>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <h2 class="text-2xl font-semibold">
+                        <span data-lang="en">Current Status</span>
+                        <span data-lang="zh">当前状态</span>
+                        <span data-lang="ja">現在のステータス</span>
+                    </h2>
+                </div>
+                <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        MCP is currently an open standard released under the Apache 2.0 license. It is stable for production use and is rapidly being adopted by major development tools.
+                    </p>
+                    <p data-lang="zh">
+                        MCP 目前是根据 Apache 2.0 许可证发布的开放标准。它在生产使用中是稳定的，并且正迅速被主要开发工具采用。
+                    </p>
+                    <p data-lang="ja">
+                        MCPは現在、Apache 2.0ライセンスの下で公開されているオープン標準です。本番環境での使用において安定しており、主要な開発ツールによって急速に採用されています。
+                    </p>
+                </div>
+            </section>
+
+            <!-- SDKs -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-lg mb-2">TypeScript SDK</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                        <span data-lang="en">Official support for Node.js and browser environments.</span>
+                        <span data-lang="zh">官方支持 Node.js 和浏览器环境。</span>
+                        <span data-lang="ja">Node.jsおよびブラウザ環境の公式サポート。</span>
+                    </p>
+                    <code class="text-xs bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded">npm install @modelcontextprotocol/sdk</code>
+                </div>
+                <div class="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-lg mb-2">Python SDK</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                        <span data-lang="en">Official support for synchronous and asynchronous Python.</span>
+                        <span data-lang="zh">官方支持同步和异步 Python。</span>
+                        <span data-lang="ja">同期および非同期Pythonの公式サポート。</span>
+                    </p>
+                    <code class="text-xs bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded">pip install mcp</code>
+                </div>
+            </section>
+
+            <!-- Adoption -->
+            <section>
+                <h2 class="text-2xl font-semibold mb-4">
+                    <span data-lang="en">Early Adopters</span>
+                    <span data-lang="zh">早期采用者</span>
+                    <span data-lang="ja">早期導入者</span>
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 border border-zinc-200 dark:border-zinc-800 rounded">Anthropic</div>
+                    <div class="text-center p-4 border border-zinc-200 dark:border-zinc-800 rounded">Zed IDE</div>
+                    <div class="text-center p-4 border border-zinc-200 dark:border-zinc-800 rounded">Replit</div>
+                    <div class="text-center p-4 border border-zinc-200 dark:border-zinc-800 rounded">Sourcegraph</div>
+                </div>
+            </section>
+
+            <!-- Future Goals -->
+            <section>
+                 <h2 class="text-2xl font-semibold mb-4">
+                    <span data-lang="en">Future Roadmap</span>
+                    <span data-lang="zh">未来路线图</span>
+                    <span data-lang="ja">今後のロードマップ</span>
+                </h2>
+                <ul class="list-disc pl-4 space-y-2 text-zinc-600 dark:text-zinc-400">
+                    <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">
+                            <span data-lang="en">Authentication:</span>
+                            <span data-lang="zh">身份验证:</span>
+                            <span data-lang="ja">認証:</span>
+                        </strong>
+                        <span data-lang="en">Standardizing stronger auth patterns for remote servers (beyond OAuth).</span>
+                        <span data-lang="zh">标准化远程服务器的更强身份验证模式（超越 OAuth）。</span>
+                        <span data-lang="ja">リモートサーバーのためのより強力な認証パターンの標準化（OAuth以外）。</span>
+                    </li>
+                     <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">
+                            <span data-lang="en">Transport Layers:</span>
+                            <span data-lang="zh">传输层:</span>
+                            <span data-lang="ja">トランスポート層:</span>
+                        </strong>
+                         <span data-lang="en">Expanding beyond stdio and SSE to support more networking protocols.</span>
+                         <span data-lang="zh">扩展标准输入/输出和 SSE 之外的支持，以支持更多的网络协议。</span>
+                         <span data-lang="ja">stdioやSSEを超えて、より多くのネットワークプロトコルをサポートするように拡張。</span>
+                    </li>
+                     <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">
+                            <span data-lang="en">Community:</span>
+                            <span data-lang="zh">社区:</span>
+                            <span data-lang="ja">コミュニティ:</span>
+                        </strong>
+                        <span data-lang="en">Growing the library of open-source MCP servers for popular services.</span>
+                        <span data-lang="zh">为流行服务扩展开源 MCP 服务器库。</span>
+                        <span data-lang="ja">人気のあるサービス向けのオープンソースMCPサーバーのライブラリを拡大。</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="mt-12 flex gap-4">
+             <a href="/docs/MCP/Features.html" target="_top" class="flex-1 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-center group">
+                <span class="block text-sm text-zinc-500 mb-1">Back / 返回 / 戻る</span>
+                <span class="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    &larr;
+                    <span data-lang="en">Core Features</span>
+                    <span data-lang="zh">核心功能</span>
+                    <span data-lang="ja">主な機能</span>
+                </span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

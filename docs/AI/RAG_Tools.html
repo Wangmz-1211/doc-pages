@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Source RAG Tools & Pipelines</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+
+    /* Modal transition */
+    #doc-modal { transition: opacity 0.2s ease-in-out; }
+    #doc-modal.hidden { opacity: 0; pointer-events: none; }
+    #doc-modal:not(.hidden) { opacity: 1; pointer-events: auto; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    const frameworkData = {
+      langchain: {
+        title: "LangChain",
+        url: "https://python.langchain.com/",
+        desc: {
+          en: "A comprehensive framework for developing applications powered by language models. It enables applications that are data-aware and agentic.",
+          zh: "一个用于开发由语言模型驱动的应用程序的综合框架。它支持具有数据感知和代理能力的应用程序。",
+          ja: "言語モデルを利用したアプリケーションを開発するための包括的なフレームワーク。データ認識とエージェント機能を備えたアプリケーションを可能にします。"
+        },
+        features: {
+            en: ["Chain interface for sequences of calls", "Integrations with over 500 tools", "LangSmith for tracing and debugging"],
+            zh: ["用于调用序列的链式接口", "集成超过 500 种工具", "用于跟踪和调试的 LangSmith"],
+            ja: ["呼び出しシーケンスのためのチェーンインターフェース", "500以上のツールとの統合", "トレースとデバッグのためのLangSmith"]
+        }
+      },
+      llamaindex: {
+        title: "LlamaIndex",
+        url: "https://gpt-index.readthedocs.io/",
+        desc: {
+          en: "A data framework for LLM applications to ingest, structure, and access private or domain-specific data.",
+          zh: "用于 LLM 应用程序摄取、构建和访问私有或特定领域数据的数据框架。",
+          ja: "LLMアプリケーションがプライベートまたはドメイン固有のデータを取り込み、構造化し、アクセスするためのデータフレームワーク。"
+        },
+        features: {
+            en: ["Data connectors for 100+ sources", "Advanced indexing structures", "Query engines for retrieval-augmented responses"],
+            zh: ["支持 100 多种来源的数据连接器", "高级索引结构", "用于检索增强响应的查询引擎"],
+            ja: ["100以上のソースに対応するデータコネクタ", "高度なインデックス構造", "検索拡張応答のためのクエリエンジン"]
+        }
+      },
+      haystack: {
+        title: "Haystack",
+        url: "https://haystack.deepset.ai/",
+        desc: {
+          en: "An end-to-end framework for building production-ready NLP pipelines, including retrieval-augmented generation and semantic search.",
+          zh: "用于构建生产级 NLP 管道的端到端框架，包括检索增强生成和语义搜索。",
+          ja: "検索拡張生成やセマンティック検索を含む、本番環境対応のNLPパイプラインを構築するためのエンドツーエンドフレームワーク。"
+        },
+        features: {
+            en: ["Modular pipeline architecture", "State-of-the-art retriever models", "Evaluation nodes for performance metrics"],
+            zh: ["模块化管道架构", "最先进的检索模型", "用于性能指标的评估节点"],
+            ja: ["モジュラーパイプラインアーキテクチャ", "最先端の検索モデル", "パフォーマンス指標のための評価ノード"]
+        }
+      },
+      ragflow: {
+        title: "RAGFlow",
+        url: "https://ragflow.io/docs/dev/",
+        desc: {
+          en: "An engine dedicated to deep document understanding, capable of parsing complex layouts like tables and figures in PDFs.",
+          zh: "致力于深度文档理解的引擎，能够解析 PDF 中的表格和图形等复杂布局。",
+          ja: "深いドキュメント理解に特化したエンジンで、PDF内の表や図などの複雑なレイアウトを解析できます。"
+        },
+        features: {
+            en: ["Deep document parsing (OCR, layout analysis)", "Template-based chunking", "Visual knowledge base management"],
+            zh: ["深度文档解析（OCR，布局分析）", "基于模板的分块", "可视化知识库管理"],
+            ja: ["深いドキュメント解析（OCR、レイアウト分析）", "テンプレートベースのチャンキング", "視覚的なナレッジベース管理"]
+        }
+      },
+      dify: {
+        title: "Dify",
+        url: "https://dify.ai/",
+        desc: {
+          en: "An easy-to-use LLMOps platform that allows you to create and operate AI apps visually.",
+          zh: "一个易于使用的 LLMOps 平台，允许您可视化地创建和运行 AI 应用程序。",
+          ja: "AIアプリを視覚的に作成・運用できる、使いやすいLLMOpsプラットフォーム。"
+        },
+        features: {
+            en: ["Visual orchestration of RAG pipelines", "Backend-as-a-Service API", "Built-in prompt IDE"],
+            zh: ["RAG 管道的可视化编排", "后端即服务 API", "内置提示 IDE"],
+            ja: ["RAGパイプラインの視覚的オーケストレーション", "Backend-as-a-Service API", "組み込みのプロンプトIDE"]
+        }
+      },
+      flowise: {
+        title: "Flowise",
+        url: "https://flowiseai.com/",
+        desc: {
+          en: "Drag & drop UI to build your customized LLM flow using LangChainJS.",
+          zh: "使用 LangChainJS 通过拖放 UI 构建自定义 LLM 流程。",
+          ja: "LangChainJSを使用して、ドラッグ＆ドロップUIでカスタマイズされたLLMフローを構築します。"
+        },
+        features: {
+            en: ["No-code interface", "Marketplace of templates", "Embeddable chat widget"],
+            zh: ["无代码界面", "模板市场", "可嵌入的聊天小部件"],
+            ja: ["ノーコードインターフェース", "テンプレートのマーケットプレイス", "埋め込み可能なチャットウィジェット"]
+        }
+      },
+      verba: {
+        title: "Verba",
+        url: "https://github.com/weaviate/Verba",
+        desc: {
+          en: "The Golden RAGtriever. An open-source personal assistant for querying and interacting with your data, powered by Weaviate.",
+          zh: "黄金 RAGtriever。一个开源的个人助手，由 Weaviate 提供支持，用于查询和与您的数据交互。",
+          ja: "The Golden RAGtriever。Weaviateを搭載した、データへのクエリと対話のためのオープンソースパーソナルアシスタント。"
+        },
+        features: {
+             en: ["Simple web UI", "Weaviate integration out-of-the-box", "RAG visualization"],
+             zh: ["简单的 Web UI", "开箱即用的 Weaviate 集成", "RAG 可视化"],
+             ja: ["シンプルなWeb UI", "すぐに使えるWeaviate統合", "RAGの可視化"]
+        }
+      },
+      txtai: {
+        title: "txtai",
+        url: "https://neuml.github.io/txtai/",
+        desc: {
+          en: "An all-in-one embeddings database for semantic search, LLM orchestration, and language model workflows.",
+          zh: "用于语义搜索、LLM 编排和语言模型工作流的一体化嵌入数据库。",
+          ja: "セマンティック検索、LLMオーケストレーション、言語モデルワークフローのためのオールインワン埋め込みデータベース。"
+        },
+        features: {
+             en: ["Vector search with SQL", "LLM chaining", "Semantic graph analysis"],
+             zh: ["带 SQL 的矢量搜索", "LLM 链接", "语义图分析"],
+             ja: ["SQLによるベクトル検索", "LLMチェーン", "セマンティックグラフ分析"]
+        }
+      },
+      ragatouille: {
+        title: "RAGatouille",
+        url: "https://github.com/bclavie/RAGatouille",
+        desc: {
+          en: "A library to easily use ColBERT, a state-of-the-art retrieval model, in your RAG pipelines.",
+          zh: "一个可以轻松在 RAG 管道中使用最先进的检索模型 ColBERT 的库。",
+          ja: "最先端の検索モデルであるColBERTをRAGパイプラインで簡単に使用するためのライブラリ。"
+        },
+        features: {
+             en: ["Easy ColBERT integration", "High-precision retrieval", "Optimized for speed"],
+             zh: ["简单的 ColBERT 集成", "高精度检索", "针对速度进行了优化"],
+             ja: ["簡単なColBERT統合", "高精度な検索", "速度に最適化"]
+        }
+      },
+       dspy: {
+        title: "DSPy",
+        url: "https://dspy.ai/",
+        desc: {
+          en: "A framework for algorithmically optimizing LM prompts and weights, moving away from manual prompt engineering.",
+          zh: "一个用于算法优化 LM 提示和权重的框架，摆脱了手动提示工程。",
+          ja: "LMプロンプトと重みをアルゴリズム的に最適化し、手動のプロンプトエンジニアリングから脱却するためのフレームワーク。"
+        },
+        features: {
+             en: ["Automatic prompt optimization", "Module compilation", "Systematic evaluation"],
+             zh: ["自动提示优化", "模块编译", "系统评估"],
+             ja: ["自動プロンプト最適化", "モジュールコンパイル", "体系的な評価"]
+        }
+      },
+      ragas: {
+        title: "RAGAS",
+        url: "https://docs.ragas.io/",
+        desc: {
+          en: "Evaluation framework for your Retrieval Augmented Generation (RAG) pipelines.",
+          zh: "用于检索增强生成 (RAG) 管道的评估框架。",
+          ja: "検索拡張生成（RAG）パイプラインのための評価フレームワーク。"
+        },
+        features: {
+             en: ["Faithfulness & Relevance metrics", "Test data generation", "CI/CD integration"],
+             zh: ["忠实度和相关性指标", "测试数据生成", "CI/CD 集成"],
+             ja: ["忠実性と関連性の指標", "テストデータ生成", "CI/CD統合"]
+        }
+      }
+    };
+
+    function openModal(key) {
+      const data = frameworkData[key];
+      if (!data) return;
+
+      const modal = document.getElementById('doc-modal');
+      const titleEl = document.getElementById('modal-title');
+      const linkEl = document.getElementById('modal-link');
+      const descEl = document.getElementById('modal-desc');
+      const featuresEl = document.getElementById('modal-features');
+
+      // Set content
+      titleEl.innerText = data.title;
+      linkEl.href = data.url;
+      
+      // Clear previous content
+      descEl.innerHTML = '';
+      featuresEl.innerHTML = '';
+
+      // Add multi-lingual descriptions
+      for (const [lang, text] of Object.entries(data.desc)) {
+        const p = document.createElement('p');
+        p.setAttribute('data-lang', lang);
+        p.innerText = text;
+        p.className = 'text-zinc-600 dark:text-zinc-400';
+        descEl.appendChild(p);
+      }
+
+      // Add multi-lingual features
+      for (const [lang, features] of Object.entries(data.features)) {
+        const div = document.createElement('div');
+        div.setAttribute('data-lang', lang);
+        
+        const ul = document.createElement('ul');
+        ul.className = 'list-disc pl-5 space-y-2 text-zinc-600 dark:text-zinc-400';
+        features.forEach(f => {
+            const li = document.createElement('li');
+            li.innerText = f;
+            ul.appendChild(li);
+        });
+        div.appendChild(ul);
+        featuresEl.appendChild(div);
+      }
+
+      // Re-run language toggle for the new modal content
+      const currentLang = localStorage.getItem('doc-lang') || 'en';
+      // We need to re-trigger the CSS display logic. 
+      // Since styles rely on body class, it should just work IF the elements are in the DOM.
+      // But we just added them. The browser should apply styles immediately.
+      
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('doc-modal').classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en relative">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Overview</span>
+      <span data-lang="zh">返回概览</span>
+      <span data-lang="ja">概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">Ecosystem Report</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">生态系统报告</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">エコシステムレポート</span>
+      
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="en">2025 Edition</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="zh">2025版</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm" data-lang="ja">2025年版</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Open Source RAG Frameworks</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">开源 RAG 框架</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">オープンソース RAG フレームワーク</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      The open-source landscape for Retrieval-Augmented Generation (RAG) and data pipelines has matured significantly in 2025. This guide summarizes the leading tools that are defining the next generation of AI applications.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      2025年，检索增强生成（RAG）和数据管道的开源格局已显着成熟。本指南总结了定义下一代 AI 应用程序的领先工具。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      2025年、検索拡張生成（RAG）とデータパイプラインのオープンソース環境は大幅に成熟しました。このガイドでは、次世代のAIアプリケーションを定義する主要なツールをまとめています。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Leading Frameworks</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">领先框架</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">主要なフレームワーク</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            LangChain
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Standard</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            The industry standard for building LLM applications. Offers robust data connection, retrieval pipelines, and deep integration with LangSmith for debugging.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             构建 LLM 应用程序的行业标准。提供强大的数据连接、检索管道以及与 LangSmith 的深度集成以进行调试。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             LLMアプリケーション構築の業界標準。堅牢なデータ接続、検索パイプライン、デバッグ用のLangSmithとの深い統合を提供します。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python/JS</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Orchestration</span>
+          </div>
+          <button onclick="openModal('langchain')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            LlamaIndex
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Data Focus</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            Specializes in connecting LLMs with private data. Known for structured indexing, advanced retrieval strategies, and seamless data connectors.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             专注于将 LLM 与私有数据连接。以结构化索引、高级检索策略和无缝数据连接器而闻名。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             LLMとプライベートデータの接続に特化しています。構造化インデックス、高度な検索戦略、シームレスなデータコネクタで知られています。
+          </p>
+           <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python/TS</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Data Ingestion</span>
+          </div>
+          <button onclick="openModal('llamaindex')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            Haystack
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Production</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+             A modular framework by deepset built for production-grade pipelines. Excellent for building semantic search systems and custom AI agents.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             deepset 开发的模块化框架，专为生产级管道构建。非常适合构建语义搜索系统和自定义 AI 代理。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             deepsetによるモジュラーフレームワークで、本番環境レベルのパイプライン向けに構築されています。セマンティック検索システムやカスタムAIエージェントの構築に最適です。
+          </p>
+           <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Modular</span>
+          </div>
+          <button onclick="openModal('haystack')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            RAGFlow
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Deep Doc</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+             Excels at extracting structured information from complex documents like PDFs with tables. Emphasizes "quality-in, quality-out" with template-based chunking.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             擅长从带有表格的 PDF 等复杂文档中提取结构化信息。强调“高质量输入，高质量输出”，采用基于模板的分块。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             表を含むPDFなどの複雑なドキュメントから構造化情報を抽出することに優れています。テンプレートベースのチャンキングにより、「質の高い入力、質の高い出力」を重視しています。
+          </p>
+           <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">PDF Parsing</span>
+          </div>
+          <button onclick="openModal('ragflow')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Low-Code & UI Platforms</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">低代码与 UI 平台</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">ローコード & UI プラットフォーム</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            Dify
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Workflow</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            An open-source LLM app development platform. Combines a visual workflow builder with RAG pipeline management and agent orchestration.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             一个开源 LLM 应用开发平台。结合了可视化工作流构建器、RAG 管道管理和代理编排。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             オープンソースのLLMアプリ開発プラットフォーム。ビジュアルワークフロービルダーとRAGパイプライン管理、エージェントオーケストレーションを組み合わせています。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Visual</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Full-Stack</span>
+          </div>
+          <button onclick="openModal('dify')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            Flowise
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Drag & Drop</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            A UI tool for building LLM apps using a drag-and-drop interface. ideal for rapid prototyping and chaining components without code.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             一个使用拖放界面构建 LLM 应用的 UI 工具。非常适合快速原型设计和在不编写代码的情况下链接组件。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             ドラッグアンドドロップインターフェースを使用してLLMアプリを構築するためのUIツール。コードなしで迅速なプロトタイピングやコンポーネントの連鎖を行うのに最適です。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">JS/TS</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">No-Code</span>
+          </div>
+          <button onclick="openModal('flowise')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            Verba
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Simple RAG</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            A streamlined RAG application by Weaviate. Focuses on ease of use for data ingestion and querying, leveraging Weaviate's vector database.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             Weaviate 推出的简化版 RAG 应用程序。专注于数据摄入和查询的易用性，利用 Weaviate 的矢量数据库。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             Weaviateによる合理化されたRAGアプリケーション。Weaviateのベクトルデータベースを活用し、データ取り込みとクエリの使いやすさに焦点を当てています。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Weaviate</span>
+          </div>
+          <button onclick="openModal('verba')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Search & Databases</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">搜索与数据库</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">検索 & データベース</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            txtai
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Semantic DB</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            An all-in-one embeddings database for semantic search, LLM orchestration, and language model workflows. No external vector DB required.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             用于语义搜索、LLM 编排和语言模型工作流的一体化嵌入数据库。无需外部矢量数据库。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             セマンティック検索、LLMオーケストレーション、言語モデルワークフローのためのオールインワン埋め込みデータベース。外部ベクトルDBは不要です。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Embeddings</span>
+          </div>
+          <button onclick="openModal('txtai')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            RAGatouille
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">ColBERT</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            A library designed to easily integrate ColBERT (late interaction retrieval) into any RAG pipeline. Enhances retrieval accuracy significantly.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             一个旨在轻松将 ColBERT（后期交互检索）集成到任何 RAG 管道中的库。显着提高检索准确性。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             ColBERT（後期相互作用検索）をあらゆるRAGパイプラインに簡単に統合するために設計されたライブラリ。検索精度を大幅に向上させます。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Retrieval</span>
+          </div>
+          <button onclick="openModal('ragatouille')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Advanced & Evaluation</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">高级与评估</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">高度な機能 & 評価</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            DSPy
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Optimization</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            The framework for programming foundational models. Replaces manual prompt engineering with automatic optimization of prompts and weights.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             用于编程基础模型的框架。用提示和权重的自动优化取代手动提示工程。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             基盤モデルをプログラミングするためのフレームワーク。手動のプロンプトエンジニアリングを、プロンプトと重みの自動最適化に置き換えます。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Stanford</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Research</span>
+          </div>
+          <button onclick="openModal('dspy')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col">
+          <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+            RAGAS
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">Metrics</span>
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="en">
+            A framework for evaluating RAG pipelines. Measures metrics like faithfulness, answer relevance, and context precision to ensure quality.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="zh">
+             一个用于评估 RAG 管道的框架。测量忠实度、答案相关性和上下文精度等指标以确保质量。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 flex-1" data-lang="ja">
+             RAGパイプラインを評価するためのフレームワーク。忠実性、回答の関連性、コンテキストの精度などの指標を測定して品質を保証します。
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs mb-4">
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">Python</span>
+            <span class="px-2 py-1 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">QA</span>
+          </div>
+          <button onclick="openModal('ragas')" class="w-full py-2 px-4 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
+            <span data-lang="en">View Docs</span>
+            <span data-lang="zh">查看文档</span>
+            <span data-lang="ja">ドキュメントを表示</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Emerging Trends</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">新兴趋势</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">新たなトレンド</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <ul class="list-disc pl-5 space-y-4">
+            <li>
+                <strong data-lang="en">Agentic RAG:</strong>
+                <span data-lang="en">Systems like <strong>AutoGen</strong> and <strong>DSPy</strong> are enabling multi-agent orchestration where specialized agents handle retrieval, validation, and synthesis collaboratively.</span>
+                <strong data-lang="zh">代理 RAG：</strong>
+                <span data-lang="zh">像 <strong>AutoGen</strong> 和 <strong>DSPy</strong> 这样的系统正在实现多代理编排，其中专门的代理协同处理检索、验证和合成。</span>
+                <strong data-lang="ja">エージェント型 RAG：</strong>
+                <span data-lang="ja"><strong>AutoGen</strong>や<strong>DSPy</strong>のようなシステムは、専門のエージェントが検索、検証、合成を共同で処理するマルチエージェントオーケストレーションを可能にしています。</span>
+            </li>
+            <li>
+                <strong data-lang="en">Visual & Multimodal Pipelines:</strong>
+                <span data-lang="en">Tools like <strong>Dify</strong> and <strong>Flowise</strong> provide visual workflow editors for rapid prototyping. Meanwhile, <strong>Morphik</strong> tackles the challenge of retrieving information from images and charts within technical documents.</span>
+                <strong data-lang="zh">可视化与多模态管道：</strong>
+                <span data-lang="zh">像 <strong>Dify</strong> 和 <strong>Flowise</strong> 这样的工具为快速原型设计提供了可视化工作流编辑器。同时，<strong>Morphik</strong> 解决了从技术文档中的图像和图表中检索信息的挑战。</span>
+                <strong data-lang="ja">ビジュアル＆マルチモーダルパイプライン：</strong>
+                <span data-lang="ja"><strong>Dify</strong>や<strong>Flowise</strong>のようなツールは、迅速なプロトタイピングのためのビジュアルワークフローエディタを提供します。一方、<strong>Morphik</strong>は、技術文書内の画像やグラフから情報を取得するという課題に取り組んでいます。</span>
+            </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal -->
+  <div id="doc-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
+    
+    <!-- Modal Content -->
+    <div class="relative bg-white dark:bg-zinc-900 rounded-xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden border border-zinc-200 dark:border-zinc-800">
+      
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 flex justify-between items-center bg-zinc-50 dark:bg-zinc-900/50">
+        <h3 id="modal-title" class="text-xl font-bold text-zinc-900 dark:text-zinc-100">Title</h3>
+        <button onclick="closeModal()" class="text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="px-6 py-6">
+        <div id="modal-desc" class="mb-6 text-base leading-relaxed"></div>
+        
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider mb-3">
+          <span data-lang="en">Key Features</span>
+          <span data-lang="zh">主要特点</span>
+          <span data-lang="ja">主な機能</span>
+        </h4>
+        <div id="modal-features" class="text-sm"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-6 py-4 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
+        <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm">
+          <span data-lang="en">Visit Official Docs</span>
+          <span data-lang="zh">访问官方文档</span>
+          <span data-lang="ja">公式ドキュメントを見る</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
