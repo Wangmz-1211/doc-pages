@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 AI Timeline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to AI Overview</span>
+      <span data-lang="zh">返回 AI 概览</span>
+      <span data-lang="ja">AI 概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="en">2026: The New Era</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="zh">2026: 新纪元</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="ja">2026年: 新時代</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      The year of regulation, refinement, and realization. As new laws take effect, the focus shifts to safe, autonomous agents and the next generation of reasoning models.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      监管、完善和实现的一年。随着新法律的生效，重点转向安全、自主的智能体和下一代推理模型。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      規制、洗練、そして実現の年。新しい法律が施行されるにつれて、焦点は安全で自律的なエージェントと次世代の推論モデルに移ります。
+    </p>
+  </header>
+
+  <main class="space-y-16">
+    <section>
+      <div class="border-l border-zinc-200 dark:border-zinc-800 pl-8 space-y-10 relative">
+        
+        <div class="relative">
+          <div class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-green-500 bg-green-500"></div>
+          
+          <div class="text-xs font-mono text-green-600 dark:text-green-400 mb-1" data-lang="en">Early 2026 • Jan 1-3</div>
+          <div class="text-xs font-mono text-green-600 dark:text-green-400 mb-1" data-lang="zh">2026年初 • 1月1-3日</div>
+          <div class="text-xs font-mono text-green-600 dark:text-green-400 mb-1" data-lang="ja">2026年初頭 • 1月1日〜3日</div>
+
+          <a href="/docs/AI/2026/Timeline_Early_2026.html" class="block group">
+            <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="en">New Year, New Era</h3>
+            <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="zh">新年新纪元</h3>
+            <h3 class="text-lg font-medium mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="ja">新年、新時代</h3>
+          </a>
+
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">New laws in CA & TX take effect. Predictions for OpenAI's "Garlic" and Agentic AI set the stage for 2026.</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">加利福尼亚州和德克萨斯州的新法律生效。关于OpenAI "Garlic" 和智能体AI的预测为2026年奠定了基础。</p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">カリフォルニア州とテキサス州で新しい法律が施行されました。OpenAIの「Garlic」とエージェントAIに関する予測が、2026年の舞台を整えます。</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</body>
+</html>

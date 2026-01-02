@@ -49,21 +49,31 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ path
       <script>
         document.addEventListener('click', (e) => {
           const link = e.target.closest('a');
-          if (link && link.href && link.target !== '_blank') {
-            try {
-              const url = new URL(link.href);
-              if (url.origin === window.location.origin) {
-                if (url.pathname.startsWith('/docs/')) {
+          if (!link || !link.href) return;
+          
+          // Allow explicit target="_blank" to handle itself
+          if (link.target === '_blank') return;
+
+          try {
+            const url = new URL(link.href);
+            
+            // Check if external (different origin)
+            if (url.origin !== window.location.origin) {
+               // Force external links to open in new tab
+               e.preventDefault();
+               window.open(link.href, '_blank');
+            } else {
+               // Internal link logic
+               if (url.pathname.startsWith('/docs/')) {
                   e.preventDefault();
                   window.parent.location.href = url.pathname + url.search + url.hash;
-                } else if (url.pathname.startsWith('/api/view/')) {
+               } else if (url.pathname.startsWith('/api/view/')) {
                   e.preventDefault();
                   window.parent.location.href = url.pathname.replace('/api/view/', '/docs/') + url.search + url.hash;
-                }
-              }
-            } catch (err) {
-              console.error('Link navigation error:', err);
+               }
             }
+          } catch (err) {
+             console.error('Link navigation error:', err);
           }
         });
       </script>
