@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, ChevronDown, File, Folder, FolderOpen } from 'lucide-react';
@@ -33,38 +33,40 @@ interface FileTreeNodeProps {
 }
 
 function FileTreeNode({ node, level }: FileTreeNodeProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   
   const isFolder = node.type === 'folder';
   const hasIndex = node.hasIndex;
 
-  // If folder has index, we link to it. Otherwise '#'
-  // Note: node.path for file is "folder/file.html" (stripped now? No, lib keeps extension? Wait, I stripped extension in lib/docs.ts for name, but path?
-  // In lib/docs.ts: path: itemPath. itemPath = join(relativePath, item.name). item.name has extension for files.
-  // Wait, I stripped extension from NAME, but PATH usually keeps it?
-  // Let's check lib/docs.ts again.
-  // "name: item.name.replace(/\.html$/i, ''), path: itemPath" -> itemPath comes from item.name (original).
-  // So file path still has .html. Good.
-  // Folder path is just folder name.
-  
+  const logicalPath = `/docs/${node.path}`;
   const href = isFolder 
-    ? (hasIndex ? `/docs/${node.path}` : '#')
-    : `/docs/${node.path}`; // File paths still have .html in node.path? Yes.
+    ? (hasIndex ? logicalPath : '#')
+    : logicalPath;
 
-  // Active check needs to be robust
-  // For folders: exact match /docs/folder or /docs/folder/
-  // For files: exact match
-  const isActive = pathname === href || (pathname === href + '/') || (pathname === href.replace(/\/$/, ''));
+  // Check if this node is the active one
+  const isActive = pathname === href || pathname === logicalPath;
+
+  // Check if this folder contains the active path (should be expanded)
+  // We check if pathname starts with the folder path + '/' to ensure directory match
+  // OR if it matches exactly (active folder index)
+  const shouldExpand = isFolder && (
+      isActive || 
+      pathname.startsWith(logicalPath + '/')
+  );
+
+  const [isOpen, setIsOpen] = useState(shouldExpand);
+
+  useEffect(() => {
+    if (shouldExpand) {
+      setIsOpen(true);
+    }
+  }, [pathname, shouldExpand]);
 
   const handleToggle = (e: React.MouseEvent) => {
     if (isFolder) {
-      // If it has index, we want to navigate (allow default) AND toggle.
-      // If no index, we prevent default (no navigation) AND toggle.
       if (!hasIndex) {
         e.preventDefault();
       }
-      // Toggle expansion
       setIsOpen(!isOpen);
     }
   };
