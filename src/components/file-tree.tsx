@@ -72,7 +72,7 @@ function FileTreeNode({ node, level }: FileTreeNodeProps) {
   return (
     <div>
       <Link
-        href={isFolder ? '#' : href}
+        href={href}
         onClick={handleToggle}
         className={cn(
           "flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-sm text-zinc-700 dark:text-zinc-300",
