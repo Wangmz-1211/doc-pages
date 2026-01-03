@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript Async/Await Best Practices</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/Engineering/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Engineering</span>
+      <span data-lang="zh">返回工程</span>
+      <span data-lang="ja">エンジニアリングに戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">TypeScript Async/Await Patterns</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">TypeScript 异步/等待模式</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">TypeScript Async/Await パターン</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      Mastering asynchronous control flow in TypeScript is crucial for building reliable Node.js applications. This guide covers error handling, parallel execution, and typing promises.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      掌握 TypeScript 中的异步控制流对于构建可靠的 Node.js 应用程序至关重要。本指南涵盖错误处理、并行执行和 Promise 类型化。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      TypeScriptでの非同期制御フローを習得することは、信頼性の高いNode.jsアプリケーションを構築するために不可欠です。このガイドでは、エラー処理、並列実行、Promiseの型定義について説明します。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <!-- Section 1: Error Handling -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold" data-lang="en">Safe Error Handling</h2>
+          <h2 class="text-2xl font-semibold" data-lang="zh">安全错误处理</h2>
+          <h2 class="text-2xl font-semibold" data-lang="ja">安全なエラー処理</h2>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          Always wrap <code>await</code> calls in a <code>try/catch</code> block. In TypeScript, the error object in the catch block is of type <code>unknown</code>, so type guards are necessary.
+        </p>
+        <p data-lang="zh">
+          始终将 <code>await</code> 调用包装在 <code>try/catch</code> 块中。在 TypeScript 中，catch 块中的错误对象类型为 <code>unknown</code>，因此需要类型保护。
+        </p>
+        <p data-lang="ja">
+          常に <code>await</code> 呼び出しを <code>try/catch</code> ブロックで囲んでください。TypeScriptでは、catchブロック内のエラーオブジェクトは <code>unknown</code> 型であるため、型ガードが必要です。
+        </p>
+
+        <pre class="bg-zinc-100 dark:bg-zinc-900 p-4 rounded-lg overflow-x-auto text-sm text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 my-4"><code>async function fetchData(): Promise&lt;Data | null&gt; {
+  try {
+    const response = await fetch('/api/data');
+    if (!response.ok) throw new Error('Network response was not ok');
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Fetch error:', error.message);
+    } else {
+      console.error('Unknown error:', error);
+    }
+    return null;
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Section 2: Parallel Execution -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold" data-lang="en">Parallel Execution</h2>
+          <h2 class="text-2xl font-semibold" data-lang="zh">并行执行</h2>
+          <h2 class="text-2xl font-semibold" data-lang="ja">並列実行</h2>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          Avoid "waterfall" requests where independent promises await each other sequentially. Use <code>Promise.all</code> to run them concurrently.
+        </p>
+        <p data-lang="zh">
+          避免“瀑布式”请求，即独立的 Promise 相互顺序等待。使用 <code>Promise.all</code> 并发运行它们。
+        </p>
+        <p data-lang="ja">
+          独立したPromiseが互いに順次待機する「ウォーターフォール」リクエストは避けてください。<code>Promise.all</code> を使用してそれらを並行して実行します。
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+            <div class="border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 p-4 rounded-lg">
+                <h4 class="font-medium text-red-700 dark:text-red-400 mb-2">Sequential (Slow)</h4>
+                <pre class="text-xs overflow-x-auto"><code>const user = await getUser(id);
+const posts = await getPosts(id);
+// Takes time(getUser) + time(getPosts)</code></pre>
+            </div>
+            <div class="border border-green-200 dark:border-green-900/50 bg-green-50 dark:bg-green-900/10 p-4 rounded-lg">
+                <h4 class="font-medium text-green-700 dark:text-green-400 mb-2">Concurrent (Fast)</h4>
+                <pre class="text-xs overflow-x-auto"><code>const [user, posts] = await Promise.all([
+  getUser(id),
+  getPosts(id)
+]);
+// Takes max(time(getUser), time(getPosts))</code></pre>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- References Section -->
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-8 mt-16">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献</h2>
+
+      <ol class="list-decimal pl-5 space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <li>
+          <span data-lang="en">MDN Web Docs. (n.d.). <em>async function.</em> Retrieved from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" class="text-blue-600 dark:text-blue-400 hover:underline">developer.mozilla.org</a></span>
+          <span data-lang="zh">MDN Web Docs. (n.d.). <em>async function.</em> 取自 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" class="text-blue-600 dark:text-blue-400 hover:underline">developer.mozilla.org</a></span>
+          <span data-lang="ja">MDN Web Docs. (n.d.). <em>async function.</em> 取得元 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" class="text-blue-600 dark:text-blue-400 hover:underline">developer.mozilla.org</a></span>
+        </li>
+        <li>
+          <span data-lang="en">TypeScript Documentation. (n.d.). <em>Promise Types.</em> Retrieved from <a href="https://www.typescriptlang.org/docs/handbook/2/generics.html#promise-types" class="text-blue-600 dark:text-blue-400 hover:underline">typescriptlang.org</a></span>
+          <span data-lang="zh">TypeScript 文档. (n.d.). <em>Promise 类型。</em> 取自 <a href="https://www.typescriptlang.org/docs/handbook/2/generics.html#promise-types" class="text-blue-600 dark:text-blue-400 hover:underline">typescriptlang.org</a></span>
+          <span data-lang="ja">TypeScript ドキュメント. (n.d.). <em>Promise 型。</em> 取得元 <a href="https://www.typescriptlang.org/docs/handbook/2/generics.html#promise-types" class="text-blue-600 dark:text-blue-400 hover:underline">typescriptlang.org</a></span>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+</body>
+</html>

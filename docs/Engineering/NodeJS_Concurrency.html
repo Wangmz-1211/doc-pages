@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js Concurrency: Event Loop & Threads</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/Engineering/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Engineering</span>
+      <span data-lang="zh">返回工程</span>
+      <span data-lang="ja">エンジニアリングに戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Node.js Concurrency Deep Dive</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">Node.js 并发深入剖析</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">Node.js 並行処理の詳細</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      Understanding the Node.js Event Loop, `libuv`, Worker Threads, and Clustering to build high-performance, non-blocking applications.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      了解 Node.js 事件循环、`libuv`、工作线程和集群，以构建高性能、非阻塞的应用程序。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      Node.jsイベントループ、`libuv`、ワーカースレッド、およびクラスタリングを理解し、高性能なノンブロッキングアプリケーションを構築します。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <!-- Section 1: The Event Loop -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold" data-lang="en">The Event Loop & Libuv</h2>
+          <h2 class="text-2xl font-semibold" data-lang="zh">事件循环与 Libuv</h2>
+          <h2 class="text-2xl font-semibold" data-lang="ja">イベントループとLibuv</h2>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          Node.js is single-threaded but scalable due to its event-driven architecture powered by <strong>libuv</strong>. The Event Loop allows Node.js to perform non-blocking I/O operations by offloading operations to the system kernel whenever possible.
+        </p>
+        <p data-lang="zh">
+          Node.js 是单线程的，但由于其由 <strong>libuv</strong> 驱动的事件驱动架构，它具有可扩展性。事件循环允许 Node.js 通过尽可能将操作卸载到系统内核来执行非阻塞 I/O 操作。
+        </p>
+        <p data-lang="ja">
+          Node.jsはシングルスレッドですが、<strong>libuv</strong>を利用したイベント駆動型アーキテクチャによりスケーラブルです。イベントループは、可能な限り操作をシステムカーネルにオフロードすることで、Node.jsがノンブロッキングI/O操作を実行できるようにします。
+        </p>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 my-4">
+            <h3 class="text-lg font-medium mb-3 text-zinc-900 dark:text-zinc-100" data-lang="en">Event Loop Phases</h3>
+            <h3 class="text-lg font-medium mb-3 text-zinc-900 dark:text-zinc-100" data-lang="zh">事件循环阶段</h3>
+            <h3 class="text-lg font-medium mb-3 text-zinc-900 dark:text-zinc-100" data-lang="ja">イベントループのフェーズ</h3>
+            <ol class="list-decimal pl-5 space-y-2">
+                <li>
+                    <span data-lang="en"><strong>Timers:</strong> Executes callbacks scheduled by `setTimeout()` and `setInterval()`.</span>
+                    <span data-lang="zh"><strong>定时器：</strong> 执行由 `setTimeout()` 和 `setInterval()` 调度的回调。</span>
+                    <span data-lang="ja"><strong>タイマー：</strong> `setTimeout()` および `setInterval()` によってスケジュールされたコールバックを実行します。</span>
+                </li>
+                <li>
+                    <span data-lang="en"><strong>Pending Callbacks:</strong> Executes I/O callbacks deferred to the next loop iteration.</span>
+                    <span data-lang="zh"><strong>待处理回调：</strong> 执行推迟到下一次循环迭代的 I/O 回调。</span>
+                    <span data-lang="ja"><strong>保留中のコールバック：</strong> 次のループ反復に延期されたI/Oコールバックを実行します。</span>
+                </li>
+                <li>
+                    <span data-lang="en"><strong>Poll:</strong> Retrieves new I/O events; executes I/O related callbacks.</span>
+                    <span data-lang="zh"><strong>轮询：</strong> 检索新的 I/O 事件；执行与 I/O 相关的回调。</span>
+                    <span data-lang="ja"><strong>ポール：</strong> 新しいI/Oイベントを取得し、I/O関連のコールバックを実行します。</span>
+                </li>
+                <li>
+                    <span data-lang="en"><strong>Check:</strong> Executes callbacks triggered by `setImmediate()`.</span>
+                    <span data-lang="zh"><strong>检查：</strong> 执行由 `setImmediate()` 触发的回调。</span>
+                    <span data-lang="ja"><strong>チェック：</strong> `setImmediate()` によってトリガーされたコールバックを実行します。</span>
+                </li>
+                <li>
+                    <span data-lang="en"><strong>Close Callbacks:</strong> Executes close events, e.g., `socket.on('close', ...)`.</span>
+                    <span data-lang="zh"><strong>关闭回调：</strong> 执行关闭事件，例如 `socket.on('close', ...)`。</span>
+                    <span data-lang="ja"><strong>クローズコールバック：</strong> 終了イベント（例：`socket.on('close', ...)`）を実行します。</span>
+                </li>
+            </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Worker Threads -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold" data-lang="en">Worker Threads</h2>
+          <h2 class="text-2xl font-semibold" data-lang="zh">工作线程</h2>
+          <h2 class="text-2xl font-semibold" data-lang="ja">ワーカースレッド</h2>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The `worker_threads` module enables the use of threads that execute JavaScript in parallel. Worker threads are useful for performing CPU-intensive JavaScript operations, as they do not block the Event Loop.
+        </p>
+        <p data-lang="zh">
+          `worker_threads` 模块允许使用并行执行 JavaScript 的线程。工作线程对于执行 CPU 密集型 JavaScript 操作非常有用，因为它们不会阻塞事件循环。
+        </p>
+        <p data-lang="ja">
+          `worker_threads` モジュールは、JavaScriptを並列実行するスレッドの使用を可能にします。ワーカースレッドは、イベントループをブロックしないため、CPU集約型のJavaScript操作を実行するのに役立ちます。
+        </p>
+        
+        <pre class="bg-zinc-100 dark:bg-zinc-900 p-4 rounded-lg overflow-x-auto text-sm text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800"><code>// main.js
+const { Worker } = require('worker_threads');
+
+function runService(workerData) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', { workerData });
+    worker.on('message', resolve);
+    worker.on('error', reject);
+    worker.on('exit', (code) => {
+      if (code !== 0)
+        reject(new Error(`Worker stopped with exit code ${code}`));
+    });
+  });
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Section 3: Clustering -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold" data-lang="en">Clustering</h2>
+          <h2 class="text-2xl font-semibold" data-lang="zh">集群</h2>
+          <h2 class="text-2xl font-semibold" data-lang="ja">クラスタリング</h2>
+        </div>
+      </div>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The `cluster` module allows you to create child processes (workers) that run simultaneously and share the same server port. This takes advantage of multi-core systems, balancing the load across available cores.
+        </p>
+        <p data-lang="zh">
+          `cluster` 模块允许您创建同时运行并共享同一服务器端口的子进程（工作进程）。这利用了多核系统，在可用核心之间平衡负载。
+        </p>
+        <p data-lang="ja">
+          `cluster` モジュールを使用すると、同時に実行され、同じサーバーポートを共有する子プロセス（ワーカー）を作成できます。これにより、マルチコアシステムを活用し、使用可能なコア間で負荷分散を行うことができます。
+        </p>
+      </div>
+    </section>
+
+    <!-- References Section -->
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-8 mt-16">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献</h2>
+
+      <ol class="list-decimal pl-5 space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <li>
+          <span data-lang="en">Node.js Docs. (n.d.). <em>The Node.js Event Loop, Timers, and process.nextTick().</em> Retrieved from <a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org</a></span>
+          <span data-lang="zh">Node.js 文档. (n.d.). <em>Node.js 事件循环、定时器和 process.nextTick()。</em> 取自 <a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org</a></span>
+          <span data-lang="ja">Node.js ドキュメント. (n.d.). <em>Node.js イベントループ、タイマー、および process.nextTick()。</em> 取得元 <a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org</a></span>
+        </li>
+        <li>
+          <span data-lang="en">Node.js Docs. (n.d.). <em>Worker Threads.</em> Retrieved from <a href="https://nodejs.org/api/worker_threads.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/worker_threads</a></span>
+          <span data-lang="zh">Node.js 文档. (n.d.). <em>工作线程。</em> 取自 <a href="https://nodejs.org/api/worker_threads.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/worker_threads</a></span>
+          <span data-lang="ja">Node.js ドキュメント. (n.d.). <em>ワーカースレッド。</em> 取得元 <a href="https://nodejs.org/api/worker_threads.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/worker_threads</a></span>
+        </li>
+        <li>
+          <span data-lang="en">Node.js Docs. (n.d.). <em>Cluster.</em> Retrieved from <a href="https://nodejs.org/api/cluster.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/cluster</a></span>
+          <span data-lang="zh">Node.js 文档. (n.d.). <em>集群。</em> 取自 <a href="https://nodejs.org/api/cluster.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/cluster</a></span>
+          <span data-lang="ja">Node.js ドキュメント. (n.d.). <em>クラスター。</em> 取得元 <a href="https://nodejs.org/api/cluster.html" class="text-blue-600 dark:text-blue-400 hover:underline">nodejs.org/api/cluster</a></span>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+</body>
+</html>

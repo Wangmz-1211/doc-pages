@@ -69,6 +69,7 @@ Include the following in `<head>`:
 - **Reference** The evidence supporting the content should be cited near the content. Maybe a document link, maby hyperlink to website. And the citation should be marked at the corresponding place in the article.
 - **Reference sources** The evidence should always be real, so that you should retrieve the pages with google search and cite the pages.
 - **Timeline** For a theme of technique, a timeline of the development should be included in the index page.
+- **Timeline Item** The timeline items should be separated by 3-7 days.
 - **Do not** create separate files for languages.
 - Provide high-quality translations for all three languages.
 

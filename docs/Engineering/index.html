@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Knowledge Base</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Engineering Deep Dives</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">工程深度剖析</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">エンジニアリング詳細</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      Technical documentation covering advanced topics in software engineering, performance optimization, and language internals.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      涵盖软件工程、性能优化和语言内部机制高级主题的技术文档。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      ソフトウェアエンジニアリング、パフォーマンスの最適化、および言語内部の高度なトピックをカバーする技術ドキュメント。
+    </p>
+  </header>
+
+  <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <a href="/docs/Engineering/Typescript_Async.html" class="block p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h2 class="text-xl font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="en">TypeScript Async/Await</h2>
+        <h2 class="text-xl font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="zh">TypeScript 异步/等待</h2>
+        <h2 class="text-xl font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-lang="ja">TypeScript Async/Await</h2>
+      </div>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+        Best practices for asynchronous programming in TypeScript. Error handling, parallel execution, and avoiding common pitfalls.
+      </p>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+        TypeScript 异步编程的最佳实践。错误处理、并行执行以及避免常见陷阱。
+      </p>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+        TypeScriptにおける非同期プログラミングのベストプラクティス。エラー処理、並列実行、および一般的な落とし穴の回避。
+      </p>
+    </a>
+
+    <a href="/docs/Engineering/NodeJS_Concurrency.html" class="block p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-green-500 dark:hover:border-green-500 transition-colors group">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-10 w-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </div>
+        <h2 class="text-xl font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" data-lang="en">Node.js Concurrency</h2>
+        <h2 class="text-xl font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" data-lang="zh">Node.js 并发</h2>
+        <h2 class="text-xl font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" data-lang="ja">Node.js 並行処理</h2>
+      </div>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+        Deep dive into the Event Loop, libuv, Worker Threads, and Clustering. Understanding the single-threaded nature of Node.js.
+      </p>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+        深入探讨事件循环、libuv、工作线程和集群。了解 Node.js 的单线程本质。
+      </p>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+        イベントループ、libuv、ワーカースレッド、クラスタリングの詳細。Node.jsのシングルスレッドの性質を理解する。
+      </p>
+    </a>
+
+  </main>
+</body>
+</html>
