@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Flow Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zinc: {
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [data-lang] {
+            display: none;
+        }
+        [data-lang].visible {
+            display: block;
+        }
+        [data-lang="en"].inline-visible,
+        [data-lang="zh"].inline-visible,
+        [data-lang="ja"].inline-visible {
+            display: inline;
+        }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('visible');
+                el.classList.remove('inline-visible');
+            });
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
+                if (el.tagName === 'SPAN' || el.tagName === 'A' || el.tagName === 'STRONG') {
+                    el.classList.add('inline-visible');
+                } else {
+                    el.classList.add('visible');
+                }
+            });
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased min-h-screen p-8 transition-colors duration-200">
+
+    <!-- Language Switcher -->
+    <div class="absolute top-4 right-4 flex gap-2 z-50">
+        <button onclick="setLanguage('en')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">日本語</button>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+            <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Home</a>
+            <span class="mx-2">/</span>
+            <span class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">AI</span>
+            <span class="mx-2">/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Prompt Flow</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="en">Microsoft Prompt Flow</h1>
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="zh">微软 Prompt Flow</h1>
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="ja">Microsoft Prompt Flow</h1>
+
+            <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl" data-lang="en">
+                A suite of development tools designed to streamline the entire development cycle of AI applications powered by Large Language Models (LLMs).
+            </p>
+            <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl" data-lang="zh">
+                一套旨在简化由大型语言模型 (LLM) 驱动的 AI 应用程序的整个开发周期的开发工具。
+            </p>
+            <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl" data-lang="ja">
+                大規模言語モデル (LLM) を活用した AI アプリケーションの全開発サイクルを効率化するために設計された開発ツール群です。
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <!-- Main Article -->
+            <div class="md:col-span-2 space-y-12">
+                
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="en">What is Prompt Flow?</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="zh">什么是 Prompt Flow？</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="ja">Prompt Flow とは？</h2>
+
+                    <div class="prose dark:prose-invert text-zinc-600 dark:text-zinc-400 space-y-4">
+                        <p data-lang="en">
+                            Prompt Flow is a comprehensive tool developed by Microsoft that enables developers to create, debug, evaluate, and deploy LLM-based applications. It focuses on connecting various models, prompts, and Python code into an executable flow.
+                            <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow" class="text-blue-600 hover:underline text-xs align-top">[1]</a>
+                        </p>
+                        <p data-lang="zh">
+                            Prompt Flow 是微软开发的一款综合工具，使开发人员能够创建、调试、评估和部署基于 LLM 的应用程序。它专注于将各种模型、提示和 Python 代码连接成可执行的流。
+                            <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow" class="text-blue-600 hover:underline text-xs align-top">[1]</a>
+                        </p>
+                        <p data-lang="ja">
+                            Prompt Flow は Microsoft によって開発された包括的なツールであり、開発者が LLM ベースのアプリケーションを作成、デバッグ、評価、およびデプロイできるようにします。さまざまなモデル、プロンプト、Python コードを実行可能なフローに接続することに重点を置いています。
+                            <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow" class="text-blue-600 hover:underline text-xs align-top">[1]</a>
+                        </p>
+
+                        <p data-lang="en">
+                            With Prompt Flow, developers can visualize their workflow as a Directed Acyclic Graph (DAG), making it easier to understand the dependencies and logic of complex AI interactions. It integrates seamlessly with Azure Machine Learning and VS Code.
+                        </p>
+                        <p data-lang="zh">
+                            使用 Prompt Flow，开发人员可以将他们的工作流程可视化为有向无环图 (DAG)，从而更容易理解复杂 AI 交互的依赖关系和逻辑。它与 Azure Machine Learning 和 VS Code 无缝集成。
+                        </p>
+                        <p data-lang="ja">
+                            Prompt Flow を使用すると、開発者はワークフローを有向非巡回グラフ (DAG) として視覚化でき、複雑な AI インタラクションの依存関係とロジックを理解しやすくなります。Azure Machine Learning および VS Code とシームレスに統合されます。
+                        </p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="en">Key Capabilities</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="zh">主要功能</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="ja">主な機能</h2>
+
+                    <ul class="space-y-3 text-zinc-600 dark:text-zinc-400 list-disc list-inside">
+                        <li data-lang="en"><strong>Flow Engineering:</strong> Create executable flows that link LLMs, prompts, and Python code.</li>
+                        <li data-lang="zh"><strong>流工程：</strong> 创建链接 LLM、提示和 Python 代码的可执行流。</li>
+                        <li data-lang="ja"><strong>フローエンジニアリング：</strong> LLM、プロンプト、Python コードをリンクする実行可能なフローを作成します。</li>
+
+                        <li data-lang="en"><strong>Debugging:</strong> Interactively debug flows with ease, tracing data through each node.</li>
+                        <li data-lang="zh"><strong>调试：</strong> 轻松交互式调试流，通过每个节点跟踪数据。</li>
+                        <li data-lang="ja"><strong>デバッグ：</strong> フローを簡単に対話的にデバッグし、各ノードを通してデータをトレースします。</li>
+
+                        <li data-lang="en"><strong>Evaluation:</strong> Calculate quality and performance metrics for your flows using larger datasets.</li>
+                        <li data-lang="zh"><strong>评估：</strong> 使用更大的数据集计算流的质量和性能指标。</li>
+                        <li data-lang="ja"><strong>評価：</strong> 大規模なデータセットを使用して、フローの品質とパフォーマンスメトリクスを計算します。</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="en">References</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="zh">参考资料</h2>
+                    <h2 class="text-2xl font-semibold mb-4" data-lang="ja">参考文献</h2>
+                    
+                    <ul class="text-sm text-zinc-500 dark:text-zinc-400 space-y-2">
+                        <li>
+                            [1] Microsoft Learn. "What is Prompt Flow?" <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow" class="text-blue-600 hover:underline">https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow</a>
+                        </li>
+                        <li>
+                            [2] Microsoft Build 2023. "Build next-gen AI apps with Azure Machine Learning" <a href="https://news.microsoft.com/build-2023/" class="text-blue-600 hover:underline">https://news.microsoft.com/build-2023/</a>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <!-- Timeline Sidebar -->
+            <div class="md:col-span-1">
+                <div class="sticky top-8">
+                    <h3 class="text-lg font-semibold mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-2" data-lang="en">Development Timeline</h3>
+                    <h3 class="text-lg font-semibold mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-2" data-lang="zh">发展时间线</h3>
+                    <h3 class="text-lg font-semibold mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-2" data-lang="ja">開発タイムライン</h3>
+
+                    <div class="relative border-l border-zinc-200 dark:border-zinc-800 ml-3 space-y-8">
+                        
+                        <!-- Timeline Item 1 -->
+                        <div class="mb-10 ml-6 relative">
+                            <span class="absolute -left-[1.95rem] flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 ring-4 ring-white dark:ring-zinc-950">
+                                <span class="h-2 w-2 rounded-full bg-zinc-400"></span>
+                            </span>
+                            <time class="block mb-1 text-sm font-normal leading-none text-zinc-400 dark:text-zinc-500">May 23, 2023</time>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="en">Public Preview Announcement</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="zh">公开预览版发布</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="ja">パブリックプレビュー発表</h3>
+                            <p class="mb-4 text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="en">
+                                Microsoft announces Prompt Flow at Microsoft Build 2023 as a new capability within Azure Machine Learning.
+                            </p>
+                            <p class="mb-4 text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="zh">
+                                微软在 Build 2023 上宣布 Prompt Flow 作为 Azure 机器学习的一项新功能。
+                            </p>
+                            <p class="mb-4 text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="ja">
+                                Microsoft Build 2023 にて、Azure Machine Learning の新機能として Prompt Flow を発表。
+                            </p>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="mb-10 ml-6 relative">
+                            <span class="absolute -left-[1.95rem] flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 ring-4 ring-white dark:ring-zinc-950">
+                                <span class="h-2 w-2 rounded-full bg-zinc-400"></span>
+                            </span>
+                            <time class="block mb-1 text-sm font-normal leading-none text-zinc-400 dark:text-zinc-500">Sep 07, 2023</time>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="en">VS Code Extension Update</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="zh">VS Code 扩展更新</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="ja">VS Code 拡張機能更新</h3>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="en">
+                                Enhanced support for local development and debugging directly within VS Code.
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="zh">
+                                增强了在 VS Code 中直接进行本地开发和调试的支持。
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="ja">
+                                VS Code 内での直接的なローカル開発とデバッグのサポートを強化。
+                            </p>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="mb-10 ml-6 relative">
+                            <span class="absolute -left-[1.95rem] flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 ring-4 ring-white dark:ring-zinc-950">
+                                <span class="h-2 w-2 rounded-full bg-zinc-400"></span>
+                            </span>
+                            <time class="block mb-1 text-sm font-normal leading-none text-zinc-400 dark:text-zinc-500">Nov 15, 2023</time>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="en">General Availability</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="zh">正式发布 (GA)</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="ja">一般提供開始 (GA)</h3>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="en">
+                                Prompt Flow becomes generally available at Microsoft Ignite 2023.
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="zh">
+                                Prompt Flow 在 Microsoft Ignite 2023 上正式发布。
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="ja">
+                                Microsoft Ignite 2023 にて Prompt Flow が一般提供開始。
+                            </p>
+                        </div>
+
+                         <!-- Timeline Item 4 -->
+                         <div class="mb-10 ml-6 relative">
+                            <span class="absolute -left-[1.95rem] flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 ring-4 ring-white dark:ring-zinc-950">
+                                <span class="h-2 w-2 rounded-full bg-zinc-400"></span>
+                            </span>
+                            <time class="block mb-1 text-sm font-normal leading-none text-zinc-400 dark:text-zinc-500">Dec 12, 2023</time>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="en">Open Source Initiative</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="zh">开源计划</h3>
+                            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100" data-lang="ja">オープンソースイニシアチブ</h3>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="en">
+                                Microsoft expands Prompt Flow as an open-source project to foster community contribution.
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="zh">
+                                微软将 Prompt Flow 扩展为开源项目，以促进社区贡献。
+                            </p>
+                            <p class="text-sm font-normal text-zinc-500 dark:text-zinc-400" data-lang="ja">
+                                コミュニティの貢献を促進するため、Microsoft は Prompt Flow をオープンソースプロジェクトとして拡大。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

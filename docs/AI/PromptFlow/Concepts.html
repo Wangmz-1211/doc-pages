@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Flow Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zinc: {
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [data-lang] {
+            display: none;
+        }
+        [data-lang].visible {
+            display: block;
+        }
+        [data-lang="en"].inline-visible,
+        [data-lang="zh"].inline-visible,
+        [data-lang="ja"].inline-visible {
+            display: inline;
+        }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('visible');
+                el.classList.remove('inline-visible');
+            });
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
+                if (el.tagName === 'SPAN' || el.tagName === 'A' || el.tagName === 'STRONG') {
+                    el.classList.add('inline-visible');
+                } else {
+                    el.classList.add('visible');
+                }
+            });
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased min-h-screen p-8 transition-colors duration-200">
+
+    <!-- Language Switcher -->
+    <div class="absolute top-4 right-4 flex gap-2 z-50">
+        <button onclick="setLanguage('en')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1.5 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">日本語</button>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+            <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Home</a>
+            <span class="mx-2">/</span>
+            <span class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">AI</span>
+            <span class="mx-2">/</span>
+            <a href="/docs/AI/PromptFlow" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Prompt Flow</a>
+            <span class="mx-2">/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Concepts</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="en">Core Concepts</h1>
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="zh">核心概念</h1>
+            <h1 class="text-4xl font-bold tracking-tight mb-4" data-lang="ja">コアコンセプト</h1>
+        </header>
+
+        <!-- Main Content -->
+        <div class="space-y-16">
+            
+            <!-- Flows -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-xl font-semibold" data-lang="en">Flows</h2>
+                    <h2 class="text-xl font-semibold" data-lang="zh">流 (Flows)</h2>
+                    <h2 class="text-xl font-semibold" data-lang="ja">フロー (Flows)</h2>
+                </div>
+                <div class="md:col-span-3 space-y-4 text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        A Flow is a sequence of steps that link different tools together. It is represented as a DAG (Directed Acyclic Graph).
+                    </p>
+                    <p data-lang="zh">
+                        流是将不同工具链接在一起的一系列步骤。它表示为 DAG（有向无环图）。
+                    </p>
+                    <p data-lang="ja">
+                        フローは、さまざまなツールをリンクする一連のステップです。DAG（有向非巡回グラフ）として表されます。
+                    </p>
+
+                    <ul class="space-y-2 list-disc list-inside ml-4">
+                        <li data-lang="en"><strong>Standard Flow:</strong> General purpose flow for any LLM application.</li>
+                        <li data-lang="zh"><strong>标准流：</strong> 用于任何 LLM 应用程序的通用流。</li>
+                        <li data-lang="ja"><strong>標準フロー：</strong> あらゆる LLM アプリケーション向けの汎用フロー。</li>
+
+                        <li data-lang="en"><strong>Chat Flow:</strong> Optimized for conversational applications with history support.</li>
+                        <li data-lang="zh"><strong>聊天流：</strong> 专为具有历史记录支持的会话应用程序而优化。</li>
+                        <li data-lang="ja"><strong>チャットフロー：</strong> 履歴サポートを備えた会話型アプリケーション向けに最適化されています。</li>
+
+                        <li data-lang="en"><strong>Evaluation Flow:</strong> Designed to test and evaluate the performance of other flows.</li>
+                        <li data-lang="zh"><strong>评估流：</strong> 旨在测试和评估其他流的性能。</li>
+                        <li data-lang="ja"><strong>評価フロー：</strong> 他のフローのパフォーマンスをテストおよび評価するために設計されています。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tools -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8 border-t border-zinc-200 dark:border-zinc-800 pt-16">
+                <div class="md:col-span-1">
+                    <h2 class="text-xl font-semibold" data-lang="en">Tools</h2>
+                    <h2 class="text-xl font-semibold" data-lang="zh">工具 (Tools)</h2>
+                    <h2 class="text-xl font-semibold" data-lang="ja">ツール (Tools)</h2>
+                </div>
+                <div class="md:col-span-3 space-y-4 text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        Tools are the fundamental building blocks of a flow.
+                    </p>
+                    <p data-lang="zh">
+                        工具是流的基本构建块。
+                    </p>
+                    <p data-lang="ja">
+                        ツールは、フローの基本的な構成要素です。
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                            <h3 class="font-medium text-zinc-900 dark:text-zinc-100 mb-2">LLM Tool</h3>
+                            <p class="text-sm" data-lang="en">Execute prompts against Large Language Models like GPT-4.</p>
+                            <p class="text-sm" data-lang="zh">针对 GPT-4 等大型语言模型执行提示。</p>
+                            <p class="text-sm" data-lang="ja">GPT-4 などの大規模言語モデルに対してプロンプトを実行します。</p>
+                        </div>
+                        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                            <h3 class="font-medium text-zinc-900 dark:text-zinc-100 mb-2">Python Tool</h3>
+                            <p class="text-sm" data-lang="en">Run custom Python code for data processing or logic.</p>
+                            <p class="text-sm" data-lang="zh">运行自定义 Python 代码进行数据处理或逻辑运算。</p>
+                            <p class="text-sm" data-lang="ja">データ処理またはロジックのためにカスタム Python コードを実行します。</p>
+                        </div>
+                        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                            <h3 class="font-medium text-zinc-900 dark:text-zinc-100 mb-2">Prompt Tool</h3>
+                            <p class="text-sm" data-lang="en">Prepare prompts using Jinja2 templates.</p>
+                            <p class="text-sm" data-lang="zh">使用 Jinja2 模板准备提示。</p>
+                            <p class="text-sm" data-lang="ja">Jinja2 テンプレートを使用してプロンプトを準備します。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Variants & Evaluation -->
+             <section class="grid grid-cols-1 md:grid-cols-4 gap-8 border-t border-zinc-200 dark:border-zinc-800 pt-16">
+                <div class="md:col-span-1">
+                    <h2 class="text-xl font-semibold" data-lang="en">Variants & Evaluation</h2>
+                    <h2 class="text-xl font-semibold" data-lang="zh">变体与评估</h2>
+                    <h2 class="text-xl font-semibold" data-lang="ja">バリアントと評価</h2>
+                </div>
+                <div class="md:col-span-3 space-y-4 text-zinc-600 dark:text-zinc-400">
+                    <p data-lang="en">
+                        <strong>Variants</strong> allow you to create different versions of a node (e.g., different prompts or parameters) to compare their effectiveness.
+                    </p>
+                    <p data-lang="zh">
+                        <strong>变体</strong> 允许您创建节点的不同版本（例如，不同的提示或参数）以比较它们的有效性。
+                    </p>
+                    <p data-lang="ja">
+                        <strong>バリアント</strong> を使用すると、ノードの異なるバージョン（例：異なるプロンプトやパラメータ）を作成して、その有効性を比較できます。
+                    </p>
+
+                    <p data-lang="en">
+                        <strong>Evaluation</strong> uses metrics (like accuracy, coherence, or groundedness) to quantitatively measure the quality of your flow's output against a test dataset.
+                    </p>
+                    <p data-lang="zh">
+                        <strong>评估</strong> 使用指标（如准确性、连贯性或真实性）来定量测量流的输出相对于测试数据集的质量。
+                    </p>
+                    <p data-lang="ja">
+                        <strong>評価</strong> は、メトリクス（精度、一貫性、根拠など）を使用して、テストデータセットに対するフローの出力品質を定量的に測定します。
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
