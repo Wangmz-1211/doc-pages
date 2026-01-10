@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline: CES 2026 & Physical AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/2026/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to 2026 Overview</span>
+      <span data-lang="zh">返回 2026 概览</span>
+      <span data-lang="ja">2026年概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">CES 2026 • Jan 4-9</span>
+      <span class="px-2 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">CES 2026 • 1月4-9日</span>
+      <span class="px-2 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">CES 2026 • 1月4日〜9日</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">CES 2026 & The Rise of Physical AI</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">CES 2026 与物理 AI 的崛起</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">CES 2026と物理AIの台頭</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      The first week of January was dominated by CES 2026, marking a decisive shift from generative models to "Physical AI" and autonomous agents that interact with the real world.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      1月的第一周被 CES 2026 主导，标志着从生成式模型向“物理 AI”和能与现实世界交互的自主智能体的决定性转变。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      1月の第1週はCES 2026が話題を独占し、生成モデルから「物理AI」や現実世界と相互作用する自律型エージェントへの決定的なシフトを印象づけました。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Hardware for the "Agentic Era"</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">“智能体时代”的硬件</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">「エージェント時代」のためのハードウェア</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          NVIDIA unveiled the <strong>"Vera Rubin"</strong> platform, a superchip specifically engineered for agentic AI, enabling complex, multi-step autonomous reasoning. Meanwhile, <strong>Intel</strong> launched its Core Ultra Series 3, and <strong>AMD</strong> showcased the MI400 series, intensifying the on-device AI battle.
+        </p>
+        <p data-lang="zh">
+          NVIDIA 发布了 <strong>"Vera Rubin"</strong> 平台，这是一款专为智能体 AI 设计的超级芯片，支持复杂的多步骤自主推理。与此同时，<strong>Intel</strong> 推出了 Core Ultra Series 3，<strong>AMD</strong> 展示了 MI400 系列，加剧了端侧 AI 的竞争。
+        </p>
+        <p data-lang="ja">
+          NVIDIAは、複雑で多段階の自律的推論を可能にする、エージェントAI向けに特別に設計されたスーパーチッププラットフォーム<strong>「Vera Rubin」</strong>を発表しました。一方、<strong>Intel</strong>はCore Ultra Series 3を発売し、<strong>AMD</strong>はMI400シリーズを展示し、オンデバイスAI競争を激化させました。
+        </p>
+        
+        <div class="mt-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
+          <h3 class="text-lg font-medium mb-2" data-lang="en">Strategic Acquisitions</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="zh">战略收购</h3>
+          <h3 class="text-lg font-medium mb-2" data-lang="ja">戦略的買収</h3>
+          <ul class="list-disc pl-5 space-y-2 text-sm">
+            <li>
+              <span data-lang="en"><strong>Nvidia buys Groq ($20B):</strong> A massive move to dominate inference and real-time deployment.</span>
+              <span data-lang="zh"><strong>Nvidia 收购 Groq (200亿美元):</strong> 旨在主导推理和实时部署领域的巨大举措。</span>
+              <span data-lang="ja"><strong>NvidiaがGroqを買収 (200億ドル):</strong> 推論とリアルタイム展開を支配するための大規模な動き。</span>
+            </li>
+            <li>
+              <span data-lang="en"><strong>Alphabet buys Intersect ($4.75B):</strong> Securing clean energy to power the growing hunger of AI data centers.</span>
+              <span data-lang="zh"><strong>Alphabet 收购 Intersect (47.5亿美元):</strong> 确保清洁能源以满足 AI 数据中心日益增长的需求。</span>
+              <span data-lang="ja"><strong>AlphabetがIntersectを買収 (47.5億ドル):</strong> AIデータセンターの増大する電力需要を賄うためのクリーンエネルギーを確保。</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Robots & Physical AI</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">机器人与物理 AI</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">ロボットと物理AI</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The boundary between digital intelligence and physical action is dissolving. <strong>Google DeepMind</strong> integrated Gemini-class models into <strong>Boston Dynamics' Atlas</strong>, allowing it to perform unscripted tasks. <strong>Mobileye</strong> acquired Mentee Robotics to accelerate its push into humanoid robotics.
+        </p>
+        <p data-lang="zh">
+          数字智能与物理行动之间的界限正在消融。<strong>Google DeepMind</strong> 将 Gemini 级模型集成到 <strong>Boston Dynamics 的 Atlas</strong> 中，使其能够执行非预设脚本的任务。<strong>Mobileye</strong> 收购了 Mentee Robotics，以加速其进军人形机器人领域的步伐。
+        </p>
+        <p data-lang="ja">
+          デジタルインテリジェンスと物理的動作の境界線が溶解しつつあります。<strong>Google DeepMind</strong>はGeminiクラスのモデルを<strong>Boston DynamicsのAtlas</strong>に統合し、スクリプト化されていないタスクの実行を可能にしました。<strong>Mobileye</strong>はMentee Roboticsを買収し、人型ロボット分野への進出を加速させました。
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Consumer & Health AI</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">消费与健康 AI</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">消費者向けおよびヘルスケアAI</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+            <h3 class="text-lg font-bold mb-2 text-blue-600 dark:text-blue-400" data-lang="en">Home & Personal</h3>
+            <h3 class="text-lg font-bold mb-2 text-blue-600 dark:text-blue-400" data-lang="zh">家居与个人</h3>
+            <h3 class="text-lg font-bold mb-2 text-blue-600 dark:text-blue-400" data-lang="ja">ホーム＆パーソナル</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                Samsung's <strong>Vision AI Companion</strong> and LG's <strong>"Affectionate Intelligence"</strong> promise a frictionless smart home. Lenovo introduced <strong>Qira</strong>, an ambient AI that follows you across devices.
+            </p>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                三星的 <strong>Vision AI Companion</strong> 和 LG 的 <strong>"Affectionate Intelligence"</strong> 承诺打造无缝的智能家居。联想推出了 <strong>Qira</strong>，这是一种可以跨设备跟随您的环境 AI。
+            </p>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                Samsungの<strong>Vision AI Companion</strong>とLGの<strong>「Affectionate Intelligence」</strong>は、摩擦のないスマートホームを約束します。Lenovoは、デバイス間でユーザーをフォローするアンビエントAI、<strong>Qira</strong>を導入しました。
+            </p>
+        </div>
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+            <h3 class="text-lg font-bold mb-2 text-green-600 dark:text-green-400" data-lang="en">Healthcare Breakthroughs</h3>
+            <h3 class="text-lg font-bold mb-2 text-green-600 dark:text-green-400" data-lang="zh">医疗突破</h3>
+            <h3 class="text-lg font-bold mb-2 text-green-600 dark:text-green-400" data-lang="ja">ヘルスケアのブレークスルー</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                Stanford's <strong>SleepFM</strong> predicts disease risk from sleep data. OpenAI launched <strong>ChatGPT Health</strong>, a dedicated, secure platform for health information.
+            </p>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                斯坦福大学的 <strong>SleepFM</strong> 通过睡眠数据预测疾病风险。OpenAI 推出了 <strong>ChatGPT Health</strong>，这是一个专用于健康信息的安全平台。
+            </p>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                スタンフォード大学の<strong>SleepFM</strong>は、睡眠データから病気のリスクを予測します。OpenAIは、健康情報のための専用で安全なプラットフォームである<strong>ChatGPT Health</strong>を立ち上げました。
+            </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-12">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://www.ces.tech/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">CES Official</div>
+          <div class="text-xs text-zinc-500">Keynotes and announcements from CES 2026.</div>
+        </a>
+        <a href="https://nvidianews.nvidia.com/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">NVIDIA Newsroom</div>
+          <div class="text-xs text-zinc-500">Vera Rubin platform & Groq acquisition details.</div>
+        </a>
+        <a href="https://blog.google/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Google The Keyword</div>
+          <div class="text-xs text-zinc-500">DeepMind and Boston Dynamics partnership.</div>
+        </a>
+        <a href="https://www.mobileye.com/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Mobileye News</div>
+          <div class="text-xs text-zinc-500">Acquisition of Mentee Robotics.</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
