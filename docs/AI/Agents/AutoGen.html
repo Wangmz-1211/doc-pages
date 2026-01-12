@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft AutoGen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+    pre { background-color: #18181b; color: #f4f4f5; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.875rem; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/Agents/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Agents</span>
+      <span data-lang="zh">返回智能体</span>
+      <span data-lang="ja">エージェントに戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase">Microsoft</span>
+      <span class="px-2 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold tracking-wide uppercase">Open Source</span>
+    </div>
+
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="en">Microsoft AutoGen</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="zh">微软 AutoGen</h1>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-lang="ja">Microsoft AutoGen</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      A framework that enables the development of LLM applications using multiple agents that can converse with each other to solve tasks.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      一个允许使用多个可以通过相互交谈来解决任务的智能体开发 LLM 应用程序的框架。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      互いに会話してタスクを解決できる複数のエージェントを使用して、LLMアプリケーションの開発を可能にするフレームワーク。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">What is AutoGen?</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">什么是 AutoGen？</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">AutoGenとは？</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          AutoGen is an open-source programming framework for building AI agents and facilitating cooperation among multiple agents to solve tasks. It simplifies the orchestration, optimization, and automation of LLM workflows.
+        </p>
+        <p data-lang="zh">
+          AutoGen 是一个开源编程框架，用于构建 AI 智能体并促进多智能体之间的协作以解决任务。它简化了 LLM 工作流的编排、优化和自动化。
+        </p>
+        <p data-lang="ja">
+          AutoGenは、AIエージェントを構築し、タスクを解決するための複数エージェント間の協力を促進するためのオープンソースプログラミングフレームワークです。LLMワークフローのオーケストレーション、最適化、自動化を簡素化します。
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Core Concepts</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">核心概念</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">コアコンセプト</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+          <h3 class="text-lg font-bold mb-2 text-zinc-900 dark:text-zinc-100">ConversableAgent</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            The base class for all agents. It can communicate with other agents and perform actions based on messages.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            所有智能体的基类。它可以与其他智能体通信并根据消息执行操作。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            すべてのエージェントの基本クラス。他のエージェントと通信し、メッセージに基づいてアクションを実行できます。
+          </p>
+        </div>
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+          <h3 class="text-lg font-bold mb-2 text-zinc-900 dark:text-zinc-100">UserProxyAgent</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            A proxy for the human user. It can execute code locally and solicit human input when necessary.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            人类用户的代理。它可以在本地执行代码，并在必要时征求人类输入。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            人間のユーザーのプロキシ。ローカルでコードを実行し、必要に応じて人間の入力を求めることができます。
+          </p>
+        </div>
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+          <h3 class="text-lg font-bold mb-2 text-zinc-900 dark:text-zinc-100">AssistantAgent</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            An AI assistant agent powered by an LLM (e.g., GPT-4). It can write code, analyze data, and suggest plans.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            由 LLM (如 GPT-4) 驱动的 AI 助手智能体。它可以编写代码、分析数据并提出计划。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            LLM（例：GPT-4）を搭載したAIアシスタントエージェント。コードの記述、データの分析、計画の提案が可能です。
+          </p>
+        </div>
+        <div class="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+          <h3 class="text-lg font-bold mb-2 text-zinc-900 dark:text-zinc-100">GroupChat</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            A manager that orchestrates conversations between more than two agents, handling speaker selection and context.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            一个编排两个以上智能体之间对话的管理器，处理发言人选择和上下文。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            2つ以上のエージェント間の会話を調整し、話者の選択とコンテキストを処理するマネージャー。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Example: Code Execution</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">示例：代码执行</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">例：コード実行</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The following example demonstrates how a UserProxyAgent and an AssistantAgent collaborate to plot a stock price chart. The Assistant writes the code, and the UserProxy executes it.
+        </p>
+        <p data-lang="zh">
+          以下示例演示了 UserProxyAgent 和 AssistantAgent 如何协作绘制股票价格图表。助手编写代码，UserProxy 执行代码。
+        </p>
+        <p data-lang="ja">
+          次の例は、UserProxyAgentとAssistantAgentが協力して株価チャートをプロットする方法を示しています。アシスタントがコードを記述し、UserProxyがそれを実行します。
+        </p>
+
+<pre><code class="language-python">from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
+
+# Load LLM config
+config_list = config_list_from_json(env_or_file="OAI_CONFIG_LIST")
+
+# Create the assistant agent
+assistant = AssistantAgent(
+    name="assistant",
+    llm_config={"config_list": config_list}
+)
+
+# Create the user proxy agent
+user_proxy = UserProxyAgent(
+    name="user_proxy",
+    code_execution_config={"work_dir": "coding"},
+    human_input_mode="NEVER"
+)
+
+# Start the conversation
+user_proxy.initiate_chat(
+    assistant,
+    message="Plot a chart of NVDA and TESLA stock price change YTD."
+)</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">2026: The New Microsoft Agent Framework</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">2026: 新的微软智能体框架</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">2026年: 新しいMicrosoftエージェントフレームワーク</h2>
+
+      <div class="bg-indigo-50 dark:bg-indigo-900/10 border-l-4 border-indigo-500 p-4 my-4">
+        <p class="text-indigo-800 dark:text-indigo-200 font-medium" data-lang="en">
+          <strong>Strategic Shift:</strong> As of late 2025, Microsoft has begun unifying <strong>AutoGen</strong> and <strong>Semantic Kernel</strong> into a single, enterprise-grade <strong>"Microsoft Agent Framework"</strong>.
+        </p>
+        <p class="text-indigo-800 dark:text-indigo-200 font-medium" data-lang="zh">
+          <strong>战略转变：</strong> 截至 2025 年底，微软已开始将 <strong>AutoGen</strong> 和 <strong>Semantic Kernel</strong> 统一为一个单一的、企业级的 <strong>"Microsoft Agent Framework"</strong>。
+        </p>
+        <p class="text-indigo-800 dark:text-indigo-200 font-medium" data-lang="ja">
+          <strong>戦略的シフト：</strong> 2025年末の時点で、Microsoftは<strong>AutoGen</strong>と<strong>Semantic Kernel</strong>を単一のエンタープライズグレードの<strong>「Microsoft Agent Framework」</strong>に統合し始めました。
+        </p>
+        
+        <div class="mt-4 text-sm text-zinc-600 dark:text-zinc-400 space-y-2">
+           <p data-lang="en">While AutoGen 0.4 introduced better event-driven architecture, the new unified framework aims to combine Semantic Kernel's enterprise connectors with AutoGen's orchestration capabilities.</p>
+           <p data-lang="zh">虽然 AutoGen 0.4 引入了更好的事件驱动架构，但新的统一框架旨在将 Semantic Kernel 的企业连接器与 AutoGen 的编排能力相结合。</p>
+           <p data-lang="ja">AutoGen 0.4ではより優れたイベント駆動型アーキテクチャが導入されましたが、新しい統合フレームワークは、Semantic KernelのエンタープライズコネクタとAutoGenのオーケストレーション機能を組み合わせることを目指しています。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-12">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://microsoft.github.io/autogen/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">AutoGen Documentation</div>
+          <div class="text-xs text-zinc-500">Official docs for the Python library.</div>
+        </a>
+        <a href="https://github.com/microsoft/autogen" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">GitHub Repository</div>
+          <div class="text-xs text-zinc-500">Source code, examples, and roadmap.</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline: Mid-January 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/2026/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to 2026 Overview</span>
+      <span data-lang="zh">返回 2026 概览</span>
+      <span data-lang="ja">2026年概要に戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">Mid-Jan 2026 • Jan 10-15</span>
+      <span class="px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">2026年1月中旬 • 1月10-15日</span>
+      <span class="px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">2026年1月中旬 • 1月10日〜15日</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">Efficiency, Energy & Ethics</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">效率、能源与伦理</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">効率性、エネルギー、そして倫理</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      Following the hardware frenzy of CES, the focus shifts to efficient model architectures, sustainable power infrastructure, and the ongoing challenge of AI governance.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      继 CES 的硬件狂潮之后，焦点转向了高效的模型架构、可持续的电力基础设施以及 AI 治理面临的持续挑战。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      CESのハードウェア熱が冷めやらぬ中、焦点は効率的なモデルアーキテクチャ、持続可能な電力インフラ、そしてAIガバナンスという継続的な課題へと移っています。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Small is the New Big</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">小即是新大</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">「小」は新しい「大」</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          The <strong>Technology Innovation Institute (TII)</strong> has released <strong>Falcon-H1R 7B</strong>, a compact model that defies the scaling laws. Despite its small size, it reportedly matches the reasoning and coding capabilities of models seven times larger, signaling a pivotal shift towards highly optimized, edge-ready AI.
+        </p>
+        <p data-lang="zh">
+          <strong>技术创新研究所 (TII)</strong> 发布了 <strong>Falcon-H1R 7B</strong>，这是一款打破缩放定律的紧凑型模型。尽管体积小巧，但据报道，它的推理和编码能力可与比其大七倍的模型相媲美，标志着向高度优化、边缘就绪型 AI 的关键转变。
+        </p>
+        <p data-lang="ja">
+          <strong>技術革新研究所 (TII)</strong>は、スケーリング則に挑むコンパクトなモデル<strong>Falcon-H1R 7B</strong>をリリースしました。そのサイズにもかかわらず、7倍の大きさのモデルに匹敵する推論能力とコーディング能力を持つと報告されており、高度に最適化されたエッジ対応AIへの重要なシフトを示しています。
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Powering the Future</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">为未来供能</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">未来への動力</h2>
+
+      <div class="prose max-w-none text-zinc-600 dark:text-zinc-400">
+        <p data-lang="en">
+          As AI's energy appetite grows, <strong>Meta</strong> has announced a landmark partnership with nuclear energy firms <strong>Oklo</strong> and <strong>TerraPower</strong>. This initiative aims to power Meta's next-generation data centers with clean, reliable nuclear energy, addressing one of the most critical bottlenecks in AI scaling.
+        </p>
+        <p data-lang="zh">
+          随着 AI 能源需求的增长，<strong>Meta</strong> 宣布与核能公司 <strong>Oklo</strong> 和 <strong>TerraPower</strong> 建立具有里程碑意义的合作伙伴关系。该计划旨在利用清洁、可靠的核能为 Meta 的下一代数据中心供电，解决 AI 扩展中最关键的瓶颈之一。
+        </p>
+        <p data-lang="ja">
+          AIのエネルギー需要が増大する中、<strong>Meta</strong>は核エネルギー企業の<strong>Oklo</strong>および<strong>TerraPower</strong>との画期的なパートナーシップを発表しました。この取り組みは、Metaの次世代データセンターにクリーンで信頼性の高い核エネルギーを供給し、AIのスケーリングにおける最も重要なボトルネックの1つに対処することを目的としています。
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Governance & Accuracy</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">治理与准确性</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">ガバナンスと正確性</h2>
+
+      <div class="bg-amber-50 dark:bg-amber-900/10 border-l-4 border-amber-500 p-4 my-4">
+        <p class="text-amber-800 dark:text-amber-200 font-medium" data-lang="en">
+          <strong>Google</strong> has voluntarily rolled back specific "AI Overview" features following a Guardian investigation that exposed inaccuracies in health-related queries. This highlights the industry's continued struggle with hallucination in critical domains and the increasing pressure for responsible AI deployment.
+        </p>
+        <p class="text-amber-800 dark:text-amber-200 font-medium" data-lang="zh">
+          在卫报调查揭露了健康相关查询中的不准确性后，<strong>Google</strong> 自愿回滚了特定的“AI 概览”功能。这凸显了行业在关键领域与幻觉问题的持续斗争，以及对负责任 AI 部署日益增长的压力。
+        </p>
+        <p class="text-amber-800 dark:text-amber-200 font-medium" data-lang="ja">
+          健康関連のクエリにおける不正確さを暴露したガーディアン紙の調査を受け、<strong>Google</strong>は特定の「AI概要」機能を自主的にロールバックしました。これは、重要な領域におけるハルシネーション（幻覚）との業界の継続的な闘いと、責任あるAI展開への高まる圧力を浮き彫りにしています。
+        </p>
+      </div>
+    </section>
+
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-12">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://www.tii.ae/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Technology Innovation Institute</div>
+          <div class="text-xs text-zinc-500">Official announcement of Falcon-H1R 7B.</div>
+        </a>
+        <a href="https://www.theguardian.com/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">The Guardian</div>
+          <div class="text-xs text-zinc-500">Investigation into Google AI Overviews.</div>
+        </a>
+        <a href="https://about.meta.com/news/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Meta Newsroom</div>
+          <div class="text-xs text-zinc-500">Details on nuclear energy partnerships.</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
