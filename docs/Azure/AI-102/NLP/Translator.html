@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Translator (AI-102) - Comprehensive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+        .code-block { background-color: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; font-size: 0.875rem; line-height: 1.5; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="en">Azure AI Translator</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="zh">Azure AI 翻译</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="ja">Azure AI Translator</h1>
+        
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="en">
+            Globalizing applications with text and document translation. Covers Custom Translator training, dictionary usage, and No-Trace security policies.
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="zh">
+            使用文本和文档翻译实现应用程序全球化。涵盖自定义翻译训练、字典使用和无痕迹安全策略。
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="ja">
+            テキストとドキュメントの翻訳によるアプリケーションのグローバル化。Custom Translator のトレーニング、辞書の使用、No-Trace セキュリティポリシーについて説明します。
+        </p>
+    </header>
+
+    <main class="space-y-16">
+
+        <!-- 1. Custom Translator -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">1. Custom Translator</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">1. 自定义翻译</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">1. Custom Translator</h2>
+            
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                When standard translation lacks industry-specific terminology (e.g., Legal, Medical, Automotive), use Custom Translator to build a NMT model.
+            </p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                当标准翻译缺乏特定行业的术语（例如，法律、医疗、汽车）时，使用自定义翻译来构建 NMT 模型。
+            </p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                標準翻訳に業界固有の用語（例：法律、医療、自動車）が欠けている場合は、Custom Translator を使用して NMT モデルを構築します。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-lg mb-3" data-lang="en">Document Types for Training</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="zh">训练文档类型</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="ja">トレーニング用ドキュメントの種類</h3>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+                        <li>
+                            <strong data-lang="en">Parallel Data (Required):</strong>
+                            <strong data-lang="zh">平行数据（必需）：</strong>
+                            <strong data-lang="ja">対訳データ（必須）：</strong>
+                            <span data-lang="en">Source sentence aligned with Target sentence. (e.g., .tmx, .xliff, .txt).</span>
+                            <span data-lang="zh">源句子与目标句子对齐。（例如 .tmx, .xliff, .txt）。</span>
+                            <span data-lang="ja">ソース文とターゲット文が整列しているもの（例：.tmx, .xliff, .txt）。</span>
+                        </li>
+                        <li>
+                            <strong data-lang="en">Dictionary Data:</strong>
+                            <strong data-lang="zh">字典数据：</strong>
+                            <strong data-lang="ja">辞書データ：</strong>
+                            <span data-lang="en">Force a specific translation for a term (Phrase or Sentence).</span>
+                            <span data-lang="zh">强制术语的特定翻译（短语或句子）。</span>
+                            <span data-lang="ja">用語の特定の翻訳を強制します（フレーズまたは文）。</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-lg mb-3" data-lang="en">Evaluation (BLEU Score)</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="zh">评估 (BLEU 分数)</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="ja">評価 (BLEU スコア)</h3>
+                    <p class="text-sm text-zinc-700 dark:text-zinc-300 mb-2" data-lang="en">
+                        The <strong>BLEU (Bilingual Evaluation Understudy)</strong> score measures how close the machine translation is to a human reference.
+                    </p>
+                    <p class="text-sm text-zinc-700 dark:text-zinc-300 mb-2" data-lang="zh">
+                        <strong>BLEU (Bilingual Evaluation Understudy)</strong> 分数衡量机器翻译与人工参考翻译的接近程度。
+                    </p>
+                    <p class="text-sm text-zinc-700 dark:text-zinc-300 mb-2" data-lang="ja">
+                        <strong>BLEU (Bilingual Evaluation Understudy)</strong> スコアは、機械翻訳が人間の参照翻訳にどれだけ近いかを測定します。
+                    </p>
+                    <div class="bg-white dark:bg-black p-2 rounded text-xs font-mono border border-zinc-200 dark:border-zinc-700">
+                        Higher is better.<br>
+                        Baseline BLEU: Standard Model score.<br>
+                        Custom BLEU: Your trained model score.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Security: No-Trace -->
+        <section class="border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">2. No-Trace Policy</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">2. 无痕迹策略</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">2. No-Trace ポリシー</h2>
+            
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                Unlike some other services, Azure Translator is <strong>No-Trace</strong>. Submitted text is processed in memory and never written to persistent storage, ensuring data privacy for enterprise use cases.
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                与其他一些服务不同，Azure 翻译是<strong>无痕迹</strong>的。提交的文本在内存中处理，从不写入持久存储，确保企业用例的数据隐私。
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                他のいくつかのサービスとは異なり、Azure Translator は <strong>No-Trace</strong> です。送信されたテキストはメモリ内で処理され、永続ストレージに書き込まれることはないため、エンタープライズユースケースのデータプライバシーが保証されます。
+            </p>
+        </section>
+
+        <!-- 3. Document Translation Nuances -->
+        <section class="border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">3. Document Translation Nuances</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">3. 文档翻译细微差别</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">3. ドキュメント翻訳のニュアンス</h2>
+            
+            <ul class="space-y-4 text-zinc-700 dark:text-zinc-300">
+                <li class="flex items-start">
+                    <span class="mr-2 text-blue-500 font-bold">&bull;</span>
+                    <div>
+                        <strong data-lang="en">Glossaries:</strong>
+                        <strong data-lang="zh">术语表：</strong>
+                        <strong data-lang="ja">用語集：</strong>
+                        <span data-lang="en">You can upload a glossary file alongside the document to enforce specific translations for brand names.</span>
+                        <span data-lang="zh">您可以上传术语表文件与文档一起，以强制品牌名称的特定翻译。</span>
+                        <span data-lang="ja">ドキュメントと一緒に用語集ファイルをアップロードして、ブランド名の特定の翻訳を強制できます。</span>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2 text-blue-500 font-bold">&bull;</span>
+                    <div>
+                        <strong data-lang="en">Formatting:</strong>
+                        <strong data-lang="zh">格式：</strong>
+                        <strong data-lang="ja">フォーマット：</strong>
+                        <span data-lang="en">Supports converting PDF to Word (scanned PDFs are NOT supported directly, need OCR first).</span>
+                        <span data-lang="zh">支持将 PDF 转换为 Word（不直接支持扫描的 PDF，需要先进行 OCR）。</span>
+                        <span data-lang="ja">PDF から Word への変換をサポートします（スキャンされた PDF は直接サポートされていません。最初に OCR が必要です）。</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>

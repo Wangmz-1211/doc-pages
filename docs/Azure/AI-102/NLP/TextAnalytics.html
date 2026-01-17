@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Text Analytics (AI-102) - Comprehensive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+        .code-block { background-color: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; font-size: 0.875rem; line-height: 1.5; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="en">Azure AI Language: Text Analytics Deep Dive</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="zh">Azure AI 语言：文本分析深度指南</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="ja">Azure AI Language: テキスト分析詳細ガイド</h1>
+        
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="en">
+            A comprehensive guide to extracting insights from unstructured text, covering advanced topics like Health Analytics, Opinion Mining, Asynchronous processing, and Containerization strategies for the AI-102 exam.
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="zh">
+            从非结构化文本中提取见解的综合指南，涵盖健康分析、意见挖掘、异步处理和 AI-102 考试的容器化策略等高级主题。
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="ja">
+            非構造化テキストから洞察を抽出するための包括的なガイド。AI-102試験向けのヘルス分析、オピニオンマイニング、非同期処理、コンテナ化戦略などの高度なトピックを網羅しています。
+        </p>
+    </header>
+
+    <main class="space-y-16">
+        
+        <!-- Table of Contents -->
+        <nav class="bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
+            <h2 class="text-lg font-bold mb-4 uppercase tracking-wider text-zinc-500" data-lang="en">Contents</h2>
+            <h2 class="text-lg font-bold mb-4 uppercase tracking-wider text-zinc-500" data-lang="zh">目录</h2>
+            <h2 class="text-lg font-bold mb-4 uppercase tracking-wider text-zinc-500" data-lang="ja">目次</h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-blue-600 dark:text-blue-400">
+                <li><a href="#lang-detect" class="hover:underline">1. Advanced Language Detection</a></li>
+                <li><a href="#sentiment" class="hover:underline">2. Sentiment Analysis & Opinion Mining</a></li>
+                <li><a href="#ner" class="hover:underline">3. NER & PII Detection Policies</a></li>
+                <li><a href="#health" class="hover:underline">4. Text Analytics for Health</a></li>
+                <li><a href="#async" class="hover:underline">5. Asynchronous Batch Processing</a></li>
+                <li><a href="#containers" class="hover:underline">6. Docker Containers (On-Prem)</a></li>
+                <li><a href="#security" class="hover:underline">7. Security & Privacy</a></li>
+            </ul>
+        </nav>
+
+        <!-- 1. Language Detection -->
+        <section id="lang-detect" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">01</span>
+                <span data-lang="en">Advanced Language Detection</span>
+                <span data-lang="zh">高级语言检测</span>
+                <span data-lang="ja">高度な言語検出</span>
+            </h2>
+            
+            <div class="prose dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 mb-6">
+                <p data-lang="en">Beyond basic detection, the service handles mixed languages and ambiguous content. It analyzes the script, sentence structure, and vocabulary distribution.</p>
+                <p data-lang="zh">除了基本检测之外，该服务还可以处理混合语言和模棱两可的内容。它分析脚本、句子结构和词汇分布。</p>
+                <p data-lang="ja">基本的な検出に加えて、このサービスは混合言語や曖昧なコンテンツを処理します。スクリプト、文構造、語彙分布を分析します。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+                <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                    <h3 class="font-bold text-lg mb-3" data-lang="en">Handling Ambiguity</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="zh">处理歧义</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="ja">曖昧さの処理</h3>
+                    <p class="text-sm mb-4" data-lang="en">Some words exist in multiple languages (e.g., "impossible" in English and French). The <code>country_hint</code> parameter guides the model.</p>
+                    <p class="text-sm mb-4" data-lang="zh">有些单词存在于多种语言中（例如，英语和法语中的“impossible”）。<code>country_hint</code> 参数可指导模型。</p>
+                    <p class="text-sm mb-4" data-lang="ja">一部の単語は複数の言語に存在します（例：英語とフランス語の「impossible」）。<code>country_hint</code> パラメータがモデルをガイドします。</p>
+                    <ul class="list-disc list-inside text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                        <li><strong>Input:</strong> "impossible" (country_hint="US") &rarr; <strong>English</strong></li>
+                        <li><strong>Input:</strong> "impossible" (country_hint="FR") &rarr; <strong>French</strong></li>
+                        <li><strong>Input:</strong> ":-)" &rarr; <strong>Unknown (Score: NaN)</strong></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                    <h3 class="font-bold text-lg mb-3" data-lang="en">Mixed Language Content</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="zh">混合语言内容</h3>
+                    <h3 class="font-bold text-lg mb-3" data-lang="ja">混合言語コンテンツ</h3>
+                    <p class="text-sm mb-4" data-lang="en">The service returns the <strong>predominant</strong> language. It does not separate the text into segments by language.</p>
+                    <p class="text-sm mb-4" data-lang="zh">该服务返回<strong>主要</strong>语言。它不会按语言将文本分割成段。</p>
+                    <p class="text-sm mb-4" data-lang="ja">サービスは<strong>主要な</strong>言語を返します。言語ごとにテキストをセグメントに分割することはありません。</p>
+                    <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded text-xs border-l-4 border-yellow-500">
+                        <strong data-lang="en">Warning:</strong>
+                        <strong data-lang="zh">警告：</strong>
+                        <strong data-lang="ja">警告：</strong>
+                        <span data-lang="en">If the text is widely mixed (50/50), the score will be lower, but it will still pick one ISO code.</span>
+                        <span data-lang="zh">如果文本混合广泛 (50/50)，分数会较低，但它仍会选择一个 ISO 代码。</span>
+                        <span data-lang="ja">テキストが広く混在している場合（50/50）、スコアは低くなりますが、それでも1つのISOコードを選択します。</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Sentiment Analysis -->
+        <section id="sentiment" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">02</span>
+                <span data-lang="en">Sentiment Analysis & Opinion Mining</span>
+                <span data-lang="zh">情感分析与意见挖掘</span>
+                <span data-lang="ja">感情分析とオピニオンマイニング</span>
+            </h2>
+
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-3" data-lang="en">Opinion Mining (Aspect-Based Sentiment)</h3>
+                <h3 class="text-xl font-semibold mb-3" data-lang="zh">意见挖掘（基于方面的情感）</h3>
+                <h3 class="text-xl font-semibold mb-3" data-lang="ja">オピニオンマイニング（アスペクトベースの感情）</h3>
+                <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                    Standard sentiment gives a score for the whole document. <strong>Opinion Mining</strong> breaks it down by identifying <em>targets</em> (nouns) and <em>assessments</em> (adjectives). This is critical for product reviews.
+                </p>
+                <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                    标准情感分析给出整个文档的分数。<strong>意见挖掘</strong>通过识别<em>目标</em>（名词）和<em>评估</em>（形容词）将其细分。这对于产品评论至关重要。
+                </p>
+                <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                    標準的な感情分析は、ドキュメント全体のスコアを提供します。<strong>オピニオンマイニング</strong>は、<em>ターゲット</em>（名詞）と<em>評価</em>（形容詞）を特定することで詳細に分析します。これは製品レビューにとって重要です。
+                </p>
+
+                <!-- Complex Code Example -->
+                <div class="code-block mt-4">
+<pre><code class="language-python"><span class="keyword">from</span> azure.ai.textanalytics <span class="keyword">import</span> TextAnalyticsClient
+<span class="keyword">from</span> azure.core.credentials <span class="keyword">import</span> AzureKeyCredential
+
+<span class="comment"># Initialize client</span>
+endpoint = <span class="string">"https://&lt;your-resource&gt;.cognitiveservices.azure.com/"</span>
+key = <span class="string">"&lt;your-key&gt;"</span>
+client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+
+documents = [ 
+    <span class="string">"The room was great, but the staff was rude. The breakfast was cold."</span> 
+]
+
+<span class="comment"># Enable Opinion Mining</span>
+result = client.analyze_sentiment(documents, <span class="keyword">show_opinion_mining</span>=<span class="keyword">True</span>)
+docs = [doc <span class="keyword">for</span> doc <span class="keyword">in</span> result <span class="keyword">if</span> <span class="keyword">not</span> doc.is_error]
+
+<span class="keyword">for</span> doc <span class="keyword">in</span> docs:
+    <span class="function">print</span>(<span class="string">f"Document Sentiment: {doc.sentiment}"</span>) <span class="comment"># Mixed</span>
+    <span class="keyword">for</span> sentence <span class="keyword">in</span> doc.sentences:
+        <span class="function">print</span>(<span class="string">f"Sentence: {sentence.text}"</span>)
+        <span class="keyword">for</span> mined_opinion <span class="keyword">in</span> sentence.mined_opinions:
+            target = mined_opinion.target
+            <span class="function">print</span>(<span class="string">f"  Target: '{target.text}' ({target.sentiment})"</span>)
+            <span class="keyword">for</span> assessment <span class="keyword">in</span> mined_opinion.assessments:
+                 <span class="function">print</span>(<span class="string">f"    Assessment: '{assessment.text}' ({assessment.sentiment})"</span>)
+
+<span class="comment"># Output Example:</span>
+<span class="comment"># Sentence: The room was great, but the staff was rude.</span>
+<span class="comment">#   Target: 'room' (positive) -> Assessment: 'great' (positive)</span>
+<span class="comment">#   Target: 'staff' (negative) -> Assessment: 'rude' (negative)</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. NER & PII -->
+        <section id="ner" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">03</span>
+                <span data-lang="en">NER & PII Detection Policies</span>
+                <span data-lang="zh">NER 与 PII 检测策略</span>
+                <span data-lang="ja">NER と PII 検出ポリシー</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3" data-lang="en">PII (Personally Identifiable Information)</h3>
+                    <h3 class="text-xl font-semibold mb-3" data-lang="zh">PII (个人身份信息)</h3>
+                    <h3 class="text-xl font-semibold mb-3" data-lang="ja">PII (個人を特定できる情報)</h3>
+                    <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="en">Essential for compliance (GDPR, HIPAA). The service can identify entities and <strong>redact</strong> them in the output.</p>
+                    <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="zh">对于合规性（GDPR、HIPAA）至关重要。该服务可以识别实体并在输出中<strong>编校（掩盖）</strong>它们。</p>
+                    <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="ja">コンプライアンス（GDPR、HIPAA）に不可欠です。サービスはエンティティを識別し、出力でそれらを<strong>編集（秘匿化）</strong>できます。</p>
+                    
+                    <ul class="list-disc list-inside text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+                        <li><strong>General:</strong> Email, Phone, Address, IP Address.</li>
+                        <li><strong>Finance:</strong> Credit Card, SWIFT code, IBAN.</li>
+                        <li><strong>Government:</strong> SSN (US), Driver's License, Passport.</li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="text-xl font-semibold mb-3" data-lang="en">Entity Linking</h3>
+                     <h3 class="text-xl font-semibold mb-3" data-lang="zh">实体链接</h3>
+                     <h3 class="text-xl font-semibold mb-3" data-lang="ja">エンティティリンク</h3>
+                     <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="en">Disambiguates entities by linking them to a knowledge base (Wikipedia). It provides the <code>url</code> and <code>dataSource</code>.</p>
+                     <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="zh">通过将实体链接到知识库（维基百科）来消除实体的歧义。它提供 <code>url</code> 和 <code>dataSource</code>。</p>
+                     <p class="text-zinc-700 dark:text-zinc-300 mb-2" data-lang="ja">エンティティをナレッジベース（ウィキペディア）にリンクすることで、エンティティの曖昧さを解消します。<code>url</code> と <code>dataSource</code> を提供します。</p>
+                     <div class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs font-mono">
+                         "Venus" &rarr; Linked to Planet (Context: Space)<br>
+                         "Venus" &rarr; Linked to Goddess (Context: Mythology)
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Text Analytics for Health -->
+        <section id="health" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-purple-100 text-purple-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">04</span>
+                <span data-lang="en">Text Analytics for Health</span>
+                <span data-lang="zh">健康文本分析</span>
+                <span data-lang="ja">健康向けテキスト分析</span>
+            </h2>
+
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-xl border border-blue-100 dark:border-blue-800 mb-8">
+                <p class="text-lg font-medium text-blue-800 dark:text-blue-200" data-lang="en">
+                    A specialized model trained on medical data to extract insights from unstructured clinical documents like discharge summaries, doctor's notes, and trial protocols.
+                </p>
+                <p class="text-lg font-medium text-blue-800 dark:text-blue-200" data-lang="zh">
+                    一种在医疗数据上训练的专用模型，用于从非结构化临床文档（如出院小结、医生笔记和试验方案）中提取见解。
+                </p>
+                <p class="text-lg font-medium text-blue-800 dark:text-blue-200" data-lang="ja">
+                    医療データでトレーニングされた特殊なモデルで、退院サマリー、医師のメモ、治験実施計画書などの非構造化臨床ドキュメントから洞察を抽出します。
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4" data-lang="en">Key Capabilities</h3>
+            <h3 class="text-xl font-bold mb-4" data-lang="zh">关键能力</h3>
+            <h3 class="text-xl font-bold mb-4" data-lang="ja">主な機能</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg">
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="en">Named Entity Recognition</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="zh">命名实体识别</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="ja">固有表現抽出</h4>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">Detects <strong>Diagnosis</strong>, <strong>Medication Name</strong>, <strong>Dosage</strong>, <strong>Route of Administration</strong>, <strong>Symptom</strong>.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">检测<strong>诊断</strong>、<strong>药物名称</strong>、<strong>剂量</strong>、<strong>给药途径</strong>、<strong>症状</strong>。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja"><strong>診断</strong>、<strong>薬名</strong>、<strong>用量</strong>、<strong>投与経路</strong>、<strong>症状</strong>を検出します。</p>
+                </div>
+                <div class="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg">
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="en">Relation Extraction</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="zh">关系提取</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="ja">関係抽出</h4>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">Connects entities: <em>"100mg"</em> (Dosage) &rarr; related to &rarr; <em>"Ibuprofen"</em> (Medication).</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">连接实体：<em>"100mg"</em>（剂量）&rarr; 相关于 &rarr; <em>"布洛芬"</em>（药物）。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">エンティティを接続します：<em>"100mg"</em>（用量）&rarr; 関連 &rarr; <em>"イブプロフェン"</em>（薬剤）。</p>
+                </div>
+                <div class="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg">
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="en">Entity Linking (Ontologies)</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="zh">实体链接（本体）</h4>
+                    <h4 class="font-bold text-zinc-900 dark:text-zinc-100 mb-2" data-lang="ja">エンティティリンク（オントロジー）</h4>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">Maps terms to standard coding systems: <strong>UMLS</strong>, <strong>SNOMED CT</strong>, <strong>ICD-10</strong>, <strong>RxNorm</strong>.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">将术语映射到标准编码系统：<strong>UMLS</strong>、<strong>SNOMED CT</strong>、<strong>ICD-10</strong>、<strong>RxNorm</strong>。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">用語を標準コーディングシステムにマッピングします：<strong>UMLS</strong>、<strong>SNOMED CT</strong>、<strong>ICD-10</strong>、<strong>RxNorm</strong>。</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+<pre><code class="language-python"><span class="comment"># Text Analytics for Health - Asynchronous Operation</span>
+poller = client.begin_analyze_healthcare_entities(documents)
+result = poller.result()
+
+<span class="keyword">for</span> doc <span class="keyword">in</span> result:
+    <span class="keyword">for</span> entity <span class="keyword">in</span> doc.entities:
+        <span class="function">print</span>(<span class="string">f"Entity: {entity.text}, Category: {entity.category}"</span>)
+        <span class="keyword">if</span> entity.data_sources:
+            <span class="keyword">for</span> ds <span class="keyword">in</span> entity.data_sources:
+                 <span class="function">print</span>(<span class="string">f"  Linked to {ds.name}: {ds.entity_id}"</span>)
+    
+    <span class="comment"># Assertion Detection (Negative/Conditional)</span>
+    <span class="comment"># Example: "Patient does NOT have fever" -> Conditionality: Negative</span>
+</code></pre>
+            </div>
+        </section>
+
+        <!-- 5. Async Batch Processing -->
+        <section id="async" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">05</span>
+                <span data-lang="en">Asynchronous Batch Processing</span>
+                <span data-lang="zh">异步批处理</span>
+                <span data-lang="ja">非同期バッチ処理</span>
+            </h2>
+            
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="en">
+                For processing millions of documents, synchronous APIs (REST/SDK single calls) are inefficient and subject to throttling. Use the <strong>Analyze Actions</strong> API (<code>/analyze-text/jobs</code>).
+            </p>
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="zh">
+                对于处理数百万个文档，同步 API（REST/SDK 单次调用）效率低下且容易受到限制。请使用 <strong>Analyze Actions</strong> API (<code>/analyze-text/jobs</code>)。
+            </p>
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="ja">
+                数百万のドキュメントを処理する場合、同期 API（REST/SDK 単一呼び出し）は非効率的で、スロットリングの対象になります。<strong>Analyze Actions</strong> API (<code>/analyze-text/jobs</code>) を使用してください。
+            </p>
+
+            <ul class="list-disc list-inside space-y-2 mb-6 text-zinc-600 dark:text-zinc-400">
+                <li data-lang="en">Submit a batch of up to 25 documents (in list) or pointer to blob storage (containers).</li>
+                <li data-lang="zh">提交一批最多 25 个文档（在列表中）或指向 Blob 存储（容器）的指针。</li>
+                <li data-lang="ja">最大25のドキュメントのバッチ（リスト内）または Blob Storage（コンテナ）へのポインタを送信します。</li>
+                <li data-lang="en">Poll for status (NotStarted -> Running -> Succeeded).</li>
+                <li data-lang="zh">轮询状态（未开始 -> 运行中 -> 成功）。</li>
+                <li data-lang="ja">ステータスをポーリングします（未開始 -> 実行中 -> 成功）。</li>
+                <li data-lang="en">Results stored for 24 hours.</li>
+                <li data-lang="zh">结果保存 24 小时。</li>
+                <li data-lang="ja">結果は24時間保存されます。</li>
+            </ul>
+        </section>
+
+        <!-- 6. Docker Containers -->
+        <section id="containers" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">06</span>
+                <span data-lang="en">Docker Containers (On-Prem / Edge)</span>
+                <span data-lang="zh">Docker 容器 (本地 / 边缘)</span>
+                <span data-lang="ja">Docker コンテナ (オンプレミス / エッジ)</span>
+            </h2>
+
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="en">
+                Text Analytics can be deployed as a Docker container. This is useful for <strong>security/compliance</strong> (data doesn't leave your network) or <strong>low latency</strong> scenarios.
+            </p>
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="zh">
+                文本分析可以部署为 Docker 容器。这对于<strong>安全/合规</strong>（数据不离开您的网络）或<strong>低延迟</strong>场景非常有用。
+            </p>
+            <p class="text-zinc-700 dark:text-zinc-300 mb-4" data-lang="ja">
+                Text Analytics は Docker コンテナとしてデプロイできます。これは、<strong>セキュリティ/コンプライアンス</strong>（データがネットワーク外に出ない）や<strong>低遅延</strong>のシナリオに役立ちます。
+            </p>
+
+            <h4 class="font-bold mt-4 mb-2" data-lang="en">Requirements:</h4>
+            <h4 class="font-bold mt-4 mb-2" data-lang="zh">要求：</h4>
+            <h4 class="font-bold mt-4 mb-2" data-lang="ja">要件：</h4>
+            <ul class="list-disc list-inside space-y-1 text-sm text-zinc-600 dark:text-zinc-400 mb-6">
+                <li><strong data-lang="en">ApiKey:</strong> Valid Azure resource key for billing.</li>
+                <li><strong data-lang="zh">ApiKey:</strong> 用于计费的有效 Azure 资源密钥。</li>
+                <li><strong data-lang="ja">ApiKey:</strong> 請求用の有効な Azure リソースキー。</li>
+                <li><strong data-lang="en">Billing Endpoint:</strong> The URL of the Azure resource.</li>
+                <li><strong data-lang="zh">Billing Endpoint:</strong> Azure 资源的 URL。</li>
+                <li><strong data-lang="ja">Billing Endpoint:</strong> Azure リソースの URL。</li>
+                <li><strong data-lang="en">Connectivity:</strong> Container must connect to billing endpoint periodically (Connected Container).</li>
+                <li><strong data-lang="zh">Connectivity:</strong> 容器必须定期连接到计费端点（连接容器）。</li>
+                <li><strong data-lang="ja">Connectivity:</strong> コンテナは定期的に請求エンドポイントに接続する必要があります（接続コンテナ）。</li>
+            </ul>
+
+            <div class="bg-black text-white p-4 rounded-lg overflow-x-auto font-mono text-sm">
+                docker run --rm -it -p 5000:5000 --memory 4g --cpus 1 \<br>
+                mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment:latest \<br>
+                Eula=accept \<br>
+                Billing={ENDPOINT_URI} \<br>
+                ApiKey={API_KEY}
+            </div>
+        </section>
+
+        <!-- 7. Security -->
+        <section id="security" class="scroll-mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 text-lg font-bold mr-3 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">07</span>
+                <span data-lang="en">Security & Privacy</span>
+                <span data-lang="zh">安全与隐私</span>
+                <span data-lang="ja">セキュリティとプライバシー</span>
+            </h2>
+            <ul class="list-disc list-inside space-y-2 text-zinc-700 dark:text-zinc-300">
+                <li><strong data-lang="en">Managed Identity:</strong> Eliminate hardcoded keys by using Azure AD (RBAC roles like "Cognitive Services User").</li>
+                <li><strong data-lang="zh">托管标识：</strong> 通过使用 Azure AD（“认知服务用户”等 RBAC 角色）消除硬编码密钥。</li>
+                <li><strong data-lang="ja">マネージド ID：</strong> Azure AD（「Cognitive Services ユーザー」などの RBAC ロール）を使用して、ハードコードされたキーを排除します。</li>
+                
+                <li><strong data-lang="en">Virtual Networks (VNET):</strong> Restrict access to specific IP ranges or VNET subnets.</li>
+                <li><strong data-lang="zh">虚拟网络 (VNET)：</strong> 限制对特定 IP 范围或 VNET 子网的访问。</li>
+                <li><strong data-lang="ja">仮想ネットワーク (VNET)：</strong> 特定の IP 範囲または VNET サブネットへのアクセスを制限します。</li>
+
+                <li><strong data-lang="en">Customer Managed Keys (CMK):</strong> Encrypt the data at rest using your own keys in Key Vault.</li>
+                <li><strong data-lang="zh">客户管理的密钥 (CMK)：</strong> 使用 Key Vault 中您自己的密钥对静态数据进行加密。</li>
+                <li><strong data-lang="ja">カスタマーマネージドキー (CMK)：</strong> Key Vault 内の独自のキーを使用して、保存データを暗号化します。</li>
+            </ul>
+        </section>
+
+    </main>
+    
+    <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>

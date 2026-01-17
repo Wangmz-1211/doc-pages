@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AI-102: NLP Master Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8 text-center">
+        <h1 class="text-5xl font-extrabold mb-6 tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-lang="en">Azure AI Engineer Associate (AI-102)</h1>
+        <h1 class="text-5xl font-extrabold mb-6 tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-lang="zh">Azure AI 工程师助理 (AI-102)</h1>
+        <h1 class="text-5xl font-extrabold mb-6 tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-lang="ja">Azure AI エンジニアアソシエイト (AI-102)</h1>
+        
+        <p class="text-2xl font-light text-zinc-500 dark:text-zinc-400" data-lang="en">Natural Language Processing (NLP) Master Guide</p>
+        <p class="text-2xl font-light text-zinc-500 dark:text-zinc-400" data-lang="zh">自然语言处理 (NLP) 大师指南</p>
+        <p class="text-2xl font-light text-zinc-500 dark:text-zinc-400" data-lang="ja">自然言語処理 (NLP) マスターガイド</p>
+    </header>
+
+    <main>
+        <!-- Intro Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <div class="bg-zinc-50 dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+                <h2 class="text-2xl font-bold mb-4" data-lang="en">Exam Strategy</h2>
+                <h2 class="text-2xl font-bold mb-4" data-lang="zh">考试策略</h2>
+                <h2 class="text-2xl font-bold mb-4" data-lang="ja">試験戦略</h2>
+                <ul class="space-y-3 text-zinc-700 dark:text-zinc-300">
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span data-lang="en"><strong>Know the Limits:</strong> Memorize tier limits (Free vs Standard) and character counts.</span>
+                        <span data-lang="zh"><strong>了解限制：</strong> 记住层级限制（免费与标准）和字符数。</span>
+                        <span data-lang="ja"><strong>制限を知る：</strong> ティア制限（無料 vs 標準）と文字数を暗記します。</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span data-lang="en"><strong>Security First:</strong> Always choose Managed Identities and VNETs over keys when given the option.</span>
+                        <span data-lang="zh"><strong>安全第一：</strong> 有选择时，总是优先选择托管标识和 VNET，而不是密钥。</span>
+                        <span data-lang="ja"><strong>セキュリティ第一：</strong> 選択肢がある場合は、キーよりもマネージド ID と VNET を常に選択してください。</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span data-lang="en"><strong>Containers:</strong> Know when to use disconnected containers for high-security environments.</span>
+                        <span data-lang="zh"><strong>容器：</strong> 知道何时在高安全性环境中使用断开连接的容器。</span>
+                        <span data-lang="ja"><strong>コンテナ：</strong> 高セキュリティ環境で切断されたコンテナをいつ使用するかを知っておいてください。</span>
+                    </li>
+                </ul>
+            </div>
+            
+             <div class="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl border border-blue-100 dark:border-blue-800">
+                <h2 class="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100" data-lang="en">Latest Changes (2024-2025)</h2>
+                <h2 class="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100" data-lang="zh">最新变化 (2024-2025)</h2>
+                <h2 class="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100" data-lang="ja">最新の変更 (2024-2025)</h2>
+                <p class="mb-4 text-blue-800 dark:text-blue-200" data-lang="en">
+                    The exam now heavily emphasizes <strong>Generative AI</strong> integration. You must know how traditional NLP (like CLU) interacts with LLMs (Azure OpenAI).
+                </p>
+                <p class="mb-4 text-blue-800 dark:text-blue-200" data-lang="zh">
+                    现在的考试非常强调 <strong>生成式 AI</strong> 的集成。您必须了解传统 NLP（如 CLU）如何与 LLMs (Azure OpenAI) 交互。
+                </p>
+                <p class="mb-4 text-blue-800 dark:text-blue-200" data-lang="ja">
+                    現在の試験では、<strong>生成 AI</strong> の統合が非常に重視されています。従来の NLP（CLU など）が LLM（Azure OpenAI）とどのように相互作用するかを知っておく必要があります。
+                </p>
+            </div>
+        </div>
+
+        <!-- Modules Grid -->
+        <h2 class="text-3xl font-bold mb-8" data-lang="en">Detailed Modules</h2>
+        <h2 class="text-3xl font-bold mb-8" data-lang="zh">详细模块</h2>
+        <h2 class="text-3xl font-bold mb-8" data-lang="ja">詳細モジュール</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Text Analytics -->
+            <a href="TextAnalytics.html" class="group relative block h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors" data-lang="en">1. Text Analytics</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors" data-lang="zh">1. 文本分析</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-purple-600 transition-colors" data-lang="ja">1. テキスト分析</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Health Analytics, PII Redaction, Sentiment Analysis, and Container deployment.
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        健康分析、PII 编校、情感分析和容器部署。
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        ヘルス分析、PII 編集、感情分析、およびコンテナデプロイ。
+                    </p>
+                </div>
+            </a>
+
+            <!-- Custom Text -->
+            <a href="CustomText.html" class="group relative block h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-teal-500"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-green-600 transition-colors" data-lang="en">2. Custom Text</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-green-600 transition-colors" data-lang="zh">2. 自定义文本</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-green-600 transition-colors" data-lang="ja">2. カスタムテキスト</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Training custom classifiers, F1 scores, Recall/Precision, and Data Labeling lifecycles.
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        训练自定义分类器、F1 分数、召回率/精确率和数据标记生命周期。
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        カスタム分類子のトレーニング、F1 スコア、再現率/適合率、データラベル付けのライフサイクル。
+                    </p>
+                </div>
+            </a>
+
+            <!-- CLU -->
+            <a href="CLU.html" class="group relative block h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors" data-lang="en">3. Conversational LU</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors" data-lang="zh">3. 对话语言理解</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors" data-lang="ja">3. 会話型 LU</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Orchestration, Intent Recognition, Advanced Entities, and Bot integration.
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        编排、意图识别、高级实体和机器人集成。
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        オーケストレーション、意図認識、高度なエンティティ、ボット統合。
+                    </p>
+                </div>
+            </a>
+
+            <!-- Speech -->
+            <a href="Speech.html" class="group relative block h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors" data-lang="en">4. Speech Services</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors" data-lang="zh">4. 语音服务</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors" data-lang="ja">4. 音声サービス</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        SSML, Custom Neural Voice, Keyword Recognition, and containerized speech.
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        SSML、自定义神经语音、关键词识别和容器化语音。
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        SSML、カスタムニューラル音声、キーワード認識、コンテナ化された音声。
+                    </p>
+                </div>
+            </a>
+
+            <!-- Translator -->
+            <a href="Translator.html" class="group relative block h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors" data-lang="en">5. Translator</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors" data-lang="zh">5. 翻译</h3>
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors" data-lang="ja">5. Translator</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Custom Translator training (BLEU), Document Translation, and glossaries.
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        自定义翻译训练 (BLEU)、文档翻译和术语表。
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        Custom Translator トレーニング (BLEU)、ドキュメント翻訳、用語集。
+                    </p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>

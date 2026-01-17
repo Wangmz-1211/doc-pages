@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Custom Text & NER (AI-102) - Comprehensive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+        .metric-card { transition: all 0.3s ease; }
+        .metric-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="en">Custom Text Classification & NER</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="zh">自定义文本分类与 NER</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="ja">カスタムテキスト分類と NER</h1>
+        
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="en">
+            Deep dive into building, training, evaluating, and deploying custom language models using Language Studio. Focus on F1 scores, data balancing, and iterative improvement.
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="zh">
+            深入了解如何使用 Language Studio 构建、训练、评估和部署自定义语言模型。重点关注 F1 分数、数据平衡和迭代改进。
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="ja">
+            Language Studio を使用したカスタム言語モデルの構築、トレーニング、評価、デプロイについての詳細な解説。F1 スコア、データバランス、反復的な改善に焦点を当てています。
+        </p>
+    </header>
+
+    <main class="space-y-16">
+
+        <!-- 1. The Lifecycle -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">1. Project Lifecycle</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">1. 项目生命周期</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">1. プロジェクトのライフサイクル</h2>
+
+            <div class="relative pl-8 border-l-2 border-zinc-200 dark:border-zinc-800 space-y-8">
+                <div>
+                    <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white dark:ring-zinc-950"></span>
+                    <h3 class="font-bold text-lg" data-lang="en">Define Schema</h3>
+                    <h3 class="font-bold text-lg" data-lang="zh">定义架构</h3>
+                    <h3 class="font-bold text-lg" data-lang="ja">スキーマの定義</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">Decide if you need <strong>Single-label</strong> (e.g., Spam vs Not Spam) or <strong>Multi-label</strong> (e.g., Tags: "Billing", "Urgent", "Complaints").</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">决定是否需要<strong>单标签</strong>（例如，垃圾邮件与非垃圾邮件）或<strong>多标签</strong>（例如，标签：“账单”、“紧急”、“投诉”）。</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja"><strong>シングルラベル</strong>（例：スパム vs 非スパム）が必要か、<strong>マルチラベル</strong>（例：タグ：「請求」、「緊急」、「苦情」）が必要かを決定します。</p>
+                </div>
+                <div>
+                    <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white dark:ring-zinc-950"></span>
+                    <h3 class="font-bold text-lg" data-lang="en">Data Labeling</h3>
+                    <h3 class="font-bold text-lg" data-lang="zh">数据标记</h3>
+                    <h3 class="font-bold text-lg" data-lang="ja">データのラベル付け</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">Upload documents (.txt, .pdf) to Azure Blob Storage. Connect Language Studio. Manually tag entities or classify documents.</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">将文档（.txt, .pdf）上传到 Azure Blob Storage。连接 Language Studio。手动标记实体或分类文档。</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">ドキュメント（.txt、.pdf）を Azure Blob Storage にアップロードします。Language Studio を接続します。手動でエンティティにタグを付けるか、ドキュメントを分類します。</p>
+                    <div class="mt-2 bg-orange-50 dark:bg-orange-900/20 p-2 rounded text-xs text-orange-800 dark:text-orange-200 inline-block">
+                        <strong data-lang="en">Tip:</strong> Rule of thumb: at least 10-50 documents per class/entity.
+                    </div>
+                </div>
+                <div>
+                    <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-white dark:ring-zinc-950"></span>
+                    <h3 class="font-bold text-lg" data-lang="en">Training & Validation</h3>
+                    <h3 class="font-bold text-lg" data-lang="zh">训练与验证</h3>
+                    <h3 class="font-bold text-lg" data-lang="ja">トレーニングと検証</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">Split data into <strong>Training Set</strong> (80%) and <strong>Test Set</strong> (20%). The model learns from the training set and is evaluated on the test set.</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">将数据分为<strong>训练集</strong> (80%) 和<strong>测试集</strong> (20%)。模型从训练集中学习，并在测试集上进行评估。</p>
+                    <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">データを<strong>トレーニングセット</strong> (80%) と<strong>テストセット</strong> (20%) に分割します。モデルはトレーニングセットから学習し、テストセットで評価されます。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Evaluation Metrics Deep Dive -->
+        <section class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-8 border border-zinc-200 dark:border-zinc-800">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">2. Evaluation Metrics (Exam Critical)</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">2. 评估指标（考试重点）</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">2. 評価指標（試験の重要ポイント）</h2>
+            
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="en">Understanding how to interpret model performance is crucial for optimization.</p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="zh">了解如何解释模型性能对于优化至关重要。</p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="ja">モデルのパフォーマンスを解釈する方法を理解することは、最適化にとって重要です。</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Precision -->
+                <div class="metric-card bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-2">Precision</h3>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="en">Are the predictions correct?</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="zh">预测是否正确？</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="ja">予測は正しいですか？</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Of all the documents labeled as "Urgent" by the model, how many were actually Urgent?
+                        <br><code>TP / (TP + FP)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        在模型标记为“紧急”的所有文档中，实际上有多少是紧急的？
+                        <br><code>TP / (TP + FP)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        モデルによって「緊急」とラベル付けされたすべてのドキュメントのうち、実際に緊急だったのはいくつですか？
+                        <br><code>TP / (TP + FP)</code>
+                    </p>
+                </div>
+
+                <!-- Recall -->
+                <div class="metric-card bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-2">Recall</h3>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="en">Did we find everything?</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="zh">我们找到所有东西了吗？</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="ja">すべて見つけましたか？</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        Of all the documents that were actually "Urgent", how many did the model find?
+                        <br><code>TP / (TP + FN)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        在所有实际上是“紧急”的文档中，模型找到了多少？
+                        <br><code>TP / (TP + FN)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        実際に「緊急」だったすべてのドキュメントのうち、モデルはいくつ見つけましたか？
+                        <br><code>TP / (TP + FN)</code>
+                    </p>
+                </div>
+
+                <!-- F1 Score -->
+                <div class="metric-card bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400 mb-2">F1 Score</h3>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="en">Harmonic Balance</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="zh">调和平均</p>
+                    <p class="text-xs uppercase tracking-wide text-zinc-500 font-bold mb-2" data-lang="ja">調和平均</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                        The harmonic mean of Precision and Recall. Best metric when you need a balance between the two.
+                        <br><code>2 * (Prec * Rec) / (Prec + Rec)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                        精确率和召回率的调和平均数。当你需要两者平衡时的最佳指标。
+                        <br><code>2 * (Prec * Rec) / (Prec + Rec)</code>
+                    </p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                        適合率と再現率の調和平均。両方のバランスが必要な場合に最適な指標です。
+                        <br><code>2 * (Prec * Rec) / (Prec + Rec)</code>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Confusion Matrix -->
+            <div class="mt-8 p-4 bg-zinc-100 dark:bg-zinc-800/50 rounded-lg">
+                <h4 class="font-bold mb-2" data-lang="en">Confusion Matrix</h4>
+                <h4 class="font-bold mb-2" data-lang="zh">混淆矩阵</h4>
+                <h4 class="font-bold mb-2" data-lang="ja">混同行列</h4>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+                    A visual table used in Language Studio to show where the model is making mistakes (e.g., confusing "Sports" with "Entertainment").
+                </p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+                    Language Studio 中使用的可视化表格，用于显示模型出错的地方（例如，将“体育”与“娱乐”混淆）。
+                </p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+                    Language Studio で使用される視覚的な表で、モデルが間違いを犯している場所を示します（例：「スポーツ」と「エンターテインメント」の混同）。
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Improving Performance -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">3. Improving Performance</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">3. 提高性能</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">3. パフォーマンスの向上</h2>
+
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <div>
+                        <strong data-lang="en">Data Balancing:</strong>
+                        <strong data-lang="zh">数据平衡：</strong>
+                        <strong data-lang="ja">データバランシング：</strong>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="en">Ensure all classes have a roughly equal number of training examples. If "Class A" has 1000 docs and "Class B" has 10, the model will be biased towards A.</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="zh">确保所有类别具有大致相同数量的训练示例。如果“类别 A”有 1000 个文档，“类别 B”有 10 个，则模型将偏向 A。</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="ja">すべてのクラスのトレーニング例の数がほぼ同じであることを確認します。「クラスA」に1000のドキュメントがあり、「クラスB」に10ある場合、モデルはAに偏ります。</span>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <div>
+                        <strong data-lang="en">Data Diversity:</strong>
+                        <strong data-lang="zh">数据多样性：</strong>
+                        <strong data-lang="ja">データの多様性：</strong>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="en">Include varied examples (short, long, different vocabulary) for each class.</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="zh">为每个类别包含各种示例（短、长、不同的词汇）。</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="ja">各クラスにさまざまな例（短い、長い、異なる語彙）を含めます。</span>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <div>
+                        <strong data-lang="en">Correct Labeling:</strong>
+                        <strong data-lang="zh">正确标记：</strong>
+                        <strong data-lang="ja">正しいラベル付け：</strong>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="en">Review the dataset for human errors. Inconsistent labeling confuses the model.</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="zh">检查数据集是否存在人为错误。不一致的标记会使模型混淆。</span>
+                        <span class="text-zinc-600 dark:text-zinc-400" data-lang="ja">データセットに人為的なエラーがないか確認します。一貫性のないラベル付けはモデルを混乱させます。</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 4. Deployment -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">4. Deployment Slots</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">4. 部署槽</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">4. デプロイスロット</h2>
+            
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                When deploying, you assign the model to a deployment name. It is best practice to use swapable names like <code>staging</code> and <code>production</code>.
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                部署时，将模型分配给部署名称。最佳做法是使用可交换的名称，如 <code>staging</code> 和 <code>production</code>。
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                デプロイするときは、モデルをデプロイ名に割り当てます。<code>staging</code> や <code>production</code> のような交換可能な名前を使用することをお勧めします。
+            </p>
+            
+            <div class="bg-zinc-900 text-zinc-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+<pre><code># Python SDK: Classifying with a specific deployment
+action = SingleCategoryClassifyAction(
+    project_name="SupportTicketClassifier",
+    deployment_name="production" # <--- Target specific slot
+)
+
+poller = client.begin_analyze_actions(
+    documents=docs,
+    actions=[action]
+)</code></pre>
+            </div>
+        </section>
+
+    </main>
+
+     <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Knowledge Check (AI-102)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A', 'BUTTON'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline-block' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        
+        function checkAnswer(btn, isCorrect) {
+            const parent = btn.parentElement;
+            // Reset colors
+            parent.querySelectorAll('button').forEach(b => {
+                b.classList.remove('bg-green-500', 'bg-red-500', 'text-white');
+                b.classList.add('bg-zinc-100', 'dark:bg-zinc-800');
+            });
+            
+            if (isCorrect) {
+                btn.classList.remove('bg-zinc-100', 'dark:bg-zinc-800');
+                btn.classList.add('bg-green-500', 'text-white');
+            } else {
+                btn.classList.remove('bg-zinc-100', 'dark:bg-zinc-800');
+                btn.classList.add('bg-red-500', 'text-white');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-4xl mx-auto">
+    <div class="absolute top-4 right-4 space-x-2">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors">日本語</button>
+    </div>
+
+    <header class="mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <h1 class="text-3xl font-bold mb-2" data-lang="en">Knowledge Check</h1>
+        <h1 class="text-3xl font-bold mb-2" data-lang="zh">知识自测</h1>
+        <h1 class="text-3xl font-bold mb-2" data-lang="ja">知識チェック</h1>
+        <p class="text-zinc-500" data-lang="en">Test your understanding of Azure NLP concepts.</p>
+        <p class="text-zinc-500" data-lang="zh">测试您对 Azure NLP 概念的理解。</p>
+        <p class="text-zinc-500" data-lang="ja">Azure NLP の概念の理解度をテストします。</p>
+    </header>
+
+    <main class="space-y-8">
+        
+        <!-- Question 1 -->
+        <div class="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-semibold mb-4">
+                <span data-lang="en">1. Which service replaces LUIS?</span>
+                <span data-lang="zh">1. 哪项服务取代了 LUIS？</span>
+                <span data-lang="ja">1. LUIS に代わるサービスはどれですか？</span>
+            </h3>
+            <div class="space-y-2 flex flex-col items-start">
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">Azure AI Search</button>
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">Conversational Language Understanding (CLU)</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">Azure AI Translator</button>
+
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">Azure AI 搜索</button>
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">对话语言理解 (CLU)</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">Azure AI 翻译</button>
+
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">Azure AI Search</button>
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">会話言語理解 (CLU)</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">Azure AI Translator</button>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <h3 class="text-lg font-semibold mb-4">
+                <span data-lang="en">2. What allows you to fine-tune TTS pitch and rate?</span>
+                <span data-lang="zh">2. 什么允许您微调 TTS 音调和速率？</span>
+                <span data-lang="ja">2. TTS のピッチとレートを微調整できるものは何ですか？</span>
+            </h3>
+            <div class="space-y-2 flex flex-col items-start">
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">SSML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">HTML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="en">JSON</button>
+
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">SSML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">HTML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="zh">JSON</button>
+
+                <button onclick="checkAnswer(this, true)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">SSML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">HTML</button>
+                <button onclick="checkAnswer(this, false)" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-left w-full transition-colors" data-lang="ja">JSON</button>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

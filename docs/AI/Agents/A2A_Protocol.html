@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A2A (Agent-to-Agent) Protocol</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              300: '#d4d4d8',
+              400: '#a1a1aa',
+              500: '#71717a',
+              600: '#52525b',
+              700: '#3f3f46',
+              800: '#27272a',
+              900: '#18181b',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .prose p { margin-bottom: 1em; line-height: 1.6; }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-zh [data-lang="zh"] { display: block; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    
+    span[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    body.lang-zh span[data-lang="zh"] { display: inline; }
+    body.lang-ja span[data-lang="ja"] { display: inline; }
+  </style>
+  <script>
+    function setLanguage(lang) {
+      document.body.className = `bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-${lang}`;
+      localStorage.setItem('doc-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('doc-lang') || 'en';
+      setLanguage(savedLang);
+    });
+  </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased py-12 px-6 max-w-4xl mx-auto lang-en">
+  
+  <div class="absolute top-4 right-4 flex gap-2">
+    <button onclick="setLanguage('en')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">EN</button>
+    <button onclick="setLanguage('zh')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">中文</button>
+    <button onclick="setLanguage('ja')" class="text-xs font-semibold px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700">日本語</button>
+  </div>
+
+  <nav class="mb-8">
+    <a href="/docs/AI/Agents/" class="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <span data-lang="en">Back to Agents</span>
+      <span data-lang="zh">返回智能体</span>
+      <span data-lang="ja">エージェントに戻る</span>
+    </a>
+  </nav>
+
+  <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="en">Protocol</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="zh">协议</span>
+      <span class="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wide uppercase" data-lang="ja">プロトコル</span>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="en">A2A (Agent-to-Agent) Protocol</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="zh">A2A (智能体对智能体) 协议</h1>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4" data-lang="ja">A2A (エージェント対エージェント) プロトコル</h1>
+
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="en">
+      The standard defining how autonomous AI agents discover, communicate, negotiate, and collaborate to solve complex problems without human intervention.
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="zh">
+      定义自主 AI 智能体如何发现、通信、协商和协作以在无需人工干预的情况下解决复杂问题的标准。
+    </p>
+    <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl" data-lang="ja">
+      自律型AIエージェントが、人間の介入なしに複雑な問題を解決するために、どのように発見、通信、交渉、協力するかを定義する標準です。
+    </p>
+  </header>
+
+  <main class="space-y-12">
+    
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Core Concepts</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">核心概念</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">コアコンセプト</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <h3 class="font-semibold mb-2" data-lang="en">Discovery</h3>
+          <h3 class="font-semibold mb-2" data-lang="zh">发现</h3>
+          <h3 class="font-semibold mb-2" data-lang="ja">発見</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            Agents publish their capabilities (e.g., "I can search the web" or "I can book flights") to a registry so other agents can find them.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            智能体将其能力（例如“我可以搜索网络”或“我可以预订航班”）发布到注册表中，以便其他智能体可以找到它们。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            エージェントは、自分の機能（例：「Web検索ができます」または「フライトを予約できます」）をレジストリに公開し、他のエージェントが見つけられるようにします。
+          </p>
+        </div>
+        
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <h3 class="font-semibold mb-2" data-lang="en">Handshake & Auth</h3>
+          <h3 class="font-semibold mb-2" data-lang="zh">握手与认证</h3>
+          <h3 class="font-semibold mb-2" data-lang="ja">ハンドシェイクと認証</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="en">
+            Establishing a secure channel. Verifying the identity of the agent (e.g., using DID or mTLS) and agreeing on a communication schema.
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            建立安全通道。验证智能体的身份（例如，使用 DID 或 mTLS）并就通信模式达成一致。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            安全なチャネルの確立。エージェントのIDを検証し（例：DIDまたはmTLSを使用）、通信スキーマに合意します。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">The Standards Landscape</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">标准格局</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">標準のランドスケープ</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-zinc-600 dark:text-zinc-400">
+          <thead class="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 font-semibold">
+            <tr>
+              <th class="p-4 rounded-tl-lg" data-lang="en">Protocol</th>
+              <th class="p-4 rounded-tl-lg" data-lang="zh">协议</th>
+              <th class="p-4 rounded-tl-lg" data-lang="ja">プロトコル</th>
+              
+              <th class="p-4" data-lang="en">Status</th>
+              <th class="p-4" data-lang="zh">状态</th>
+              <th class="p-4" data-lang="ja">ステータス</th>
+              
+              <th class="p-4 rounded-tr-lg" data-lang="en">Description</th>
+              <th class="p-4 rounded-tr-lg" data-lang="zh">描述</th>
+              <th class="p-4 rounded-tr-lg" data-lang="ja">説明</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <tr>
+              <td class="p-4 font-medium text-zinc-900 dark:text-zinc-100">Agent Protocol (AP)</td>
+              <td class="p-4">Active / Emerging</td>
+              <td class="p-4" data-lang="en">A modern open standard for agent communication, focusing on task exchange and artifact handling.</td>
+              <td class="p-4" data-lang="zh">现代开放标准，专注于任务交换和工件处理。</td>
+              <td class="p-4" data-lang="ja">タスク交換とアーティファクト処理に焦点を当てた、エージェント通信のための最新のオープン標準。</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium text-zinc-900 dark:text-zinc-100">FIPA ACL</td>
+              <td class="p-4">Legacy / Academic</td>
+              <td class="p-4" data-lang="en">The original Foundation for Intelligent Physical Agents standard. Highly formal, based on speech act theory.</td>
+              <td class="p-4" data-lang="zh">最初的智能物理代理基础标准。高度形式化，基于言语行为理论。</td>
+              <td class="p-4" data-lang="ja">インテリジェント物理エージェントのための基盤（FIPA）のオリジナル標準。スピーチアクト理論に基づいた非常に形式的なもの。</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium text-zinc-900 dark:text-zinc-100">MCP (Model Context Protocol)</td>
+              <td class="p-4">Active / Tooling</td>
+              <td class="p-4" data-lang="en">While primarily for User-Agent-Tool connection, it's increasingly used for Agent-to-Agent tool sharing.</td>
+              <td class="p-4" data-lang="zh">虽然主要用于用户-代理-工具连接，但越来越多地用于智能体对智能体的工具共享。</td>
+              <td class="p-4" data-lang="ja">主にユーザー-エージェント-ツールの接続に使用されますが、エージェント対エージェントのツール共有にもますます使用されています。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">Timeline of Development</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">发展时间线</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">開発のタイムライン</h2>
+
+      <div class="relative border-l border-zinc-200 dark:border-zinc-800 ml-3 space-y-12">
+        
+        <div class="relative pl-8">
+          <div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-zinc-200 dark:bg-zinc-800 border-2 border-white dark:border-zinc-950"></div>
+          <div class="text-xs text-zinc-500 mb-1">1995-2005</div>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="en">The Academic Era (FIPA)</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="zh">学术时代 (FIPA)</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="ja">学術時代 (FIPA)</h3>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">
+            Defined heavy XML/Lisp-like structures for agents to negotiate. Mostly used in research simulations.
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            定义了繁重的 XML/Lisp 类结构供智能体协商。主要用于研究模拟。
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            エージェントが交渉するための重厚なXML/Lispのような構造を定義しました。主に研究シミュレーションで使用されました。
+          </p>
+        </div>
+
+        <div class="relative pl-8">
+          <div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-zinc-200 dark:bg-zinc-800 border-2 border-white dark:border-zinc-950"></div>
+          <div class="text-xs text-zinc-500 mb-1">2023</div>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="en">The LLM Explosion</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="zh">LLM 爆发</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="ja">LLMの爆発的普及</h3>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">
+            AutoGPT and BabyAGI appear. Communication is unstructured natural language or ad-hoc JSON. "The Wild West".
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            AutoGPT 和 BabyAGI 出现。通信是非结构化的自然语言或临时的 JSON。“狂野西部”。
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            AutoGPTとBabyAGIが登場。通信は非構造化自然言語またはアドホックなJSON。「西部開拓時代」。
+          </p>
+        </div>
+
+        <div class="relative pl-8">
+          <div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-blue-600 border-2 border-white dark:border-zinc-950"></div>
+          <div class="text-xs text-blue-600 font-semibold mb-1">2025</div>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="en">Standardization (A2A)</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="zh">标准化 (A2A)</h3>
+          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100" data-lang="ja">標準化 (A2A)</h3>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="en">
+            The industry converges on lightweight, REST/gRPC-based protocols. Discovery services become central.
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="zh">
+            行业向轻量级、基于 REST/gRPC 的协议靠拢。发现服务成为核心。
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400" data-lang="ja">
+            業界は軽量なREST/gRPCベースのプロトコルに収束します。発見サービスが中心となります。
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-12">
+      <h2 class="text-2xl font-semibold mb-6" data-lang="en">References & Evidence</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="zh">参考资料与证据</h2>
+      <h2 class="text-2xl font-semibold mb-6" data-lang="ja">参考文献とエビデンス</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://agentprotocol.ai/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Agent Protocol</div>
+          <div class="text-xs text-zinc-500">The open standard for interacting with AI agents.</div>
+        </a>
+        <a href="http://www.fipa.org/" target="_blank" class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
+          <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">FIPA Specifications</div>
+          <div class="text-xs text-zinc-500">IEEE FIPA standards for agent communication.</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

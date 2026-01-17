@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Speech Services (AI-102) - Comprehensive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+        .code-block { background-color: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; font-size: 0.875rem; line-height: 1.5; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="en">Azure AI Speech Services</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="zh">Azure AI 语音服务</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="ja">Azure AI Speech Services</h1>
+        
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="en">
+            From real-time transcription to custom neural voices. A technical deep dive into the SDK, SSML, and Custom Speech training.
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="zh">
+            从实时转录到自定义神经语音。深入探讨 SDK、SSML 和自定义语音训练的技术细节。
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="ja">
+            リアルタイムの書き起こしからカスタムニューラル音声まで。SDK、SSML、およびカスタム音声トレーニングに関する技術的な詳細解説。
+        </p>
+    </header>
+
+    <main class="space-y-16">
+
+        <!-- 1. Speech to Text Deep Dive -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">1. Speech-to-Text (STT)</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">1. 语音转文本 (STT)</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">1. 音声テキスト変換 (STT)</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3" data-lang="en">Key Features</h3>
+                    <h3 class="text-xl font-bold mb-3" data-lang="zh">主要功能</h3>
+                    <h3 class="text-xl font-bold mb-3" data-lang="ja">主な機能</h3>
+                    <ul class="list-disc list-inside space-y-2 text-zinc-700 dark:text-zinc-300">
+                        <li><strong data-lang="en">Real-time vs Batch:</strong> Use Real-time for interactions, Batch for call center logs.</li>
+                        <li><strong data-lang="zh">实时 vs 批量：</strong> 交互使用实时，呼叫中心日志使用批量。</li>
+                        <li><strong data-lang="ja">リアルタイム vs バッチ：</strong> インタラクションにはリアルタイム、コールセンターのログにはバッチを使用します。</li>
+                        
+                        <li><strong data-lang="en">Speaker Diarization:</strong> Distinguishes who is speaking ("Speaker 1", "Speaker 2").</li>
+                        <li><strong data-lang="zh">说话人分离：</strong> 区分谁在说话（“说话人 1”、“说话人 2”）。</li>
+                        <li><strong data-lang="ja">話者ダイアライゼーション：</strong> 誰が話しているかを識別します（「話者1」、「話者2」）。</li>
+                        
+                        <li><strong data-lang="en">Pronunciation Assessment:</strong> Scores accuracy, fluency, and completeness for language learning apps.</li>
+                        <li><strong data-lang="zh">发音评估：</strong> 为语言学习应用程序评估准确性、流畅性和完整性。</li>
+                        <li><strong data-lang="ja">発音評価：</strong> 言語学習アプリの正確さ、流暢さ、完全性をスコアリングします。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3" data-lang="en">Custom Speech</h3>
+                    <h3 class="text-xl font-bold mb-3" data-lang="zh">自定义语音</h3>
+                    <h3 class="text-xl font-bold mb-3" data-lang="ja">カスタム音声</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2" data-lang="en">Standard models struggle with background noise or technical jargon. Train a custom model using:</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2" data-lang="zh">标准模型难以处理背景噪音或技术术语。使用以下内容训练自定义模型：</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2" data-lang="ja">標準モデルは、背景ノイズや専門用語に苦労します。以下を使用してカスタムモデルをトレーニングします。</p>
+                    <ul class="list-disc list-inside text-sm text-zinc-600 dark:text-zinc-400">
+                        <li><strong data-lang="en">Acoustic Data:</strong> Audio + Transcripts. Fixes issues with accents or noise.</li>
+                        <li><strong data-lang="zh">声学数据：</strong> 音频 + 转录。修复口音或噪音问题。</li>
+                        <li><strong data-lang="ja">音響データ：</strong> 音声 + トランスクリプト。アクセントやノイズの問題を修正します。</li>
+                        <li><strong data-lang="en">Language Data:</strong> Text only. Fixes issues with domain-specific vocabulary (e.g., drug names).</li>
+                        <li><strong data-lang="zh">语言数据：</strong> 仅文本。修复特定领域词汇（例如，药物名称）的问题。</li>
+                        <li><strong data-lang="ja">言語データ：</strong> テキストのみ。ドメイン固有の語彙（例：薬品名）の問題を修正します。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Text to Speech & SSML -->
+        <section class="border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">2. SSML (Speech Synthesis Markup Language)</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">2. SSML (语音合成标记语言)</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">2. SSML (音声合成マークアップ言語)</h2>
+            
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                Raw text is monotonous. SSML gives you granular control over the synthesized speech.
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                原始文本单调乏味。SSML 让您可以精细控制合成的语音。
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                生のテキストは単調です。SSML を使用すると、合成音声をきめ細かく制御できます。
+            </p>
+
+            <div class="code-block">
+<pre><code class="language-xml">&lt;speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="en-US"&gt;
+    &lt;voice name="en-US-JennyNeural"&gt;
+        
+        &lt;!-- Expressive Style --&gt;
+        &lt;mstts:express-as style="cheerful"&gt;
+            Hello! I am so happy to see you.
+        &lt;/mstts:express-as&gt;
+        
+        &lt;!-- Silence/Break --&gt;
+        &lt;break time="500ms" /&gt;
+        
+        &lt;!-- Phoneme correction (Pronunciation) --&gt;
+        &lt;phoneme alphabet="ipa" ph="t&#601;&#712;me&#618;to&#650;"&gt; tomato &lt;/phoneme&gt;
+        
+        &lt;!-- Prosody (Speed/Pitch) --&gt;
+        &lt;prosody rate="+10%" pitch="high"&gt;
+            Let's go faster!
+        &lt;/prosody&gt;
+
+    &lt;/voice&gt;
+&lt;/speak&gt;</code></pre>
+            </div>
+        </section>
+
+        <!-- 3. Keyword Recognition -->
+        <section class="border-t border-zinc-200 dark:border-zinc-800 pt-10">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">3. Keyword Recognition</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">3. 关键词识别</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">3. キーワード認識</h2>
+            
+            <div class="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-lg">
+                <p class="text-zinc-700 dark:text-zinc-300" data-lang="en">
+                    Used for "Wake Words" (e.g., "Hey Cortana"). It runs locally on the device for low latency and privacy, only sending audio to the cloud after the keyword is detected.
+                </p>
+                <p class="text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                    用于“唤醒词”（例如，“Hey Cortana”）。它在设备上本地运行以实现低延迟和隐私保护，仅在检测到关键字后才将音频发送到云端。
+                </p>
+                <p class="text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                    「ウェイクワード」（例：「Hey Cortana」）に使用されます。低遅延とプライバシーのためにデバイス上でローカルに実行され、キーワードが検出された後にのみ音声をクラウドに送信します。
+                </p>
+                <div class="mt-4">
+                     <span class="inline-block px-3 py-1 bg-zinc-200 dark:bg-zinc-800 rounded text-xs font-mono">.table</span> extension file generated by <strong>Speech Studio</strong>.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>

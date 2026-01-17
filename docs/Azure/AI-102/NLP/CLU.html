@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure CLU (AI-102) - Deep Dive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        [data-lang] { display: none; }
+        [data-lang="en"] { display: block; }
+        .code-block { background-color: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; font-size: 0.875rem; line-height: 1.5; }
+    </style>
+    <script>
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const isInline = ['SPAN', 'STRONG', 'EM', 'CODE', 'A'].includes(el.tagName);
+                if (el.getAttribute('data-lang') === lang) {
+                    el.style.display = isInline ? 'inline' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            localStorage.setItem('docs-lang', lang);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('docs-lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-8 max-w-6xl mx-auto">
+    <div class="fixed top-4 right-4 z-50 space-x-2 bg-white/80 dark:bg-black/80 backdrop-blur p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 shadow-lg">
+        <button onclick="setLanguage('en')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">EN</button>
+        <button onclick="setLanguage('zh')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">中文</button>
+        <button onclick="setLanguage('ja')" class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded text-sm transition-colors font-medium">日本語</button>
+    </div>
+
+    <header class="mb-12 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="en">Conversational Language Understanding (CLU)</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="zh">对话语言理解 (CLU)</h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" data-lang="ja">会話言語理解 (CLU)</h1>
+        
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="en">
+            The next generation of LUIS. A deep dive into Orchestration workflows, advanced Entity components, and best practices for building robust conversational agents.
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="zh">
+            LUIS 的下一代。深入探讨编排工作流、高级实体组件以及构建强大的对话代理的最佳实践。
+        </p>
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 max-w-3xl" data-lang="ja">
+            LUIS の次世代版。オーケストレーションワークフロー、高度なエンティティコンポーネント、堅牢な会話エージェントを構築するためのベストプラクティスについて詳しく説明します。
+        </p>
+    </header>
+
+    <main class="space-y-16">
+
+        <!-- 1. Architecture & Orchestration -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">1. Orchestration Workflow</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">1. 编排工作流</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">1. オーケストレーションワークフロー</h2>
+            
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                In complex systems, a single CLU project isn't enough. You might have a <strong>QnA Knowledge Base</strong> for FAQs and a <strong>CLU Model</strong> for transactional commands. The <strong>Orchestration Workflow</strong> acts as a router/dispatcher.
+            </p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                在复杂的系统中，单个 CLU 项目是不够的。您可能有一个用于常见问题的 <strong>QnA 知识库</strong>和一个用于事务性命令的 <strong>CLU 模型</strong>。<strong>编排工作流</strong>充当路由器/调度器。
+            </p>
+            <p class="mb-6 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                複雑なシステムでは、単一の CLU プロジェクトでは不十分です。FAQ 用の <strong>QnA ナレッジベース</strong>と、トランザクションコマンド用の <strong>CLU モデル</strong>が必要になる場合があります。<strong>オーケストレーションワークフロー</strong>はルーター/ディスパッチャーとして機能します。
+            </p>
+
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                <h3 class="font-bold text-lg mb-4" data-lang="en">How it works</h3>
+                <h3 class="font-bold text-lg mb-4" data-lang="zh">工作原理</h3>
+                <h3 class="font-bold text-lg mb-4" data-lang="ja">仕組み</h3>
+                <ol class="list-decimal list-inside space-y-3 text-zinc-700 dark:text-zinc-300">
+                    <li data-lang="en">User sends utterance: "How do I reset my password?"</li>
+                    <li data-lang="zh">用户发送话语：“如何重置我的密码？”</li>
+                    <li data-lang="ja">ユーザーが発話します：「パスワードをリセットするにはどうすればよいですか？」</li>
+
+                    <li data-lang="en"><strong>Orchestrator</strong> analyzes intent.</li>
+                    <li data-lang="zh"><strong>编排器</strong>分析意图。</li>
+                    <li data-lang="ja"><strong>オーケストレーター</strong>が意図を分析します。</li>
+
+                    <li data-lang="en">Routes request to <strong>Custom Question Answering (CQA)</strong>.</li>
+                    <li data-lang="zh">将请求路由到 <strong>自定义问答 (CQA)</strong>。</li>
+                    <li data-lang="ja">リクエストを <strong>Custom Question Answering (CQA)</strong> にルーティングします。</li>
+
+                    <li data-lang="en">Returns the answer to the user.</li>
+                    <li data-lang="zh">将答案返回给用户。</li>
+                    <li data-lang="ja">ユーザーに回答を返します。</li>
+                </ol>
+                <div class="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700">
+                    <p class="text-sm italic" data-lang="en">If the user says "Book a flight", Orchestrator routes it to the <strong>Flight Booking CLU</strong> model.</p>
+                    <p class="text-sm italic" data-lang="zh">如果用户说“预订航班”，编排器会将其路由到 <strong>航班预订 CLU</strong> 模型。</p>
+                    <p class="text-sm italic" data-lang="ja">ユーザーが「フライトを予約」と言った場合、オーケストレーターはそれを <strong>フライト予約 CLU</strong> モデルにルーティングします。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Advanced Entities -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">2. Advanced Entity Components</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">2. 高级实体组件</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">2. 高度なエンティティコンポーネント</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-blue-600 dark:text-blue-400 mb-2">List Entities</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="en">Exact match using a closed list of normalized values and synonyms.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="zh">使用规范化值和同义词的封闭列表进行精确匹配。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="ja">正規化された値と同義語の閉じたリストを使用した完全一致。</p>
+                    <div class="bg-zinc-100 dark:bg-zinc-900 p-2 rounded text-xs font-mono">
+                        Key: "Size"<br>
+                        - Value: "Small" (Synonyms: "Tiny", "Little", "S")<br>
+                        - Value: "Large" (Synonyms: "Big", "Huge", "L")
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-blue-600 dark:text-blue-400 mb-2">Prebuilt Entities</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="en">Automatically extracted by Azure. No training needed.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="zh">由 Azure 自动提取。无需训练。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="ja">Azure によって自動的に抽出されます。トレーニングは不要です。</p>
+                    <div class="bg-zinc-100 dark:bg-zinc-900 p-2 rounded text-xs font-mono">
+                        email, phonenumber, url, date, currency, number
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-blue-600 dark:text-blue-400 mb-2">Regex Entities</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="en">Pattern-based extraction. Perfect for IDs.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="zh">基于模式的提取。非常适合 ID。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="ja">パターンベースの抽出。ID に最適です。</p>
+                    <div class="bg-zinc-100 dark:bg-zinc-900 p-2 rounded text-xs font-mono">
+                        Order ID: [A-Z]{3}-\d{4}<br>
+                        Matches: ABC-1234
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-black p-6 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-blue-600 dark:text-blue-400 mb-2">Learned Entities</h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="en">Context-based extraction using machine learning. Requires labeling.</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="zh">使用机器学习进行基于上下文的提取。需要标记。</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3" data-lang="ja">機械学習を使用したコンテキストベースの抽出。ラベル付けが必要です。</p>
+                    <div class="bg-zinc-100 dark:bg-zinc-900 p-2 rounded text-xs font-mono">
+                        "Book a flight to [Seattle]"<br>
+                        Context implies Seattle is a Location.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. None Intent -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">3. The Importance of 'None' Intent</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">3. 'None' 意图的重要性</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">3. 'None' 意図の重要性</h2>
+
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="en">
+                Every CLU project must have a <code>None</code> intent. It teaches the model what to <strong>ignore</strong>.
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                每个 CLU 项目都必须有一个 <code>None</code> 意图。它教模型<strong>忽略</strong>什么。
+            </p>
+            <p class="mb-4 text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                すべての CLU プロジェクトには <code>None</code> 意図が必要です。これは、何を<strong>無視</strong>するかをモデルに教えます。
+            </p>
+
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border-l-4 border-yellow-500">
+                <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2" data-lang="en">Best Practice</h4>
+                <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2" data-lang="zh">最佳实践</h4>
+                <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2" data-lang="ja">ベストプラクティス</h4>
+                <p class="text-sm text-zinc-700 dark:text-zinc-300" data-lang="en">
+                    Populate the None intent with utterances that are out of scope but likely to be typed by users (e.g., "Hello", "How are you", "What is the weather" if your bot is for banking).
+                </p>
+                <p class="text-sm text-zinc-700 dark:text-zinc-300" data-lang="zh">
+                    用超出范围但用户可能会输入的语句填充 None 意图（例如，“你好”，“你好吗”，“天气怎么样”，如果你的机器人是用于银行业务的）。
+                </p>
+                <p class="text-sm text-zinc-700 dark:text-zinc-300" data-lang="ja">
+                    スコープ外であるがユーザーが入力する可能性のある発話で None 意図を埋めます（例：ボットが銀行業務用の場合は、「こんにちは」、「お元気ですか」、「天気はどうですか」など）。
+                </p>
+            </div>
+        </section>
+
+         <!-- 4. Python Implementation -->
+         <section class="mt-12">
+            <h2 class="text-3xl font-bold mb-6" data-lang="en">4. Python Implementation</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="zh">4. Python 实现</h2>
+            <h2 class="text-3xl font-bold mb-6" data-lang="ja">4. Python 実装</h2>
+            
+            <div class="code-block">
+<pre><code class="language-python"><span class="keyword">import</span> os
+<span class="keyword">from</span> azure.core.credentials <span class="keyword">import</span> AzureKeyCredential
+<span class="keyword">from</span> azure.ai.language.conversations <span class="keyword">import</span> ConversationAnalysisClient
+
+endpoint = os.environ[<span class="string">"AZURE_CONVERSATIONS_ENDPOINT"</span>]
+key = os.environ[<span class="string">"AZURE_CONVERSATIONS_KEY"</span>]
+project_name = <span class="string">"EmailAssistant"</span>
+deployment_name = <span class="string">"production"</span>
+
+client = ConversationAnalysisClient(endpoint, AzureKeyCredential(key))
+
+<span class="keyword">with</span> client:
+    query = <span class="string">"Attach the report to the email for Sarah"</span>
+    result = client.analyze_conversation(
+        task={
+            <span class="string">"kind"</span>: <span class="string">"Conversation"</span>,
+            <span class="string">"analysisInput"</span>: {
+                <span class="string">"conversationItem"</span>: {
+                    <span class="string">"participantId"</span>: <span class="string">"1"</span>,
+                    <span class="string">"id"</span>: <span class="string">"1"</span>,
+                    <span class="string">"modality"</span>: <span class="string">"text"</span>,
+                    <span class="string">"text"</span>: query
+                }
+            },
+            <span class="string">"parameters"</span>: {
+                <span class="string">"projectName"</span>: project_name,
+                <span class="string">"deploymentName"</span>: deployment_name,
+                <span class="string">"stringIndexType"</span>: <span class="string">"Utf16CodeUnit"</span>
+            }
+        }
+    )
+
+    prediction = result[<span class="string">"result"</span>][<span class="string">"prediction"</span>]
+    <span class="function">print</span>(<span class="string">f"Top Intent: {prediction['topIntent']}"</span>)
+    
+    <span class="keyword">for</span> entity <span class="keyword">in</span> prediction[<span class="string">"entities"</span>]:
+        <span class="function">print</span>(<span class="string">f"Entity: {entity['category']} -> {entity['text']}"</span>)
+
+    <span class="comment"># Output:</span>
+    <span class="comment"># Top Intent: SendEmail</span>
+    <span class="comment"># Entity: Attachment -> report</span>
+    <span class="comment"># Entity: Contact -> Sarah</span></code></pre>
+            </div>
+         </section>
+
+    </main>
+
+    <footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-8 text-center text-zinc-500 text-sm">
+        <p>Azure AI-102 Exam Preparation Material. © 2026</p>
+    </footer>
+</body>
+</html>
